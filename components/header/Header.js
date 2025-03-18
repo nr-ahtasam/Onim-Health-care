@@ -27,7 +27,7 @@ export default function Header() {
   return (
     <header className="w-full">
       {/* Top header with dark background */}
-      <div className="bg-[#333333] text-white">
+      <div className="bg-[#333333] text-white border-b border-[#D9D9D9]">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* Logo and brand name */}
           <div className="flex items-center">

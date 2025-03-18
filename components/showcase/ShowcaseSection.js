@@ -1,35 +1,47 @@
 "use client"
 
-import {useState} from "react"
 import Image from "next/image"
 import {Phone} from "lucide-react"
-
-import {Button} from "@/components/ui/button"
-import {Input} from "@/components/ui/input"
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
 import AppointmentForm from "@/components/form/AppointmentForm";
-import {Separator} from "@radix-ui/react-select";
 
 export default function ShowcaseSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    department: "",
-    dateTime: "",
-  })
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("Form submitted:", formData)
-    // Handle form submission logic here
-  }
-
   return (
     <section className="relative overflow-hidden">
       {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#e0f7f3] to-[#f0f7f7] -z-10"/>
-
+      <div>
+        <Image src="/images/green-ecllipse.png"
+               width={0}
+               height={0}
+               alt={"Asdf"}
+               sizes={"100vw"}
+               priority
+               className={"absolute top-0 left-0 w-auto h-full"}
+        />
+        <Image src="/images/red-ecllipse.png"
+               width={0}
+               height={0}
+               alt={"Asdf"}
+               sizes={"100vw"}
+               priority
+               className={"absolute top-20 left-0 w-auto h-full"}
+        />
+        <Image src="/images/green-ecllipse-right.png"
+               width={0}
+               height={0}
+               alt={"Asdf"}
+               sizes={"100vw"}
+               priority
+               className={"absolute top-0 right-0 w-auto h-full"}
+        />
+        <Image src="/images/red-ecllipse-right.png"
+               width={0}
+               height={0}
+               alt={"Asdf"}
+               sizes={"100vw"}
+               priority
+               className={"absolute top-20 right-0 w-auto h-full "}
+        />
+      </div>
       <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
         <div className="relative">
           {/* Left side - Image and content */}
