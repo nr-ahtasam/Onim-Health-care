@@ -143,7 +143,7 @@ export default function MedicalCondition() {
                className={"absolute top-0 right-0 w-auto h-full"}
         />
       </div>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 z-10 relative">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 md:gap-20">
           {medicalConditions.map((condition, index) => (
             <div className={"text-center"} key={index}>
