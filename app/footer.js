@@ -1,0 +1,255 @@
+import { Facebook, Twitter, Youtube, Instagram, Linkedin } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import Link from "next/link"
+
+export default function Footer() {
+    return (
+        <footer className="bg-gray-100 text-gray-800">
+            {/* Top section - Social and Newsletter */}
+            <div className="border-t border-gray-400">
+                <div className="max-w-7xl mx-auto grid md:grid-cols-2 divide-x divide-gray-400">
+                    {/* Social Network */}
+                    <div className="py-16 px-8">
+                        <p className="text-sm text-gray-500 mb-2">Social network</p>
+                        <h3 className="text-2xl font-bold mb-8">Follow us on our network</h3>
+                        <div className="flex gap-6">
+                            <Link href="#" className="text-blue-600 hover:text-blue-700">
+                                <Facebook size={24} />
+                            </Link>
+                            <Link href="#" className="text-blue-400 hover:text-blue-500">
+                                <Twitter size={24} />
+                            </Link>
+                            <Link href="#" className="text-red-600 hover:text-red-700">
+                                <Youtube size={24} />
+                            </Link>
+                            <Link href="#" className="text-pink-600 hover:text-pink-700">
+                                <Instagram size={24} />
+                            </Link>
+                            <Link href="#" className="text-blue-600 hover:text-blue-700">
+                                <Linkedin size={24} />
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Newsletter */}
+                    <div className="py-16 px-8">
+                        <p className="text-sm text-gray-500 mb-2">Newsletter</p>
+                        <h3 className="text-2xl font-bold mb-8">Be the first to know</h3>
+                        <div className="flex">
+                            <div className="relative w-full max-w-md">
+                                <Input
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    className="pr-24 py-6 rounded-full border-gray-300 bg-white"
+                                />
+                                <Button className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full px-6 py-1 bg-blue-500 hover:bg-blue-600">
+                                    Subscribe
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Middle section - Logo, Contact, Hours, Specialties */}
+            <div className="border-t border-gray-400">
+                <div className="max-w-7xl mx-auto py-12 px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        {/* Logo and Tagline */}
+                        <div className="col-span-1 md:col-span-4">
+                            <div className="flex items-center gap-4 mb-4">
+                                {/* Logo */}
+                                <div className="relative w-16 h-16">
+                                    <div
+                                        className="w-16 h-16 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-center">
+                                        <div className="w-10 h-10 text-white">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M9 12H15M12 9V15M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Title */}
+                                <div className="font-bold text-lg">Omni Health Care</div>
+
+                                {/* Tagline */}
+                                <p className="text-gray-600">Care that fits your life!</p>
+                            </div>
+                            {/* Divider */}
+                            <hr className="border-gray-200 mb-6"/>
+                        </div>
+
+                        {/* Contact Information */}
+                        <div className="col-span-1">
+                            <div className="border-b border-gray-200 pb-2 mb-4">
+                                <h4 className="font-bold">Visit our Hospital</h4>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-4">123 Main street, Area name, Location name, City -
+                                123456</p>
+                        </div>
+
+                        {/* Opening Hours */}
+                        <div className="col-span-1">
+                            <div className="border-b border-gray-200 pb-2 mb-4">
+                                <h4 className="font-bold">Opening Hours</h4>
+                            </div>
+                            <div className="text-sm text-gray-600">
+                                <p className="mb-2">Mon - Fri : 08:00 - 16:00</p>
+                                <p className="mb-2">Sat : 08:00 - 16:00</p>
+                                <p className="mb-2">Sun : 08:00 - 16:00</p>
+                            </div>
+                        </div>
+
+                        {/* Give us a call */}
+                        <div className="col-span-1">
+                            <div className="border-b border-gray-200 pb-2 mb-4">
+                                <h4 className="font-bold">Give us a call</h4>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-4">0123456789</p>
+                        </div>
+
+                        {/* Email us on */}
+                        <div className="col-span-1">
+                            <div className="border-b border-gray-200 pb-2 mb-4">
+                                <h4 className="font-bold">Email us on</h4>
+                            </div>
+                            <p className="text-sm text-gray-600">enquiry@hospital.com</p>
+                        </div>
+
+                        {/* Specialties and News */}
+                        <div className="col-span-1 grid grid-cols-2 gap-x-4">
+                            <div>
+                                <div className="border-b border-gray-200 pb-2 mb-4">
+                                    <h4 className="font-bold">Specialities</h4>
+                                </div>
+                                <ul className="text-sm text-gray-600 space-y-2">
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Cardiac Sciences
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Clinical Diagnostics
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Cosmetic Surgery
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Critical & Intensive Care
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Dental Sciences
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div className="border-b border-gray-200 pb-2 mb-4">
+                                    <h4 className="font-bold">News and media</h4>
+                                </div>
+                                <ul className="text-sm text-gray-600 space-y-2">
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            News
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Events
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Gallery
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Testimonials
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Insurance Partners
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="mt-6">
+                                <ul className="text-sm text-gray-600 space-y-2">
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Dermatology
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            ENT Surgery
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Emergency Medicine
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Gastro Sciences
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="#" className="hover:text-blue-500">
+                                            Nuclear Oncology
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom section - Copyright and Links */}
+            <div className="border-t border-gray-200">
+                <div className="max-w-7xl mx-auto py-6 px-4 flex flex-col md:flex-row justify-between items-center">
+                    <div className="text-sm text-gray-500 mb-4 md:mb-0">
+                        ©2025 Omni Health Care. All Rights Reserved. Made By Rubytech
+                    </div>
+                    <div className="flex flex-wrap gap-6 text-sm">
+                        <Link href="#" className="text-gray-500 hover:text-gray-700">
+                            Our Services
+                        </Link>
+                        <Link href="#" className="text-gray-500 hover:text-gray-700">
+                            Careers
+                        </Link>
+                        <Link href="#" className="text-gray-500 hover:text-gray-700">
+                            FAQs
+                        </Link>
+                        <Link href="#" className="text-gray-500 hover:text-gray-700">
+                            Privacy policy
+                        </Link>
+                        <Link href="#" className="text-gray-500 hover:text-gray-700">
+                            Terms and conditions
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    )
+}
+
