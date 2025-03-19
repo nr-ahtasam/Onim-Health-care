@@ -15,13 +15,13 @@ export default function Newsletter() {
 
                 <div className="grid md:grid-cols-2 gap-8">
                     {/* News Card 1 */}
-                    <div className="flex bg-gray-100">
+                    <div className="flex flex-col md:flex-row bg-gray-100">
                         {/* Left Column: Image */}
-                        <div className="w-64 flex-shrink-0">
-                            <div className="h-full bg-gray-300"></div>
+                        <div className="w-full md:w-64 flex-shrink-0">
+                            <div className="h-48 md:h-full bg-gray-300"></div>
                         </div>
                         {/* Right Column: Content */}
-                        <div className="w-2/3 flex flex-col p-4 bg-white">
+                        <div className="w-full md:w-2/3 flex flex-col p-4 bg-white">
                             <div className="flex items-center gap-2 mb-2">
                                 <Calendar size={16} className="text-blue-500"/>
                                 <span className="text-gray-500 text-sm">2024.12.19</span>
@@ -40,13 +40,13 @@ export default function Newsletter() {
                     </div>
 
                     {/* News Card 2 */}
-                    <div className="flex bg-gray-100">
+                    <div className="flex flex-col md:flex-row bg-gray-100">
                         {/* Left Column: Image */}
-                        <div className="w-64 flex-shrink-0">
-                            <div className="h-full bg-gray-300"></div>
+                        <div className="w-full md:w-64 flex-shrink-0">
+                            <div className="h-48 md:h-full bg-gray-300"></div>
                         </div>
                         {/* Right Column: Content */}
-                        <div className="w-2/3 flex flex-col p-4 bg-white">
+                        <div className="w-full md:w-2/3 flex flex-col p-4 bg-white">
                             <div className="flex items-center gap-2 mb-2">
                                 <Calendar size={16} className="text-blue-500"/>
                                 <span className="text-gray-500 text-sm">2024.12.19</span>
