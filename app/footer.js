@@ -10,41 +10,42 @@ export default function Footer() {
             <div className="border-t border-gray-400">
                 <div className="max-w-7xl mx-auto grid md:grid-cols-2 divide-x divide-gray-400">
                     {/* Social Network */}
-                    <div className="py-16 px-8">
-                        <p className="text-sm text-gray-500 mb-2">Social network</p>
-                        <h3 className="text-2xl font-bold mb-8">Follow us on our network</h3>
+                    <div className="py-16 px-8 flex flex-col items-center justify-center">
+                        <p className="text-sm text-gray-500 mb-2 text-center">Social network</p>
+                        <h3 className="text-2xl font-bold mb-8 text-center">Follow us on our network</h3>
                         <div className="flex gap-6">
                             <Link href="#" className="text-blue-600 hover:text-blue-700">
-                                <Facebook size={24}/>
+                                <Facebook size={24} />
                             </Link>
                             <Link href="#" className="text-blue-400 hover:text-blue-500">
-                                <Twitter size={24}/>
+                                <Twitter size={24} />
                             </Link>
                             <Link href="#" className="text-red-600 hover:text-red-700">
-                                <Youtube size={24}/>
+                                <Youtube size={24} />
                             </Link>
                             <Link href="#" className="text-pink-600 hover:text-pink-700">
-                                <Instagram size={24}/>
+                                <Instagram size={24} />
                             </Link>
                             <Link href="#" className="text-blue-600 hover:text-blue-700">
-                                <Linkedin size={24}/>
+                                <Linkedin size={24} />
                             </Link>
                         </div>
                     </div>
 
                     {/* Newsletter */}
-                    <div className="py-16 px-8">
-                        <p className="text-sm text-gray-500 mb-2">Newsletter</p>
-                        <h3 className="text-2xl font-bold mb-8">Be the first to know</h3>
-                        <div className="flex">
-                            <div className="relative w-full max-w-md">
+                    <div className="py-16 px-8 flex flex-col items-center justify-center">
+                        <p className="text-sm text-gray-500 mb-2 text-center">Newsletter</p>
+                        <h3 className="text-2xl font-bold mb-8 text-center">Be the first to know</h3>
+                        <div className="flex w-full max-w-md">
+                            <div className="relative w-full">
                                 <Input
                                     type="email"
                                     placeholder="Enter your email"
                                     className="pr-24 py-6 rounded-full border-gray-300 bg-white"
                                 />
                                 <Button
-                                    className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full px-6 py-1 bg-blue-500 hover:bg-blue-600">
+                                    className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full px-6 py-1 bg-blue-500 hover:bg-blue-600"
+                                >
                                     Subscribe
                                 </Button>
                             </div>
