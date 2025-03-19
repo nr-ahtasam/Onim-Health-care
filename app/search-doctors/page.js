@@ -158,12 +158,6 @@ export default function Page() {
                     </div>
                 </div>
             </div>
-
-            {/* Testimonials Section */}
-           <Testimonials/>
-
-            {/* News Section */}
-            <Newsletter/>
         </div>
     )
 }

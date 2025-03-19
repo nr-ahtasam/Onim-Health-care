@@ -73,7 +73,7 @@ export default function AboutUsSection() {
 
           {/* Right side - Image with stats */}
           <div className="relative rounded-3xl ">
-            <div className="relative h-[400px] md:h-[670px]">
+            <div className="relative md:h-[670px]">
               <div className={"md:absolute top-20 -left-25 z-10"}>
                 <Image
                   src="/images/about-us.jpeg"

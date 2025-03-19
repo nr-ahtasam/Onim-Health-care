@@ -2,7 +2,7 @@ const dummyTestimonials = [
     {
         id: 1,
         quote:
-            "In turpis nisl tristique eu dui neque nec. Pharetra ut integer risus pretium lacus ultrices magna sit. Suspendisse tortor netus amet arcu. Id fermentum nisi tincidunt enim.",
+            "In turpis nisl tristique eu dui neque nec. Pharetra ut integer risus pretium lacus ultrices magna sit. Suspendisse tortor netus amet arcu. Id fermentum nisi tincidunt enim. Posuere tellus quis urna nulla eget commodo bibendum gravida id. Vel nunc lacus nam ut eros dolor pellentesque hac. Ac id et lorem quis id molestie a laoreet feugiat. Pellentesque molestie",
         name: "Elizabeth Edman",
         title: "Eget quisque arcu montes",
         avatar: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
