@@ -59,7 +59,7 @@ export default function ShowcaseSection() {
               />
 
               {/* Blue banner */}
-              <div className="absolute bottom-0 left-0 right-0 h-54 bg-blue-500 z-0"/>
+              <div className="absolute bottom-0 left-0 right-0 h-54 md:h-86 bg-blue-500 z-0"/>
             </div>
 
             {/* 24/7 Badge */}
@@ -71,7 +71,7 @@ export default function ShowcaseSection() {
             </div>
 
             <div className="relative z-10 md:w-1/2">
-              <div className="absolute bottom-0 left-0 right-0 h-54 rounded-tr-[75px] bg-blue-500 z-0"/>
+              <div className="absolute bottom-0 left-0 right-0 h-54 md:h-86 rounded-tr-[75px] bg-blue-500 z-0"/>
 
               <div className="space-y-6 md:p-12 max-w-[600px] text-center md:text-start">
                 <h2 className="text-3xl md:text-[60px] font-bold text-gray-900 leading-tight ">

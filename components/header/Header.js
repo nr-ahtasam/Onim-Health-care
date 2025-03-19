@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import Image from "next/image";
+import Link from "next/link";
 
 const specialties = [
   "Proctology",
@@ -31,16 +32,18 @@ export default function Header() {
       <div className="bg-[#333333] text-white border-b border-[#D9D9D9]">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* Logo and brand name */}
-          <div className="flex items-center">
-            <Image src="/images/brand-logo.png"
-                   width={0}
-                   height={0}
-                   alt={"brand"}
-                   sizes={"100vw"}
-                   priority
-                   className={"w-[65px] h-[65px]"}
-            />
-            <h1 className="ml-2 text-xl md:text-2xl font-semibold">Omni HealthCare</h1>
+          <div >
+            <Link href={"/"} className="flex items-center">
+              <Image src="/images/brand-logo.png"
+                     width={0}
+                     height={0}
+                     alt={"brand"}
+                     sizes={"100vw"}
+                     priority
+                     className={"w-[65px] h-[65px]"}
+              />
+              <h1 className="ml-2 text-xl md:text-2xl font-semibold">Omni HealthCare</h1>
+            </Link>
           </div>
 
           {/* Desktop navigation */}
@@ -78,16 +81,17 @@ export default function Header() {
                 <div className="flex flex-col h-full">
                   <div className="p-4 border-b">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="relative h-8 w-8">
-                          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#FF8C42] to-[#2E86AB]">
-                            <div className="absolute inset-1 rounded-full bg-white flex items-center justify-center">
-                              <span className="text-[#FF8C42] text-lg font-bold">+</span>
-                            </div>
-                          </div>
-                        </div>
-                        <h2 className="ml-2 text-lg font-semibold">Omni HealthCare</h2>
-                      </div>
+                      <Link href={"/"} className="flex items-center">
+                        <Image src="/images/brand-logo.png"
+                               width={0}
+                               height={0}
+                               alt={"brand"}
+                               sizes={"100vw"}
+                               priority
+                               className={"w-[65px] h-[65px]"}
+                        />
+                        <h1 className="ml-2 text-xl md:text-2xl font-semibold">Omni HealthCare</h1>
+                      </Link>
                     </div>
                   </div>
 
@@ -174,10 +178,10 @@ export default function Header() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem>Overview</DropdownMenuItem>
-                    <DropdownMenuItem>Treatments</DropdownMenuItem>
-                    <DropdownMenuItem>Doctors</DropdownMenuItem>
-                    <DropdownMenuItem>FAQs</DropdownMenuItem>
+                    <Link href={"/doctor's-profile"}><DropdownMenuItem>Doctors Profile</DropdownMenuItem></Link>
+                    <Link href={"/service"}><DropdownMenuItem>Service</DropdownMenuItem></Link>
+                    <Link href={"/search-doctors"}><DropdownMenuItem>Search Doctors</DropdownMenuItem></Link>
+                    <DropdownMenuItem><Link href={"/doctor's-profile"}>Doctors Profile</Link></DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>

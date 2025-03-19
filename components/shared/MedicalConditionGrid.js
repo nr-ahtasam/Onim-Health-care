@@ -200,10 +200,10 @@ export default function MedicalConditionGrid() {
   return (
     <div className="container mx-auto px-4 z-10 relative py-16">
       {/* The Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 md:gap-20">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 md:gap-20">
         {displayedConditions.map((condition, index) => (
-          <div className="text-center" key={index}>
-            <div className="bg-white border border-blue-500 rounded-[20px] flex justify-center items-center p-6">
+          <div className="text-center " key={index}>
+            <div className="bg-white h-[150px] w-[150px] border border-blue-500 rounded-[20px] flex justify-center items-center p-6">
               {/* If you want the SVG icons, use {condition.icon} instead of an Image */}
               <Image
                 src="/images/Vector.png"
