@@ -1,3 +1,4 @@
+"use client"
 import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Button} from "@/components/ui/button";
@@ -19,7 +20,7 @@ export default function AppointmentForm(){
   }
 
   return (
-    <div className="bg-[#0f1b2a] rounded-br-[50px] p-6 md:p-8 shadow-xl max-w-[400px]">
+    <div className="bg-[#0f1b2a] rounded-br-[50px] p-6 md:p-8 shadow-xl max-w-[400px] ">
       <h3 className="text-2xl md:text-4xl font-bold text-white mb-6">Book an appointment</h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
