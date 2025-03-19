@@ -2,7 +2,7 @@
 
 import {useEffect, useState} from "react";
 import { MapPin, Heart, Search, Star, Calendar, Clock, ArrowRight, Quote,
-    ShoppingBag } from "lucide-react"
+    ShoppingBag, ArrowLeft, X } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -18,20 +18,26 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 import dummyDoctors from "@/dummy-data/doctors";
-import dummyTestimonials from "@/dummy-data/testimonials";
+import Testimonials from "@/components/testimonials/testimonial";
+import Newsletter from "@/components/news-letter/news-letter";
 
 export default function Page() {
     const [locationSearch, setLocationSearch] = useState("");
     const [doctorSearch, setDoctorSearch] = useState("");
     const [doctors, setDoctors] = useState([]);
-    const [testimonials, setTestimonials] = useState([]);
-    const [activeTestimonial, setActiveTestimonial] = useState(0);
+    const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] = useState(false)
+
+    const diseases = [
+        { name: "Kidney Stone", type: "Popular" },
+        { name: "Acl Tear", type: "Disease" },
+        { name: "Balanitis", type: "Disease" },
+        { name: "Spine Surgery", type: "Disease" },
+    ]
 
     // Simulate fetching data
     useEffect(() => {
         const fetchData = () => {
             setDoctors(dummyDoctors);
-            setTestimonials(dummyTestimonials);
         };
         fetchData();
     }, []);
@@ -64,7 +70,7 @@ export default function Page() {
                     {/* Doctor/disease search */}
                     <div className="relative flex-1">
                         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                            <Heart size={20}/>
+                            <Heart size={20} />
                         </div>
                         <Input
                             type="text"
@@ -72,10 +78,51 @@ export default function Page() {
                             className="pl-10 pr-10 py-6 rounded-full w-full bg-white text-black"
                             value={doctorSearch}
                             onChange={(e) => setDoctorSearch(e.target.value)}
+                            onFocus={() => setShowDoctorSearchDropdown(true)}
                         />
                         <button className="absolute right-3 top-1/2 -translate-y-1/2">
-                            <Search size={20} className="text-gray-500"/>
+                            <Search size={20} className="text-gray-500" />
                         </button>
+
+                        {/* Doctor search dropdown */}
+                        {showDoctorSearchDropdown && (
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-gray-100 rounded-3xl shadow-lg overflow-hidden z-50">
+                                <div className="p-4 flex items-center gap-3 border-b border-gray-200">
+                                    <button onClick={() => setShowDoctorSearchDropdown(false)}>
+                                        <ArrowLeft size={20} className="text-gray-700" />
+                                    </button>
+                                    <span className="flex-1 text-gray-700">Search by doctor name or diseases</span>
+                                    <button onClick={() => setShowDoctorSearchDropdown(false)}>
+                                        <X size={20} className="text-gray-700" />
+                                    </button>
+                                </div>
+
+                                <div className="p-4 border-b border-gray-200">
+                                    <h3 className="text-gray-500 font-medium mb-2">Popular</h3>
+                                    <div className="flex flex-wrap gap-2">
+                    <span className="px-4 py-1 bg-white text-blue-500 border border-blue-500 rounded-full text-sm">
+                      Kidney Stone
+                    </span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    {diseases.slice(1).map((disease, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex justify-between items-center p-4 hover:bg-gray-200 cursor-pointer border-b border-gray-200"
+                                            onClick={() => {
+                                                setDoctorSearch(disease.name)
+                                                setShowDoctorSearchDropdown(false)
+                                            }}
+                                        >
+                                            <span className="text-gray-500">{disease.name}</span>
+                                            <span className="text-gray-500 text-sm">{disease.type}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -113,124 +160,10 @@ export default function Page() {
             </div>
 
             {/* Testimonials Section */}
-            <div className="w-full bg-gray-100 py-16 px-4">
-                <div className="max-w-5xl mx-auto">
-                    <div className="grid md:grid-cols-5 gap-8">
-                        {/* Testimonial Heading */}
-                        <div className="md:col-span-2">
-                            <h2 className="text-4xl font-bold text-gray-900 mb-6">What our customers say</h2>
-                            <p className="text-gray-600 mb-6">
-                                Elit odio vitae metus sed. Justo urna id quis augue. Lectus donec venenatis pretium cras. Ut enim erat dolor
-                                ultricies aliquam
-                            </p>
-                        </div>
-
-                        {/* Testimonial Cards */}
-                        <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {testimonials.slice(activeTestimonial * 2, activeTestimonial * 2 + 2).map((testimonial) => (
-                                <div key={testimonial.id} className="flex flex-col">
-                                    {/* Quote Container */}
-                                    <div className="bg-white p-6 rounded-br-[2rem]">
-                                        <div className="text-5xl text-emerald-400 mb-4">
-                                            <Quote />
-                                        </div>
-                                        <p className="text-gray-600">{testimonial.quote}</p>
-                                    </div>
-
-                                    {/* Avatar and Name Container */}
-                                    <div className="pt-6 flex items-center gap-4">
-                                        <div className="w-14 h-14 relative rounded-md overflow-hidden">
-                                            <Image
-                                                src={testimonial.avatar}
-                                                alt={testimonial.name}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </div>
-                                        <div>
-                                            <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
-                                            <p className="text-gray-500 text-sm">{testimonial.title}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Horizontal Line with Pagination Dots */}
-                    <div className="mt-10 flex items-center">
-                        {/* Horizontal Line */}
-                        <div className="flex-1 h-px bg-gray-300 mr-4"></div>
-
-                        {/* Pagination Dots */}
-                        <div className="flex gap-2">
-                            {Array(Math.ceil(testimonials.length / 2))
-                                .fill(0)
-                                .map((_, index) => (
-                                    <button
-                                        key={index}
-                                        className={`w-4 h-4 rounded-full cursor-pointer ${
-                                            activeTestimonial === index ? "bg-emerald-400" : "bg-gray-300"
-                                        }`}
-                                        onClick={() => setActiveTestimonial(index)}
-                                    />
-                                ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
+           <Testimonials/>
 
             {/* News Section */}
-            <div className="w-full py-16 px-4 bg-gray-50">
-                <div className="max-w-5xl mx-auto">
-                    <div className="flex justify-between items-center mb-10">
-                        <h2 className="text-3xl font-bold text-gray-900">News From Our Center</h2>
-                        <Link href="#" className="text-gray-600 flex items-center gap-1 hover:text-gray-900">
-                            View all <ArrowRight size={16}/>
-                        </Link>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {/* News Card 1 */}
-                        <div className="flex flex-col">
-                            <div className="h-64 bg-gray-300 mb-4"></div>
-                            <div className="flex items-center gap-2 mb-2">
-                                <Calendar size={16} className="text-blue-500"/>
-                                <span className="text-gray-500 text-sm">2024.12.19</span>
-                                <span className="text-blue-500 text-sm">#Health information</span>
-                            </div>
-                            <h3 className="text-xl font-semibold mb-2">Notice of change in format of the result report
-                                for the</h3>
-                            <p className="text-gray-600 mb-4">Thank you for using our center on a daily basis. We
-                                wo...</p>
-                            <div className="mt-auto flex justify-end">
-                                <Button variant="outline" size="sm">
-                                    Learn More
-                                </Button>
-                            </div>
-                        </div>
-
-                        {/* News Card 2 */}
-                        <div className="flex flex-col">
-                            <div className="h-64 bg-gray-300 mb-4"></div>
-                            <div className="flex items-center gap-2 mb-2">
-                                <Calendar size={16} className="text-blue-500"/>
-                                <span className="text-gray-500 text-sm">2024.12.19</span>
-                                <span className="text-blue-500 text-sm">#Health information</span>
-                            </div>
-                            <h3 className="text-xl font-semibold mb-2">Notice of change in format of the result report
-                                for the</h3>
-                            <p className="text-gray-600 mb-4">Thank you for using our center on a daily basis. We
-                                wo...</p>
-                            <div className="mt-auto flex justify-end">
-                                <Button variant="outline" size="sm">
-                                    Learn More
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Newsletter/>
         </div>
     )
 }
