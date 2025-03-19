@@ -41,6 +41,8 @@ export default function HealthCare() {
     slidesToShow: 2,
     slidesToScroll: 1,
     padding: 20,
+    autoplay: true,
+    autoplaySpeed: 5000,
     responsive: [
       {
         breakpoint: 1024,
@@ -56,7 +58,7 @@ export default function HealthCare() {
     ]
   };
   return (
-    <div className="container mx-auto px-4 z-10 relative">
+    <div className="container mx-auto px-4 py-16 z-10 relative">
       <section className="w-full py-12 z-10 relative">
         <div className="flex flex-col md:flex-row justify-evenly">
           <div className="space-y-6 max-w-[550px] text-center md:text-start">

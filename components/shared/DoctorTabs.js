@@ -68,7 +68,7 @@ export default function DoctorTabs() {
   ]
 
   return (
-    <section className="w-full px-4 py-8 md:px-8">
+    <section className="w-full px-4 py-8 md:px-8 relative z-10">
       <div className="mx-auto container">
         {/* Tabs */}
         <div className="flex md:gap-4 flex-wrap">
