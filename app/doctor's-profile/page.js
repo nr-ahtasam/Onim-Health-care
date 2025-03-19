@@ -7,7 +7,6 @@ import Image from "next/image";
 import HealthCare from "@/components/shared/HealthCare";
 import DividerLine from "@/components/shared/DividerLine";
 import AboutUsSection from "@/components/shared/AboutUs";
-import Testimonials from "@/components/shared/Testimonials";
 
 export default function page() {
   return (
