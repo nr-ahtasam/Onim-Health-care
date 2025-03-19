@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import Image from "next/image";
 
 const specialties = [
   "Proctology",
@@ -31,13 +32,14 @@ export default function Header() {
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* Logo and brand name */}
           <div className="flex items-center">
-            <div className="relative h-10 w-10 md:h-12 md:w-12">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#FF8C42] to-[#2E86AB]">
-                <div className="absolute inset-1 rounded-full bg-[#333333] flex items-center justify-center">
-                  <span className="text-[#FF8C42] text-xl font-bold">+</span>
-                </div>
-              </div>
-            </div>
+            <Image src="/images/brand-logo.png"
+                   width={0}
+                   height={0}
+                   alt={"brand"}
+                   sizes={"100vw"}
+                   priority
+                   className={"w-[65px] h-[65px]"}
+            />
             <h1 className="ml-2 text-xl md:text-2xl font-semibold">Omni HealthCare</h1>
           </div>
 
