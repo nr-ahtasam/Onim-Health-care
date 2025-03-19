@@ -3,6 +3,7 @@ import ServicePageHeader from "@/components/services/ServicePageHeader";
 import BestTreatmentSection from "@/components/services/BestTreatmentSection";
 import AppointmentForm from "@/components/form/AppointmentForm";
 import DoctorProfileSection from "@/components/services/DoctorProfileSection";
+import FAQSection from "@/components/services/FAQSection";
 
 export default function Service(){
   return (
@@ -14,6 +15,7 @@ export default function Service(){
       </div>
       <DoctorProfileSection/>
       <MedicalServices/>
+      <FAQSection/>
     </>
   )
 }

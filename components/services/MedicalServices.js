@@ -161,15 +161,13 @@ export default function MedicalServices() {
                   </>
                 )}
               </div>
-
-
             </div>
           </div>
           {/* Three columns section */}
-          <div className="grid gap-8 md:grid-cols-4 bg-white p-6 md:p-12 rounded-tl-[75px] relative">
+          <div className="grid gap-8 md:grid-cols-4 bg-white p-6 md:p-12 rounded-tl-[30px] md:rounded-tl-[75px] relative">
             {/* 24/7 Availability Section */}
-            <div className="relative p-6">
-              <div className="mb-4 overflow-hidden absolute md:-top-[190px] left-0 rounded-tr-[75px]">
+            <div className="relative md:p-6">
+              <div className="mb-4 overflow-hidden md:absolute md:-top-[190px] left-0 rounded-tr-[75px]">
                 <Image
                   src="/images/doctors.jpeg"
                   alt="Doctors available 24/7"
