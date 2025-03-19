@@ -40,7 +40,6 @@ export default function page() {
       <HealthCare/>
       <DividerLine/>
       <AboutUsSection/>
-      <Testimonials/>
     </>
   )
 }
