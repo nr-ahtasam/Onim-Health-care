@@ -25,9 +25,11 @@ export default function BookAppointment() {
     return (
         <div className="min-h-screen">
             {/* Header with gradient background */}
-            <div className="w-full bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] py-16 px-4 text-center text-white">
-                <h1 className="text-4xl md:text-5xl font-bold mb-2">Book an appointment</h1>
-                <p className="text-xl">In Omni Health Care</p>
+            <div className="w-full h-[300px] bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] py-16 px-4 text-white relative">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-2">Book an appointment</h1>
+                    <p className="text-xl">In Omni Health Care</p>
+                </div>
             </div>
 
             <section className="relative overflow-hidden">

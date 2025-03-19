@@ -45,7 +45,7 @@ export default function Page() {
     return (
         <div className="min-h-screen">
             {/* Header with gradient background */}
-            <div className="w-full bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] py-12 px-4 text-center text-white">
+            <div className="w-full h-[300px] bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] py-12 px-4 text-center text-white">
                 <h1 className="text-4xl font-bold mb-2">Search Doctors</h1>
                 <p className="text-xl">In Omni Health Care</p>
 
