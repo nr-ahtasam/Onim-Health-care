@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/ca
 
 export default function PageHeader() {
   return (
-    <main className="flex h-[300px] items-center bg-[#0068F9]/50 justify-center p-8">
+    <main className="flex h-[300px] items-center bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] justify-center p-8">
       <Card className="max-w-md w-full text-center bg-transparent border-none shadow-none">
         <CardHeader className={"text-white"}>
           <CardTitle className="text-3xl md:text-5xl font-bold">Doctor&apos;s Profile</CardTitle>
