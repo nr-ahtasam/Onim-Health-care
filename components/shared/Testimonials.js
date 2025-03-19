@@ -3,6 +3,7 @@ import {Quote} from "lucide-react";
 import Image from "next/image";
 import dummyTestimonials from "@/dummy-data/testimonials";
 import Slider from "react-slick";
+import {ScrollArea} from "@/components/ui/scroll-area";
 
 export default function Testimonials() {
   const settings = {
@@ -12,7 +13,7 @@ export default function Testimonials() {
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 5000,
     padding: 20,
     responsive: [
@@ -52,7 +53,7 @@ export default function Testimonials() {
                     <div className="absolute top-10 -left-3 text-5xl rounded-tr-[15px] bg-[#8EEAD2] flex items-center justify-center text-white h-15 w-15 mb-4">
                       <Quote className={"transform rotate-180"} size={25}/>
                     </div>
-                    <p className="text-gray-600">{testimonial.quote}</p>
+                    <ScrollArea className="text-gray-600 h-[200px]">{testimonial.quote}</ScrollArea>
                   </div>
 
                   {/* Avatar and Name Container */}

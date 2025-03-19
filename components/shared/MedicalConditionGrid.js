@@ -208,8 +208,8 @@ export default function MedicalConditionGrid() {
               <Image
                 src="/images/Vector.png"
                 alt="Healthcare professionals"
-                width={50}
-                height={50}
+                width={40}
+                height={40}
                 className="object-cover"
                 priority
               />
@@ -227,6 +227,14 @@ export default function MedicalConditionGrid() {
             onClick={() => setShowAll(true)}
           >
             View All
+          </Button>
+        )}
+        {showAll && (
+          <Button
+            className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80"
+            onClick={() => setShowAll(false)}
+          >
+            View Less
           </Button>
         )}
       </div>
