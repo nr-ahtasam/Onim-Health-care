@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
-import Link from "next/link";
 import {
     Pagination,
     PaginationContent,
@@ -18,8 +17,6 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 import dummyDoctors from "@/dummy-data/doctors";
-import Testimonials from "@/components/testimonials/testimonial";
-import Newsletter from "@/components/news-letter/news-letter";
 
 export default function Page() {
     const [locationSearch, setLocationSearch] = useState("");

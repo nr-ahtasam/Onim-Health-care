@@ -178,10 +178,10 @@ export default function Header() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <Link href={"/doctor's-profile"}><DropdownMenuItem>Doctors Profile</DropdownMenuItem></Link>
+                    <Link href={"/doctors-profile"}><DropdownMenuItem>Doctors Profile</DropdownMenuItem></Link>
                     <Link href={"/service"}><DropdownMenuItem>Service</DropdownMenuItem></Link>
                     <Link href={"/search-doctors"}><DropdownMenuItem>Search Doctors</DropdownMenuItem></Link>
-                    <DropdownMenuItem><Link href={"/doctor's-profile"}>Doctors Profile</Link></DropdownMenuItem>
+                    <Link href={"/book-appointment"}><DropdownMenuItem>Book Appointment</DropdownMenuItem></Link>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>
