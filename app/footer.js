@@ -2,6 +2,7 @@ import { Facebook, Twitter, Youtube, Instagram, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import Image from "next/image";
 
 export default function Footer() {
     return (
@@ -62,25 +63,17 @@ export default function Footer() {
                         <div className="col-span-1 md:col-span-3">
                             <div className="flex items-center gap-4 mb-4">
                                 {/* Logo */}
-                                <div className="relative w-16 h-16">
-                                    <div
-                                        className="w-16 h-16 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 flex items-center justify-center">
-                                        <div className="w-10 h-10 text-white">
-                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M9 12H15M12 9V15M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Title */}
-                                <div className="font-bold text-lg">Omni Health Care</div>
+                                <Link href={"/"} className="flex items-center">
+                                    <Image src="/images/brand-logo.png"
+                                           width={0}
+                                           height={0}
+                                           alt={"brand"}
+                                           sizes={"100vw"}
+                                           priority
+                                           className={"w-[65px] h-[65px]"}
+                                    />
+                                    <h1 className="ml-2 text-lg font-semibold">Omni HealthCare</h1>
+                                </Link>
 
                                 {/* Tagline */}
                                 <p className="text-gray-600">Care that fits your life!</p>

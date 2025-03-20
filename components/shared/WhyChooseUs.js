@@ -1,6 +1,7 @@
 import Image from "next/image"
 import {Button} from "@/components/ui/button"
 import {BriefcaseMedical} from "lucide-react";
+import Link from "next/link";
 
 export default function WhyChooseUsSection() {
   return (
@@ -46,7 +47,7 @@ export default function WhyChooseUsSection() {
               </p>
             </div>
             <div className="mt-4">
-              <Button className="rounded-full bg-black px-6 py-6 text-white hover:bg-black/80">Book Appointment</Button>
+              <Link href={"/book-appointment"}><Button className="rounded-full bg-black px-6 py-6 text-white hover:bg-black/80">Book Appointment</Button></Link>
             </div>
           </div>
 

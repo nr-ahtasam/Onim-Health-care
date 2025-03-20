@@ -2,6 +2,7 @@
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import {Button} from "@/components/ui/button";
 import AppointmentForm from "@/components/form/AppointmentForm";
+import Link from "next/link";
 
 export default function ServicePageHeader() {
   return (
@@ -17,7 +18,7 @@ export default function ServicePageHeader() {
           <Button variant="outline" className="flex-1 border-blue-500 text-blue-500">
             Call Us
           </Button>
-          <Button className="flex-1 bg-blue-500">Book Appointment</Button>
+          <Link href={"/book-appointment"}><Button className="flex-1 bg-blue-500">Book Appointment</Button></Link>
         </div>
         <div className={"hidden md:block md:absolute md:top-[80px] md:right-0 "}>
           <AppointmentForm/>

@@ -1,6 +1,7 @@
 import Image from "next/image"
 import {Button} from "@/components/ui/button"
 import {Star, CheckCircle, Facebook, Linkedin, Instagram} from "lucide-react"
+import Link from "next/link";
 
 export default function DoctorProfile() {
   // Doctor's qualifications with checkmarks
@@ -129,7 +130,7 @@ export default function DoctorProfile() {
                 <Button variant="outline" className="h-12 rounded-md text-base text-blue-500 border border-blue-500">
                   Call Us
                 </Button>
-                <Button className="h-12 rounded-md bg-blue-600 text-base hover:bg-blue-700">Book Appointment</Button>
+                <Link href={"/book-appointment"}><Button className="h-12 rounded-md bg-blue-600 text-base hover:bg-blue-700">Book Appointment</Button></Link>
               </div>
 
               {/* Social media icons */}

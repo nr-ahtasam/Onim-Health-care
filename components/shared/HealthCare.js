@@ -6,6 +6,7 @@ import {MapPin, ShoppingBag, Star} from "lucide-react"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import Link from "next/link";
 
 export default function HealthCare() {
   const doctors = [
@@ -120,7 +121,7 @@ export default function HealthCare() {
                         <Button variant="outline" className="flex-1 border-blue-500 text-blue-500">
                           Call Us
                         </Button>
-                        <Button className="flex-1 bg-blue-500">Book Appointment</Button>
+                        <Link href={"/book-appointment"}><Button className="flex-1 bg-blue-500">Book Appointment</Button></Link>
                       </div>
                     </div>
                   </CardContent>

@@ -61,10 +61,10 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button className="py-5 text-blue-500 bg-white hover:bg-blue-500 border border-blue-500 hover:text-white">Make Appointment</Button>
+            <Link href={"/book-appointment"}><Button className="py-5 text-blue-500 bg-white hover:bg-blue-500 border border-blue-500 hover:text-white">Make Appointment</Button></Link>
 
             <Button variant="outline" className="py-5 text-blue-500 bg-white hover:bg-blue-500 border border-blue-500 hover:text-white">
-              EN | बा
+              EN | বা
             </Button>
           </div>
 
@@ -141,9 +141,9 @@ export default function Header() {
 
                   <div className="p-4 border-t mt-auto">
                     <div className="grid gap-2">
-                      <Button className="w-full bg-blue-500 hover:bg-blue-600">Make Appointment</Button>
+                      <Link href={"/book-appointment"}><Button className="w-full bg-blue-500 hover:bg-blue-600">Make Appointment</Button></Link>
                       <Button variant="outline" className="w-full">
-                        EN | बा
+                        EN | বা
                       </Button>
                     </div>
                   </div>

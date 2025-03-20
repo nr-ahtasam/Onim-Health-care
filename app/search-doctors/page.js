@@ -17,6 +17,7 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 import dummyDoctors from "@/dummy-data/doctors";
+import Link from "next/link";
 
 export default function Page() {
     const [locationSearch, setLocationSearch] = useState("");
@@ -260,9 +261,9 @@ function DoctorCard({
                 >
                     Call Us
                 </Button>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 cursor-pointer">
+                <Link href={"/book-appointment"}><Button className="w-full bg-blue-600 hover:bg-blue-700 cursor-pointer">
                     Book Appointment
-                </Button>
+                </Button></Link>
                 <div className="flex items-center gap-2 mt-2">
                 <MapPin size={20} className="text-blue-500" />
                     <span className="font-[400] font-poppins break-words max-w-[180px]">
