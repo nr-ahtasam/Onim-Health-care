@@ -23,7 +23,7 @@ export default function BookAppointment() {
     }
 
     return (
-        <div className="min-h-screen">
+        <div className="">
             {/* Header with gradient background */}
             <div className="w-full h-[300px] bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] py-16 px-4 text-white relative">
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">

@@ -23,7 +23,7 @@ export default function DoctorProfile() {
   ]
 
   return (
-    <div className="py-16 relative overflow-hidden">
+    <div className="pt-16 pb-8 relative overflow-hidden">
       <div>
         <Image src="/images/green-ecllipse.png"
                width={0}

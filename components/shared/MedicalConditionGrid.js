@@ -198,7 +198,7 @@ export default function MedicalConditionGrid() {
     : medicalConditions.slice(0, 6)
 
   return (
-    <div className="container mx-auto px-4 z-10 relative py-16">
+    <div className="container mx-auto px-4 z-10 relative pb-16">
       {/* The Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 md:gap-20">
         {displayedConditions.map((condition, index) => (
