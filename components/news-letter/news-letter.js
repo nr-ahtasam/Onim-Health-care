@@ -4,7 +4,7 @@ import {Button} from "@/components/ui/button";
 
 export default function Newsletter() {
     return (
-        <div className="w-full py-16 px-4 bg-gray-100">
+        <div className="w-full py-16 px-4 ">
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center mb-10">
                     <h2 className="text-3xl font-bold text-gray-900">News From Our Center</h2>

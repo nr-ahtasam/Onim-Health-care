@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function Footer() {
     return (
-        <footer className="bg-gray-100 text-gray-800">
+        <footer className=" text-gray-800">
             {/* Top section - Social and Newsletter */}
             <div className="border-t border-gray-400">
                 <div className="max-w-7xl mx-auto grid md:grid-cols-2 divide-x divide-gray-400">
