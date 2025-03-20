@@ -59,8 +59,8 @@ export default function HealthCare() {
     ]
   };
   return (
-    <div className="container mx-auto px-4 py-16 z-10 relative">
-      <section className="w-full py-12 z-10 relative">
+    <div className="container mx-auto px-4 py-12 z-10 relative">
+      <section className="w-full z-10 relative">
         <div className="flex flex-col md:flex-row justify-evenly">
           <div className="space-y-6 max-w-[550px] text-center md:text-start">
             <h2 className="text-3xl md:text-[60px] font-bold text-gray-900 leading-tight ">
