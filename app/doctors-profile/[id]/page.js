@@ -9,7 +9,8 @@ import DividerLine from "@/components/shared/DividerLine";
 import AboutUsSection from "@/components/shared/AboutUs";
 import DoctorChambers from "@/components/doctor-chambers/doctor-chambers";
 
-export default function page() {
+export default async  function page({params}) {
+    const {id} = await params;
     const doctorName = "Dr. Mohammad Shah Alam";
     const specialties = [
         {
@@ -39,8 +40,7 @@ export default function page() {
     ];
   return (
       <>
-          <PageHeader/>
-          <DoctorProfile/>
+          <DoctorProfile doctorId={id}/>
           <div className="py-16 relative overflow-hidden">
               <div>
                   <Image src="/images/red-ecllipse.png"
