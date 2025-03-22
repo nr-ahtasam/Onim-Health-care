@@ -1,9 +1,56 @@
+"use client"
 import Image from "next/image"
 import {Button} from "@/components/ui/button"
 import {Star, CheckCircle, Facebook, Linkedin, Instagram} from "lucide-react"
 import Link from "next/link";
+import {gql, useQuery} from "@apollo/client";
+import Loader from "@/lib/Loader";
+import PageHeader from "@/components/header/PageHeader";
 
-export default function DoctorProfile() {
+const SINGLE_DOCTOR_QUERY = gql`
+  query SingleDoctor($id: ID!) {
+    doctor(id: $id, idType: URI) {
+      title
+      featuredImage {
+        node {
+          mediaItemUrl
+        }
+      }
+      doctorField {
+        consultationFees
+        experience
+        certification {
+          nodes {
+            mediaItemUrl
+          }
+        }
+        longDescription
+        rating
+        socialLinks {
+          url
+        }
+      }
+    }
+  }
+`;
+
+export default function DoctorProfile({doctorId}) {
+  const { data, loading, error } = useQuery(SINGLE_DOCTOR_QUERY, {
+    variables: { id: doctorId },
+  });
+
+  if (loading) return <div className="flex justify-center items-center"><Loader/></div>;
+  if (error) return <div>Error loading doctor data.</div>;
+
+  const doctor = {
+    title: data?.doctor?.title,
+    image: data?.doctor?.featuredImage?.node?.mediaItemUrl,
+    rating: data?.doctor?.doctorField?.rating,
+    experience: data?.doctor?.doctorField?.experience,
+    qualifications: data?.doctor?.doctorField?.certification?.nodes,
+    description: data?.doctor?.doctorField?.longDescription,
+    socialLinks: data?.doctor?.doctorField?.socialLinks,
+  }
   // Doctor's qualifications with checkmarks
   const qualifications = [
     "MBBS, BCS (Health), MS (Orthopedics), FACS (USA)",
@@ -23,133 +70,137 @@ export default function DoctorProfile() {
   ]
 
   return (
-    <div className="pt-16 pb-8 relative overflow-hidden">
-      <div>
-        <Image src="/images/green-ecllipse.png"
-               width={0}
-               height={0}
-               alt={"Asdf"}
-               sizes={"100vw"}
-               priority
-               className={"absolute top-0 left-0 w-auto h-full"}
-        />
-        <Image src="/images/red-ecllipse.png"
-               width={0}
-               height={0}
-               alt={"Asdf"}
-               sizes={"100vw"}
-               priority
-               className={"absolute top-30 left-0 w-auto h-full transform"}
-        />
-        <Image src="/images/green-ecllipse-right.png"
-               width={0}
-               height={0}
-               alt={"Asdf"}
-               sizes={"100vw"}
-               priority
-               className={"absolute top-0 right-0 w-auto h-full"}
-        />
-        <Image src="/images/red-ecllipse-right.png"
-               width={0}
-               height={0}
-               alt={"Asdf"}
-               sizes={"100vw"}
-               priority
-               className={"absolute top-50 right-0 w-auto h-full"}
-        />
-      </div>
-      <section className="w-full px-4 py-12 md:px-8 relative z-10">
-        <div className="mx-auto container">
-          <div className="grid gap-12 md:grid-cols-2">
-            {/* Left column - Doctor images */}
-            <div className="flex flex-col gap-4">
-              {/* Main image */}
-              <div className="overflow-hidden rounded-3xl md:rounded-[50px]">
-                <Image
-                  src="/images/doctor.jpeg"
-                  alt="Dr. Mohammad Shah Alam"
-                  width={600}
-                  height={500}
-                  className="h-auto w-full object-cover"
-                />
-              </div>
-
-              {/* Thumbnails */}
-              <div className="flex gap-3">
-                {thumbnails.map((src, index) => (
-                  <div key={index} className="overflow-hidden rounded-[10px]">
+      <>
+      <PageHeader/>
+        <div className="pt-16 pb-8 relative overflow-hidden">
+          <div>
+            <Image src="/images/green-ecllipse.png"
+                   width={0}
+                   height={0}
+                   alt={"Asdf"}
+                   sizes={"100vw"}
+                   priority
+                   className={"absolute top-0 left-0 w-auto h-full"}
+            />
+            <Image src="/images/red-ecllipse.png"
+                   width={0}
+                   height={0}
+                   alt={"Asdf"}
+                   sizes={"100vw"}
+                   priority
+                   className={"absolute top-30 left-0 w-auto h-full transform"}
+            />
+            <Image src="/images/green-ecllipse-right.png"
+                   width={0}
+                   height={0}
+                   alt={"Asdf"}
+                   sizes={"100vw"}
+                   priority
+                   className={"absolute top-0 right-0 w-auto h-full"}
+            />
+            <Image src="/images/red-ecllipse-right.png"
+                   width={0}
+                   height={0}
+                   alt={"Asdf"}
+                   sizes={"100vw"}
+                   priority
+                   className={"absolute top-50 right-0 w-auto h-full"}
+            />
+          </div>
+          <section className="w-full px-4 py-12 md:px-8 relative z-10">
+            <div className="mx-auto container">
+              <div className="grid gap-12 md:grid-cols-2">
+                {/* Left column - Doctor images */}
+                <div className="flex flex-col gap-4">
+                  {/* Main image */}
+                  <div className="overflow-hidden rounded-3xl md:rounded-[50px]">
                     <Image
-                      src={src || "/placeholder.svg"}
-                      alt={`Dr. Mohammad Shah Alam thumbnail ${index + 1}`}
-                      width={150}
-                      height={100}
+                      src="/images/doctor.jpeg"
+                      alt="Dr. Mohammad Shah Alam"
+                      width={600}
+                      height={500}
                       className="h-auto w-full object-cover"
                     />
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Right column - Doctor information */}
-            <div className="flex flex-col justify-start">
-              <h1 className="mb-2 text-3xl font-bold md:text-4xl">Dr. Mohammad Shah Alam</h1>
-              <p className="mb-6 text-xl font-medium text-blue-600">Arthroscopy & Arthroplasty Surgeon</p>
-
-              {/* Rating and experience */}
-              <div className="mb-6 flex flex-wrap items-center gap-6">
-                <div className="flex items-center gap-2">
-                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400"/>
-                  <span className="font-medium">4.7/5</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="4" y="5" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2"/>
-                    <path
-                      d="M16 3V7M8 3V7M4 11H20M9 16H12M12 16H15M12 16V19M12 16V13"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <span className="font-medium">37+ Years Experience</span>
-                </div>
-              </div>
-
-              {/* Qualifications list */}
-              <div className="mb-8 space-y-3">
-                {qualifications.map((qualification, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-500"/>
-                    <span>{qualification}</span>
+                  {/* Thumbnails */}
+                  <div className="flex gap-3">
+                    {thumbnails.map((src, index) => (
+                      <div key={index} className="overflow-hidden rounded-[10px]">
+                        <Image
+                          src={src || "/placeholder.svg"}
+                          alt={`Dr. Mohammad Shah Alam thumbnail ${index + 1}`}
+                          width={150}
+                          height={100}
+                          className="h-auto w-full object-cover"
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
 
-              {/* Action buttons */}
-              <div className="mb-8 grid gap-4 sm:grid-cols-2 max-w-md">
-                <Button variant="outline" className="h-12 rounded-md text-base text-blue-500 border border-blue-500">
-                  Call Us
-                </Button>
-                <Link href={"/book-appointment"}><Button className="h-12 rounded-md bg-blue-600 text-base hover:bg-blue-700">Book Appointment</Button></Link>
-              </div>
+                {/* Right column - Doctor information */}
+                <div className="flex flex-col justify-start">
+                  <h1 className="mb-2 text-3xl font-bold md:text-4xl">Dr. Mohammad Shah Alam</h1>
+                  <p className="mb-6 text-xl font-medium text-blue-600">Arthroscopy & Arthroplasty Surgeon</p>
 
-              {/* Social media icons */}
-              <div className="flex gap-8">
-                <a href="#" className="text-blue-600 hover:text-blue-800">
-                  <Facebook className="h-6 w-6"/>
-                </a>
-                <a href="#" className="text-blue-600 hover:text-blue-800">
-                  <Linkedin className="h-6 w-6"/>
-                </a>
-                <a href="#" className="text-blue-600 hover:text-blue-800">
-                  <Instagram className="h-6 w-6"/>
-                </a>
+                  {/* Rating and experience */}
+                  <div className="mb-6 flex flex-wrap items-center gap-6">
+                    <div className="flex items-center gap-2">
+                      <Star className="h-5 w-5 fill-yellow-400 text-yellow-400"/>
+                      <span className="font-medium">4.7/5</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="5" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2"/>
+                        <path
+                          d="M16 3V7M8 3V7M4 11H20M9 16H12M12 16H15M12 16V19M12 16V13"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      <span className="font-medium">37+ Years Experience</span>
+                    </div>
+                  </div>
+
+                  {/* Qualifications list */}
+                  <div className="mb-8 space-y-3">
+                    {qualifications.map((qualification, index) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-500"/>
+                        <span>{qualification}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="mb-8 grid gap-4 sm:grid-cols-2 max-w-md">
+                    <Button variant="outline" className="h-12 rounded-md text-base text-blue-500 border border-blue-500">
+                      Call Us
+                    </Button>
+                    <Link href={"/book-appointment"}><Button className="h-12 rounded-md bg-blue-600 text-base hover:bg-blue-700">Book Appointment</Button></Link>
+                  </div>
+
+                  {/* Social media icons */}
+                  <div className="flex gap-8">
+                    <a href="#" className="text-blue-600 hover:text-blue-800">
+                      <Facebook className="h-6 w-6"/>
+                    </a>
+                    <a href="#" className="text-blue-600 hover:text-blue-800">
+                      <Linkedin className="h-6 w-6"/>
+                    </a>
+                    <a href="#" className="text-blue-600 hover:text-blue-800">
+                      <Instagram className="h-6 w-6"/>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
         </div>
-      </section>
-    </div>
+      </>
+
   )
 }
 
