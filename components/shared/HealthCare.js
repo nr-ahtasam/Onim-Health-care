@@ -7,34 +7,60 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Link from "next/link";
+import {gql, useQuery} from "@apollo/client";
+
+const FEATURED_DOCTORS_QUERY = gql`
+  query FeaturedDoctors {
+    page(id: "home", idType: URI) {
+      homeSections {
+        featuredDoctors {
+          nodes {
+            ... on Doctor {
+              id
+              doctorId
+              doctorField {
+                consultationFees
+                experience
+                rating
+              }
+              title
+              featuredImage {
+                node {
+                  mediaItemUrl
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default function HealthCare() {
-  const doctors = [
-    {
-      name: "Dr. Mohammad Shah Alam",
-      credentials: "MBBS, FCPS, Fellow Colorectal Surgery",
-      rating: 4.7,
-      experience: "37+ Years Experience",
-      fees: {
-        cash: "1000",
-        bkash: "800",
-      },
-      location: "York Hospital Limited",
-      image: "/images/doctor.jpeg",
+
+  const { data, loading, error } = useQuery(FEATURED_DOCTORS_QUERY);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Failed to load doctors data</div>;
+
+  // Transform the GraphQL response into the structure required by the UI.
+  const doctors = data?.page?.homeSections?.featuredDoctors?.nodes.map((doctor) => ({
+    name: doctor.title,
+    // Modify or extend credentials if available from your data.
+    credentials: "Credentials not provided",
+    rating: doctor.doctorField.rating,
+    experience: doctor.doctorField.experience,
+    fees: {
+      // If your API distinguishes between fee types, update accordingly.
+      cash: doctor.doctorField.consultationFees || 300,
+      bkash: doctor.doctorField.consultationFees || 300,
     },
-    {
-      name: "Dr. Mohammad Shah Alam",
-      credentials: "MBBS, FCPS, Fellow Colorectal Surgery",
-      rating: 4.7,
-      experience: "37+ Years Experience",
-      fees: {
-        cash: "1000",
-        bkash: "800",
-      },
-      location: "York Hospital Limited",
-      image: "/images/doctor.jpeg",
-    },
-  ]
+    // You may update location if your API provides this field.
+    location: "York Hospital Limited",
+    image: doctor.featuredImage?.node?.mediaItemUrl || "/images/doctor.jpeg",
+  }));
+
   const settings = {
     dots: false,
     infinite: true,
@@ -81,7 +107,7 @@ export default function HealthCare() {
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
                       <Image
-                        src={doctor.image}
+                        src={doctor?.image || ""}
                         alt={doctor.name}
                         width={0}
                         height={0}
