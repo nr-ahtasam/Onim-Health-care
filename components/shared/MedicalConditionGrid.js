@@ -1,6 +1,7 @@
 "use client"; // If you are using Next.js App Router and placing this in the /app folder
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link"; // Import Link for navigation
 import { Button } from "@/components/ui/button";
 import { gql, useQuery } from "@apollo/client";
 
@@ -54,17 +55,19 @@ export default function MedicalConditionGrid() {
             {/* The Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 md:gap-20">
                 {displayedConditions.map((condition) => (
-                    <div className="text-center " key={condition.id}>
-                        <div className="bg-white h-[150px] w-[150px] border border-blue-500 rounded-[20px] flex justify-center items-center ">
-                            <Image
-                                src={condition.serviceFields.serviceIconn.node.mediaItemUrl} // Use API image URL
-                                alt={condition.serviceFields.catName}
-                                width={400}
-                                height={400}
-                                className="object-cover w-full h-full rounded-[20px]" // Scale to fill container
-                                priority
-                            />
-                        </div>
+                    <div className="text-center" key={condition.id}>
+                        <Link href={`/service/${condition.serviceId}`}>
+                            <div className="bg-white h-[150px] w-[150px] border border-blue-500 rounded-[20px] flex justify-center items-center">
+                                <Image
+                                    src={condition.serviceFields.serviceIconn.node.mediaItemUrl}
+                                    alt={condition.serviceFields.catName}
+                                    width={400}
+                                    height={400}
+                                    className="object-cover w-full h-full rounded-[20px]"
+                                    priority
+                                />
+                            </div>
+                        </Link>
                         <p className="text-[16px] mt-2">{condition.serviceFields.catName}</p>
                     </div>
                 ))}
