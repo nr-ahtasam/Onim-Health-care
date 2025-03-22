@@ -1,243 +1,94 @@
 "use client"; // If you are using Next.js App Router and placing this in the /app folder
-import { useState } from "react"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { gql, useQuery } from "@apollo/client";
+
+// Define the GraphQL query
+const FEATURED_SERVICES_QUERY = gql`
+  query FeaturedServices {
+    page(id: "home", idType: URI) {
+      homeSections {
+        featuredServices {
+          nodes {
+            ... on Service {
+              id
+              serviceId
+              serviceFields {
+                serviceIconn {
+                  node {
+                    mediaItemUrl
+                  }
+                }
+                catName
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default function MedicalConditionGrid() {
-  // Define the medical conditions data (12 items, for example)
-  const medicalConditions = [
-    {
-      name: "Hernia",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
-      ),
-    },
-    {
-      name: "Circumcision",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7v14" />
-        </svg>
-      ),
-    },
-    {
-      name: "Pilonidal Sinus",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5z" />
-        </svg>
-      ),
-    },
-    {
-      name: "Kidney Stones",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
-      ),
-    },
-    {
-      name: "Varicocele",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7v14" />
-        </svg>
-      ),
-    },
-    {
-      name: "Anal Fissure",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5z" />
-        </svg>
-      ),
-    },
-    // 6 more items for the second row
-    {
-      name: "Anal Fistula",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
-      ),
-    },
-    {
-      name: "Hemorrhoids",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7v14" />
-        </svg>
-      ),
-    },
-    {
-      name: "Hydrocele",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5z" />
-        </svg>
-      ),
-    },
-    {
-      name: "Appendicitis",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7v14" />
-        </svg>
-      ),
-    },
-    {
-      name: "Gallstones",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
-      ),
-    },
-    {
-      name: "Thyroid Surgery",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-12 h-12 text-blue-500"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-7-7v14" />
-        </svg>
-      ),
-    },
-  ]
+    // Fetch data with useQuery
+    const { loading, error, data } = useQuery(FEATURED_SERVICES_QUERY);
 
-  // Use state to control how many items are displayed
-  const [showAll, setShowAll] = useState(false)
+    // Use API data if available, otherwise fallback to empty array
+    const medicalConditions = data?.page?.homeSections?.featuredServices?.nodes || [];
 
-  // Decide which items to show: either the first 6 or all of them
-  const displayedConditions = showAll
-    ? medicalConditions
-    : medicalConditions.slice(0, 6)
+    // Use state to control how many items are displayed
+    const [showAll, setShowAll] = useState(false);
 
-  return (
-    <div className="container mx-auto px-4 z-10 relative pb-16">
-      {/* The Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 md:gap-20">
-        {displayedConditions.map((condition, index) => (
-          <div className="text-center " key={index}>
-            <div className="bg-white h-[150px] w-[150px] border border-blue-500 rounded-[20px] flex justify-center items-center p-6">
-              {/* If you want the SVG icons, use {condition.icon} instead of an Image */}
-              <Image
-                src="/images/Vector.png"
-                alt="Healthcare professionals"
-                width={40}
-                height={40}
-                className="object-cover"
-                priority
-              />
+    // Decide which items to show: either the first 6 or all of them
+    const displayedConditions = showAll
+        ? medicalConditions
+        : medicalConditions.slice(0, 6);
+
+    // Handle loading and error states
+    if (loading) return <div className="container mx-auto px-4 z-10 relative pb-16">Loading services...</div>;
+    if (error) return <div className="container mx-auto px-4 z-10 relative pb-16">Error loading services: {error.message}</div>;
+
+    return (
+        <div className="container mx-auto px-4 z-10 relative pb-16">
+            {/* The Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 md:gap-20">
+                {displayedConditions.map((condition) => (
+                    <div className="text-center " key={condition.id}>
+                        <div className="bg-white h-[150px] w-[150px] border border-blue-500 rounded-[20px] flex justify-center items-center ">
+                            <Image
+                                src={condition.serviceFields.serviceIconn.node.mediaItemUrl} // Use API image URL
+                                alt={condition.serviceFields.catName}
+                                width={400}
+                                height={400}
+                                className="object-cover w-full h-full rounded-[20px]" // Scale to fill container
+                                priority
+                            />
+                        </div>
+                        <p className="text-[16px] mt-2">{condition.serviceFields.catName}</p>
+                    </div>
+                ))}
             </div>
-            <p className="text-[16px] mt-2">{condition.name}</p>
-          </div>
-        ))}
-      </div>
 
-      {/* The “View All” button */}
-      <div className="text-center mt-16">
-        {!showAll && (
-          <Button
-            className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80"
-            onClick={() => setShowAll(true)}
-          >
-            View All
-          </Button>
-        )}
-        {showAll && (
-          <Button
-            className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80"
-            onClick={() => setShowAll(false)}
-          >
-            View Less
-          </Button>
-        )}
-      </div>
-    </div>
-  )
+            {/* The “View All” button */}
+            <div className="text-center mt-16">
+                {!showAll && medicalConditions.length > 6 && (
+                    <Button
+                        className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80"
+                        onClick={() => setShowAll(true)}
+                    >
+                        View All
+                    </Button>
+                )}
+                {showAll && (
+                    <Button
+                        className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80"
+                        onClick={() => setShowAll(false)}
+                    >
+                        View Less
+                    </Button>
+                )}
+            </div>
+        </div>
+    );
 }
