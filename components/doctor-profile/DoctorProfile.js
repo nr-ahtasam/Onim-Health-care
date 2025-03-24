@@ -3,46 +3,10 @@ import Image from "next/image"
 import {Button} from "@/components/ui/button"
 import {Star, CheckCircle, Facebook, Linkedin, Instagram} from "lucide-react"
 import Link from "next/link";
-import {gql, useQuery} from "@apollo/client";
-import Loader from "@/lib/Loader";
 import PageHeader from "@/components/header/PageHeader";
 
-const SINGLE_DOCTOR_QUERY = gql`
-  query SingleDoctor($id: ID!) {
-    doctor(id: $id, idType: URI) {
-      title
-      featuredImage {
-        node {
-          mediaItemUrl
-        }
-      }
-      doctorField {
-        consultationFees
-        experience
-        certification {
-          nodes {
-            mediaItemUrl
-          }
-        }
-        longDescription
-        rating
-        socialLinks {
-          url
-        }
-      }
-    }
-  }
-`;
-
-export default function DoctorProfile({doctorId}) {
-  const { data, loading, error } = useQuery(SINGLE_DOCTOR_QUERY, {
-    variables: { id: doctorId },
-  });
-
-  if (loading) return <div className="flex justify-center items-center"><Loader/></div>;
-  if (error) return <div>Error loading doctor data.</div>;
-
-  const doctor = data?.doctor;
+export default function DoctorProfile({singleDoctor}) {
+  const doctor = singleDoctor?.doctor;
 
   // Doctor's qualifications with checkmarks
   const qualifications = [
@@ -61,7 +25,7 @@ export default function DoctorProfile({doctorId}) {
     "/images/doctor.jpeg",
     "/images/doctor.jpeg",
   ]
-  if (!data?.doctor) {
+  if (!doctor) {
     return <div className={"flex justify-center items-center"}>No doctor data available.</div>;
   }
 

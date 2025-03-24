@@ -8,9 +8,14 @@ import HealthCare from "@/components/shared/HealthCare";
 import DividerLine from "@/components/shared/DividerLine";
 import AboutUsSection from "@/components/shared/AboutUs";
 import DoctorChambers from "@/components/doctor-chambers/doctor-chambers";
+import {getDoctorById, getFeaturedDoctors, getFeatureServices} from "@/lib/graphql";
 
 export default async  function page({params}) {
     const {id} = await params;
+    const singleDoctor = await getDoctorById(id);
+    const featureServices = await getFeatureServices();
+    const featureDoctors = await getFeaturedDoctors();
+
     const doctorName = "Dr. Mohammad Shah Alam";
     const specialties = [
         {
@@ -40,7 +45,7 @@ export default async  function page({params}) {
     ];
   return (
       <>
-          <DoctorProfile doctorId={id}/>
+          <DoctorProfile singleDoctor={singleDoctor}/>
           <div className="py-16 relative overflow-hidden">
               <div>
                   <Image src="/images/red-ecllipse.png"
@@ -60,11 +65,11 @@ export default async  function page({params}) {
                          className={"absolute top-50 right-0 w-auto h-full"}
                   />
               </div>
-              <MedicalConditionGrid/>
+              <MedicalConditionGrid featureServices={featureServices}/>
               <DoctorTabs/>
           </div>
           <ServicesGrid/>
-          <HealthCare/>
+          <HealthCare featureDoctors={featureDoctors}/>
           <div className="py-16 relative overflow-hidden">
               <div>
                   <Image src="/images/red-ecllipse.png"

@@ -1,26 +1,24 @@
-"use client"; // Client-side rendering for Apollo
 import MedicalServices from "@/components/services/MedicalServices";
 import ServicePageHeader from "@/components/services/ServicePageHeader";
 import BestTreatmentSection from "@/components/services/BestTreatmentSection";
 import AppointmentForm from "@/components/form/AppointmentForm";
 import DoctorProfileSection from "@/components/services/DoctorProfileSection";
 import FAQSection from "@/components/services/FAQSection";
-import { useParams } from "next/navigation"; // For App Router
+import {getSingleService} from "@/lib/graphql";
 
-export default function Service() {
-    const params = useParams(); // Get dynamic route params
-    const serviceId = params.id; // e.g., "74"
-
+export default async function Service({params}) {
+    const {id} = await params;
+    const singleService = await getSingleService(id);
     return (
         <>
-            <ServicePageHeader serviceId={serviceId} /> {/* Pass serviceId as prop */}
-            <BestTreatmentSection serviceId={serviceId} />
+            <ServicePageHeader singleService={singleService} />
+            <BestTreatmentSection singleService={singleService} />
             <div className={"block md:hidden"}>
                 <AppointmentForm />
             </div>
             <DoctorProfileSection />
-            <MedicalServices serviceId={serviceId} />
-            <FAQSection serviceId={serviceId} />
+            <MedicalServices singleService={singleService} />
+            <FAQSection singleService={singleService} />
         </>
     );
 }

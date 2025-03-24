@@ -1,31 +1,11 @@
-"use client"; // Mark as client component for useQuery
+"use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { gql, useQuery } from "@apollo/client";
 
-// Define the GraphQL query
-const SINGLE_SERVICE_QUERY = gql`
-  query SingleService($id: ID!) {
-    service(id: $id, idType: DATABASE_ID) {
-      serviceOverviews {
-        nodes {
-          name
-          description
-        }
-      }
-    }
-  }
-`;
-
-export default function MedicalServices({ serviceId }) {
-  // Fetch data with useQuery (called unconditionally)
-  const { loading, error, data } = useQuery(SINGLE_SERVICE_QUERY, {
-    variables: { id: serviceId }, // Pass the serviceId from props
-  });
-
+export default function MedicalServices({ singleService }) {
   // Use API data for specialties, default to empty array if no data
-  const specialtiesData = data?.service?.serviceOverviews?.nodes || [];
+  const specialtiesData = singleService?.service?.serviceOverviews?.nodes || [];
   const specialties = specialtiesData.map((node, index) => ({
     name: node.name,
     active: index === 0, // Set the first item as active by default
@@ -49,10 +29,6 @@ export default function MedicalServices({ serviceId }) {
     { day: "Sat", hours: "08:00 - 03:00 PM" },
     { day: "Sun", hours: "08:00 - 01:00 PM" },
   ];
-
-  // Handle loading and error states (after all hooks)
-  if (loading) return <div className="py-16">Loading services...</div>;
-  if (error) return <div className="py-16">Error loading services: {error.message}</div>;
 
   return (
       <div className="py-16 relative overflow-hidden">
@@ -133,7 +109,7 @@ export default function MedicalServices({ serviceId }) {
                             <h2 className="mb-4 text-3xl font-bold">{specialty.name}</h2>
                             <div className={"text-[#656E77]"}>
                               <p className="mb-4 text-gray-700">
-                                {data?.service?.serviceOverviews?.nodes.find(
+                                {singleService?.service?.serviceOverviews?.nodes.find(
                                     (node) => node.name === activeSpecialty
                                 )?.description || "No description available."}
                               </p>

@@ -1,11 +1,8 @@
-// components/MedicalConditionsSection.tsx
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import Image from "next/image";
-import {Button} from "@/components/ui/button";
 import HealthCare from "@/components/shared/HealthCare";
 import MedicalConditionGrid from "@/components/shared/MedicalConditionGrid";
 
-export default function MedicalCondition() {
+export default function MedicalCondition({featureServices, featureDoctors}) {
   return (
     <section className="py-16 relative overflow-hidden">
       <div>
@@ -27,8 +24,8 @@ export default function MedicalCondition() {
         />
       </div>
       <div >
-        <MedicalConditionGrid/>
-        <HealthCare/>
+        <MedicalConditionGrid featureServices={featureServices}/>
+        <HealthCare featureDoctors={featureDoctors}/>
       </div>
     </section>
   );

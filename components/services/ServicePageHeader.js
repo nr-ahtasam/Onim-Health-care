@@ -1,54 +1,13 @@
-"use client"; // Mark as client component for useQuery
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AppointmentForm from "@/components/form/AppointmentForm";
 import Link from "next/link";
 import parse from "html-react-parser";
-import { gql, useQuery } from "@apollo/client";
 
-// Define the GraphQL query
-const SINGLE_SERVICE_QUERY = gql`
-  query SingleService($id: ID!) {
-    service(id: $id, idType: DATABASE_ID) {
-      title
-      featuredImage {
-        node {
-          mediaItemUrl
-        }
-      }
-      serviceFields {
-        longDescription
-        subtitle
-      }
-      content
-      serviceFaqs {
-        nodes {
-          description
-          name
-        }
-      }
-      serviceOverviews {
-        nodes {
-          description
-          name
-        }
-      }
-    }
-  }
-`;
+export default function ServicePageHeader({ singleService }) {
 
-export default function ServicePageHeader({ serviceId }) {
-  // Fetch data with useQuery
-  const { loading, error, data } = useQuery(SINGLE_SERVICE_QUERY, {
-    variables: { id: serviceId }, // Pass the serviceId from props
-  });
-
-  // Handle loading and error states
-  if (loading) return <div>Loading service...</div>;
-  if (error) return <div>Error loading service: {error.message}</div>;
-
-  const serviceTitle = data?.service?.title || "Service"; // Fallback if no title
-  const serviceContent = data?.service?.content || "Service"; // Fallback if no title
+  const serviceTitle = singleService?.service?.title || "Service"; // Fallback if no title
+  const serviceContent = singleService?.service?.content || "Service"; // Fallback if no title
 
   return (
       <main className="flex h-[300px] items-center bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] p-8">

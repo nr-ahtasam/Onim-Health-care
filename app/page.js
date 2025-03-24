@@ -3,12 +3,19 @@ import MedicalCondition from "@/components/shared/MedicalCondition";
 import WhyChooseUsSection from "@/components/shared/WhyChooseUs";
 import AboutUsSection from "@/components/shared/AboutUs";
 import DividerLine from "@/components/shared/DividerLine";
+import {getFeaturedDoctors, getFeatureServices} from "@/lib/graphql";
+import {Suspense} from "react";
+import Loader from "@/lib/Loader";
 
-export default function Home() {
+export default async function Home() {
+    const featureServices =  getFeatureServices();
+    const featureDoctors =  getFeaturedDoctors();
   return (
       <>
         <ShowcaseSection />
-        <MedicalCondition />
+          <Suspense fallback={<Loader/>}>
+            <MedicalCondition featureServices={await featureServices} featureDoctors={await featureDoctors}/>
+          </Suspense>
         <DividerLine/>
         <WhyChooseUsSection />
         <AboutUsSection />
