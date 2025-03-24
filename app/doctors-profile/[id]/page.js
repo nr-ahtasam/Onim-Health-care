@@ -13,8 +13,6 @@ import {getDoctorById, getFeaturedDoctors, getFeatureServices} from "@/lib/graph
 export default async  function page({params}) {
     const {id} = await params;
     const singleDoctor = await getDoctorById(id);
-    const featureServices = await getFeatureServices();
-    const featureDoctors = await getFeaturedDoctors();
 
     const doctorName = "Dr. Mohammad Shah Alam";
     const specialties = [
@@ -65,11 +63,11 @@ export default async  function page({params}) {
                          className={"absolute top-50 right-0 w-auto h-full"}
                   />
               </div>
-              <MedicalConditionGrid featureServices={featureServices}/>
+              <MedicalConditionGrid />
               <DoctorTabs/>
           </div>
           <ServicesGrid/>
-          <HealthCare featureDoctors={featureDoctors}/>
+          <HealthCare />
           <div className="py-16 relative overflow-hidden">
               <div>
                   <Image src="/images/red-ecllipse.png"

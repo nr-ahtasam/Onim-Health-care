@@ -2,7 +2,7 @@ import Image from "next/image";
 import HealthCare from "@/components/shared/HealthCare";
 import MedicalConditionGrid from "@/components/shared/MedicalConditionGrid";
 
-export default function MedicalCondition({featureServices, featureDoctors}) {
+export default function MedicalCondition() {
   return (
     <section className="py-16 relative overflow-hidden">
       <div>
@@ -24,8 +24,8 @@ export default function MedicalCondition({featureServices, featureDoctors}) {
         />
       </div>
       <div >
-        <MedicalConditionGrid featureServices={featureServices}/>
-        <HealthCare featureDoctors={featureDoctors}/>
+        <MedicalConditionGrid />
+        <HealthCare />
       </div>
     </section>
   );

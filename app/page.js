@@ -8,13 +8,11 @@ import {Suspense} from "react";
 import Loader from "@/lib/Loader";
 
 export default async function Home() {
-    const featureServices =  getFeatureServices();
-    const featureDoctors =  getFeaturedDoctors();
   return (
       <>
         <ShowcaseSection />
           <Suspense fallback={<Loader/>}>
-            <MedicalCondition featureServices={await featureServices} featureDoctors={await featureDoctors}/>
+            <MedicalCondition/>
           </Suspense>
         <DividerLine/>
         <WhyChooseUsSection />

@@ -1,10 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import {getFeatureServices} from "@/lib/graphql";
 
-export default function MedicalConditionGrid({featureServices}) {
+export default function MedicalConditionGrid({}) {
+    const featureServices = use( getFeatureServices());
 
     // Use API data if available, otherwise fallback to empty array
     const medicalConditions = featureServices?.page?.homeSections?.featuredServices?.nodes || [];
