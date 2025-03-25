@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function DoctorChambers({ doctorName, specialties }) {
+export default function DoctorChambers({singleDoctor }) {
     return (
         <div className="w-full py-16 px-4">
             <div className="max-w-6xl mx-auto">

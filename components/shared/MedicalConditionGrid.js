@@ -3,14 +3,20 @@ import { useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import {useQuery} from "@apollo/client";
+import {featureServicesQuery} from "@/lib/graphql";
+import Loader from "@/lib/Loader";
 
-export default function MedicalConditionGrid({featureServices}) {
+
+export default function MedicalConditionGrid() {
+    const [showAll, setShowAll] = useState(false);
+
+    const {data, loading, error} = useQuery(featureServicesQuery)
+
+    if(loading) return <Loader/>;
 
     // Use API data if available, otherwise fallback to empty array
-    const medicalConditions = featureServices?.page?.homeSections?.featuredServices?.nodes || [];
-
-    // Use state to control how many items are displayed
-    const [showAll, setShowAll] = useState(false);
+    const medicalConditions = data?.page?.homeSections?.featuredServices?.nodes || [];
 
     // Decide which items to show: either the first 6 or all of them
     const displayedConditions = showAll

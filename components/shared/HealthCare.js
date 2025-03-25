@@ -7,12 +7,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import {useQuery} from "@apollo/client";
+import {featureDoctorsQuery} from "@/lib/graphql";
+import Loader from "@/lib/Loader";
 
 const Slider = dynamic(() => import("react-slick"), { ssr: false });
 
-export default function HealthCare({featureDoctors}) {
+export default function HealthCare() {
+  const {data, loading, error} = useQuery(featureDoctorsQuery)
+
+  if(loading) return <Loader/>;
+
   // Transform the GraphQL response into the structure required by the UI.
-  const doctors = featureDoctors?.page?.homeSections?.featuredDoctors?.nodes?.map((doctor) => ({
+  const doctors = data?.page?.homeSections?.featuredDoctors?.nodes?.map((doctor) => ({
     id: doctor.doctorId,
     name: doctor.title,
     // Modify or extend credentials if available from your data.
