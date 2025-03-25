@@ -14,14 +14,14 @@ export default function HealthCare({featureDoctors}) {
     id: doctor.doctorId,
     name: doctor.title,
     // Modify or extend credentials if available from your data.
-    credentials: "Credentials not provided",
+    credentials: doctor.specialities.nodes.map(speciality => speciality.name).join(", "),
     rating: doctor.doctorField.rating,
     experience: doctor.doctorField.experience,
     fees: {
       cash: doctor.doctorField.consultationFees || 300,
       bkash: doctor.doctorField.consultationFees || 300,
     },
-    location: "York Hospital Limited",
+    location: doctor.doctorField.chamber.nodes[0].title,
     image: doctor.featuredImage?.node?.mediaItemUrl || "/images/doctor.jpeg",
   }));
 
