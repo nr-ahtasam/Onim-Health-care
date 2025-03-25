@@ -46,7 +46,7 @@ export default   function page() {
               <MedicalConditionGrid />
               <DoctorTabs/>
           </div>
-          <ServicesGrid/>
+          <ServicesGrid singleDoctor={data}/>
           <HealthCare />
           <div className="py-16 relative overflow-hidden">
               <div>

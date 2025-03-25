@@ -8,30 +8,9 @@ import PageHeader from "@/components/header/PageHeader";
 export default function DoctorProfile({singleDoctor}) {
   const doctor = singleDoctor?.doctor;
 
-  // Doctor's qualifications with checkmarks
-  const qualifications = [
-    "MBBS, BCS (Health), MS (Orthopedics), FACS (USA)",
-    "FIGR (Calcutta), FASM (Bangalore), AO Trauma (Basic Advance), AO Trauma Spine Basic",
-    "AO Recon Hip and Knee Orthoplasty (Basic, Advanced and Revision Surgery)",
-    "Fellowship in Arthroplasty and Fellowship in Arthroscopy",
-    "AO Trauma Member (Switzerland) (Basic, Advanced and Revision Surgery)",
-    "Assistant Professor (Orthopedic Surgery)",
-    "National Institute of Traumatology and Orthopedic Rehabilitation",
-  ]
-
-  // Thumbnail images
-  const thumbnails = [
-    "/images/doctor.jpeg",
-    "/images/doctor.jpeg",
-    "/images/doctor.jpeg",
-  ]
-  if (!doctor) {
-    return <div className={"flex justify-center items-center"}>No doctor data available.</div>;
-  }
-
   return (
       <>
-      <PageHeader/>
+      <PageHeader doctor={doctor}/>
         <div className="pt-16 pb-8 relative overflow-hidden">
           {/* Background Decorative Images */}
           <div>
@@ -86,9 +65,11 @@ export default function DoctorProfile({singleDoctor}) {
                             "/images/doctor.jpeg"
                         }
                         alt={doctor.title}
-                        width={600}
-                        height={500}
-                        className="h-auto w-full object-cover"
+                        width={0}
+                        height={0}
+                        sizes={"100vw"}
+                        priority
+                        className="  max-h-[500px] w-full object-cover"
                     />
                   </div>
 
@@ -115,7 +96,7 @@ export default function DoctorProfile({singleDoctor}) {
                   </h1>
                   {/* You can replace or remove the following line if you have a specialization field */}
                   <p className="mb-6 text-xl font-medium text-blue-600">
-                    Arthroscopy & Arthroplasty Surgeon
+                    {doctor.specialities?.nodes.map(speciality => speciality.taxonomyName).join(", ")}
                   </p>
 
                   {/* Rating and Experience */}
