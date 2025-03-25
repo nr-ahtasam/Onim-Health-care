@@ -78,7 +78,7 @@ export default function HealthCare() {
               {doctors.map((doctor, index) => (
                 <Link key={index} href={"/doctors-profile/" + doctor.id}>
                   <Card className="overflow-hidden border border-blue-500">
-                    <CardContent className="p-6">
+                    <CardContent className="">
                       <div className="flex items-start gap-4">
                         <Image
                           src={doctor?.image || ""}
