@@ -13,7 +13,7 @@ import {getFeaturedDoctors} from "@/lib/graphql";
 export default function HealthCare() {
   const featureDoctors = use(getFeaturedDoctors());
   // Transform the GraphQL response into the structure required by the UI.
-  const doctors = featureDoctors?.page?.homeSections?.featuredDoctors?.nodes.map((doctor) => ({
+  const doctors = featureDoctors?.page?.homeSections?.featuredDoctors?.nodes?.map((doctor) => ({
     id: doctor.doctorId,
     name: doctor.title,
     // Modify or extend credentials if available from your data.
