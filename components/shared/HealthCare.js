@@ -5,8 +5,10 @@ import Image from "next/image"
 import {MapPin, ShoppingBag, Star} from "lucide-react"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const Slider = dynamic(() => import("react-slick"), { ssr: false });
 
 export default function HealthCare({featureDoctors}) {
   // Transform the GraphQL response into the structure required by the UI.

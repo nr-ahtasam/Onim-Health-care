@@ -1,11 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['images.pexels.com','omni.fmmethod.online'], // Add the hostname here
-    },
-    experimental: {
-        missingSuspenseWithCSRBailout: false,
-    },
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'images.pexels.com',
+                pathname: '**',
+            },{
+                protocol: 'https',
+                hostname: 'omni.fmmethod.online',
+                pathname: '**',
+            },
+        ],
+    }
 };
 
 export default nextConfig;
