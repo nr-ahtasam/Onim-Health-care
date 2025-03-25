@@ -14,6 +14,12 @@ const SINGLE_SERVICE_QUERY = gql`
           description
         }
       }
+      featuredImage {
+        node {
+          mediaItemUrl
+        }
+      }
+      title
     }
   }
 `;
@@ -53,6 +59,7 @@ export default function MedicalServices({ serviceId }) {
   // Handle loading and error states (after all hooks)
   if (loading) return <div className="py-16">Loading services...</div>;
   if (error) return <div className="py-16">Error loading services: {error.message}</div>;
+  const featuredImageUrl = data?.service?.featuredImage?.node?.mediaItemUrl || "/images/doctors.jpeg"; // Fallback to dummy
 
   return (
       <div className="py-16 relative overflow-hidden">
@@ -105,7 +112,7 @@ export default function MedicalServices({ serviceId }) {
                 <div className="mb-8 grid gap-4 md:grid-cols-2 relative">
                   <div className="overflow-hidden rounded-tl-[75px]">
                     <Image
-                        src="/images/doctors.jpeg"
+                        src={featuredImageUrl}
                         alt="Brain scan"
                         width={300}
                         height={200}
