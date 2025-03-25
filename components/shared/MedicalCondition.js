@@ -29,7 +29,7 @@ export default async function MedicalCondition() {
       </div>
       <div >
         <MedicalConditionGrid featureServices={featureServices} />
-        <HealthCare featureDoctors={featureDoctors} />
+        {/*<HealthCare featureDoctors={featureDoctors} />*/}
       </div>
     </section>
   );
