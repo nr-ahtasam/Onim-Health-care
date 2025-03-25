@@ -1,8 +1,14 @@
 import Image from "next/image";
 import HealthCare from "@/components/shared/HealthCare";
 import MedicalConditionGrid from "@/components/shared/MedicalConditionGrid";
+import {getFeaturedDoctors, getFeatureServices} from "@/lib/graphql";
 
-export default function MedicalCondition() {
+export default async function MedicalCondition() {
+    const [featureServices, featureDoctors] = await Promise.all([
+        getFeatureServices(),
+        getFeaturedDoctors()
+    ])
+    console.log(featureServices, featureDoctors)
   return (
     <section className="py-16 relative overflow-hidden">
       <div>
@@ -24,8 +30,8 @@ export default function MedicalCondition() {
         />
       </div>
       <div >
-        <MedicalConditionGrid />
-        <HealthCare />
+        <MedicalConditionGrid featureServices={featureServices} />
+        <HealthCare featureDoctors={featureDoctors} />
       </div>
     </section>
   );

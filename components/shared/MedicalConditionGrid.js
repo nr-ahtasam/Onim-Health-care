@@ -3,10 +3,8 @@ import { useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {getFeatureServices} from "@/lib/graphql";
 
-export default function MedicalConditionGrid({}) {
-    const featureServices = use(getFeatureServices());
+export default function MedicalConditionGrid({featureServices}) {
 
     // Use API data if available, otherwise fallback to empty array
     const medicalConditions = featureServices?.page?.homeSections?.featuredServices?.nodes || [];

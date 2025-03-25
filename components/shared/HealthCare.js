@@ -7,11 +7,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Link from "next/link";
-import {use} from "react";
-import {getFeaturedDoctors} from "@/lib/graphql";
 
-export default function HealthCare() {
-  const featureDoctors = use(getFeaturedDoctors());
+export default function HealthCare({featureDoctors}) {
   // Transform the GraphQL response into the structure required by the UI.
   const doctors = featureDoctors?.page?.homeSections?.featuredDoctors?.nodes?.map((doctor) => ({
     id: doctor.doctorId,
