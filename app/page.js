@@ -10,9 +10,7 @@ export default async function Home() {
     return (
         <>
             <ShowcaseSection/>
-            <Suspense fallback={<Loader/>}>
-                <MedicalCondition/>
-            </Suspense>
+            <MedicalCondition/>
             <DividerLine/>
             <WhyChooseUsSection/>
             <AboutUsSection/>

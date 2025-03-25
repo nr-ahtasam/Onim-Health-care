@@ -8,7 +8,6 @@ export default async function MedicalCondition() {
         getFeatureServices(),
         getFeaturedDoctors()
     ])
-    console.log(featureServices, featureDoctors)
   return (
     <section className="py-16 relative overflow-hidden">
       <div>
