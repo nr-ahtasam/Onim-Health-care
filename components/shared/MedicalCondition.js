@@ -4,10 +4,8 @@ import MedicalConditionGrid from "@/components/shared/MedicalConditionGrid";
 import {getFeaturedDoctors, getFeatureServices} from "@/lib/graphql";
 
 export default async function MedicalCondition() {
-    const [featureServices, featureDoctors] = await Promise.all([
-        getFeatureServices(),
-        getFeaturedDoctors()
-    ])
+    const featureServices = await getFeatureServices();
+    const featureDoctors = await getFeaturedDoctors();
   return (
     <section className="py-16 relative overflow-hidden">
       <div>
