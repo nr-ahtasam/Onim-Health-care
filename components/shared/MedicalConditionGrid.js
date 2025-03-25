@@ -1,19 +1,19 @@
 "use client";
-import { useState, use } from "react";
+import { useState } from "react";
+import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {useQuery} from "@apollo/client";
-import {featureServicesQuery} from "@/lib/graphql";
+import {FEATURED_SERVICES_QUERY} from "@/lib/graphql";
 import Loader from "@/lib/Loader";
-
 
 export default function MedicalConditionGrid() {
     const [showAll, setShowAll] = useState(false);
 
-    const {data, loading, error} = useQuery(featureServicesQuery)
+    const { data, loading, error } = useQuery(FEATURED_SERVICES_QUERY);
 
-    if(loading) return <Loader/>;
+    if (loading) return <Loader />;
+    if (error) return <div>Error loading featured services: {error.message}</div>;
 
     // Use API data if available, otherwise fallback to empty array
     const medicalConditions = data?.page?.homeSections?.featuredServices?.nodes || [];

@@ -24,7 +24,7 @@ export default function Service() {
             <div className={"block md:hidden"}>
                 <AppointmentForm />
             </div>
-            <DoctorProfileSection />
+            <DoctorProfileSection singleService={data} />
             <MedicalServices singleService={data} />
             <FAQSection singleService={data} />
         </>
