@@ -1,33 +1,8 @@
-"use client"; // Mark as client component for useQuery
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { gql, useQuery } from "@apollo/client";
 
-// Define the GraphQL query
-const SINGLE_SERVICE_QUERY = gql`
-  query SingleService($id: ID!) {
-    service(id: $id, idType: DATABASE_ID) {
-      serviceFaqs {
-        nodes {
-          name
-          description
-        }
-      }
-    }
-  }
-`;
-
-export default function FAQSection({ serviceId }) {
-  // Fetch data with useQuery
-  const { loading, error, data } = useQuery(SINGLE_SERVICE_QUERY, {
-    variables: { id: serviceId }, // Pass the serviceId from props
-  });
-
-  // Handle loading and error states
-  if (loading) return <div className="py-16">Loading FAQs...</div>;
-  if (error) return <div className="py-16">Error loading FAQs: {error.message}</div>;
-
+export default function FAQSection({ singleService }) {
   // Use API data for FAQ items, default to empty array if no data
-  const faqItems = data?.service?.serviceFaqs?.nodes.map((node) => ({
+  const faqItems = singleService?.service?.serviceFaqs?.nodes.map((node) => ({
     question: node.name,
     answer: node.description,
   })) || [];

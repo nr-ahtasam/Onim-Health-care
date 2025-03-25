@@ -7,46 +7,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Link from "next/link";
-import {gql, useQuery} from "@apollo/client";
-import Loader from "@/lib/Loader";
-
-const FEATURED_DOCTORS_QUERY = gql`
-  query FeaturedDoctors {
-    page(id: "home", idType: URI) {
-      homeSections {
-        featuredDoctors {
-          nodes {
-            ... on Doctor {
-              id
-              doctorId
-              doctorField {
-                consultationFees
-                experience
-                rating
-              }
-              title
-              featuredImage {
-                node {
-                  mediaItemUrl
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import {use} from "react";
+import {getFeaturedDoctors} from "@/lib/graphql";
 
 export default function HealthCare() {
-
-  const { data, loading, error } = useQuery(FEATURED_DOCTORS_QUERY);
-
-  if (loading) return <div className="flex justify-center items-center"><Loader/></div>;
-  if (error) return <div>Failed to load doctors data</div>;
-
+  const featureDoctors = use(getFeaturedDoctors());
   // Transform the GraphQL response into the structure required by the UI.
-  const doctors = data?.page?.homeSections?.featuredDoctors?.nodes.map((doctor) => ({
+  const doctors = featureDoctors?.page?.homeSections?.featuredDoctors?.nodes.map((doctor) => ({
     id: doctor.doctorId,
     name: doctor.title,
     // Modify or extend credentials if available from your data.
@@ -148,7 +115,7 @@ export default function HealthCare() {
                           <Button variant="outline" className="flex-1 border-blue-500 text-blue-500">
                             Call Us
                           </Button>
-                          <Link href={"/book-appointment"}><Button className="flex-1 bg-blue-500">Book Appointment</Button></Link>
+                          <Button className="flex-1 bg-blue-500 cursor-pointer" onClick={() => window.location.href = "/book-appointment"}>Book Appointment</Button>
                         </div>
                       </div>
                     </CardContent>

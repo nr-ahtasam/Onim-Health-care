@@ -1,42 +1,15 @@
-"use client"; // If you are using Next.js App Router and placing this in the /app folder
-import { useState } from "react";
+"use client";
+import { useState, use } from "react";
 import Image from "next/image";
-import Link from "next/link"; // Import Link for navigation
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { gql, useQuery } from "@apollo/client";
+import {getFeatureServices} from "@/lib/graphql";
 
-// Define the GraphQL query
-const FEATURED_SERVICES_QUERY = gql`
-  query FeaturedServices {
-    page(id: "home", idType: URI) {
-      homeSections {
-        featuredServices {
-          nodes {
-            ... on Service {
-              id
-              serviceId
-              serviceFields {
-                serviceIconn {
-                  node {
-                    mediaItemUrl
-                  }
-                }
-                catName
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export default function MedicalConditionGrid() {
-    // Fetch data with useQuery
-    const { loading, error, data } = useQuery(FEATURED_SERVICES_QUERY);
+export default function MedicalConditionGrid({}) {
+    const featureServices = use( getFeatureServices());
 
     // Use API data if available, otherwise fallback to empty array
-    const medicalConditions = data?.page?.homeSections?.featuredServices?.nodes || [];
+    const medicalConditions = featureServices?.page?.homeSections?.featuredServices?.nodes || [];
 
     // Use state to control how many items are displayed
     const [showAll, setShowAll] = useState(false);
@@ -45,10 +18,6 @@ export default function MedicalConditionGrid() {
     const displayedConditions = showAll
         ? medicalConditions
         : medicalConditions.slice(0, 6);
-
-    // Handle loading and error states
-    if (loading) return <div className="container mx-auto px-4 z-10 relative pb-16">Loading services...</div>;
-    if (error) return <div className="container mx-auto px-4 z-10 relative pb-16">Error loading services: {error.message}</div>;
 
     return (
         <div className="container mx-auto px-4 z-10 relative pb-16">

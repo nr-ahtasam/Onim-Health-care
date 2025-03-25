@@ -1,30 +1,9 @@
 "use client"; // Mark as client component for useQuery
-import AppointmentForm from "@/components/form/AppointmentForm";
 import Image from "next/image";
-import { gql, useQuery } from "@apollo/client";
 import parse from "html-react-parser";
 
-const SINGLE_SERVICE_QUERY = gql`
-  query SingleService($id: ID!) {
-    service(id: $id, idType: DATABASE_ID) {
-      serviceFields {
-        longDescription
-      }
-    }
-  }
-`;
-
-export default function BestTreatmentSection({ serviceId }) {
-    // Fetch data with useQuery
-    const { loading, error, data } = useQuery(SINGLE_SERVICE_QUERY, {
-        variables: { id: serviceId }, // Pass the serviceId from props
-    });
-
-    // Handle loading and error states
-    if (loading) return <div className="py-16">Loading treatment details...</div>;
-    if (error) return <div className="py-16">Error loading treatment: {error.message}</div>;
-
-    const longDescription = data?.service?.serviceFields?.longDescription || "No description available.";
+export default function BestTreatmentSection({ singleService }) {
+    const longDescription = singleService?.service?.serviceFields?.longDescription || "No description available.";
 
     // Parse the longDescription HTML into React elements
     const parsedContent = parse(longDescription);
@@ -71,9 +50,9 @@ export default function BestTreatmentSection({ serviceId }) {
             <div className={"max-w-7xl mx-auto flex gap-4 relative px-4"}>
                 <div className={"max-w-3xl relative z-10"}>
                     <h2 className="text-3xl font-bold">{title}</h2>
-                    <p className="text-gray-500 mt-4 leading-10">
+                    <div className="text-gray-500 mt-4 leading-10">
                         {description || "No additional description available."}
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
