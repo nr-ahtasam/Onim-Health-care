@@ -8,7 +8,7 @@ export default async function Home() {
     return (
         <>
             <ShowcaseSection/>
-            <MedicalCondition/>
+            {/*<MedicalCondition/>*/}
             <DividerLine/>
             <WhyChooseUsSection/>
             <AboutUsSection/>
