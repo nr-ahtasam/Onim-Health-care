@@ -100,11 +100,11 @@ export default function DoctorProfileCard({ singleService }) {
             <section className="w-full py-4 z-10 relative">
               <div className="flex flex-col md:flex-row justify-evenly">
                 <div className="mb-8 max-w-7xl">
-                  {doctors.length > 3 ? (
+                  {doctors.length > 1 ? (
                       <Slider {...settings}>
-                        {doctors.map((doctor, index) => (
+                        {doctors?.map((doctor, index) => (
                             <Card key={index} className="overflow-hidden border border-blue-500">
-                              <CardContent className="p-6">
+                              <CardContent className="">
                                 <div className="flex items-start gap-4">
                                   <Image
                                       src={doctor.image}

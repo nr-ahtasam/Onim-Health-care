@@ -113,6 +113,7 @@ export default function MedicalServices({ singleService }) {
                                     (node) => node.name === activeSpecialty
                                 )?.description || "No description available."}
                               </p>
+                              <p className="mb-4 text-gray-700">Orci ultricies vulputate est quis non. Nam imperdiet felis orci bibendum. Eu semper montes faucibus nisi dui sit mauris orci. Dui nibh eget interdum potenti elit elementum. Odio sit nulla molestie urna elit. Sit tortor consequat bibendum tristique amet erat. Quisque viverra mauris integer diam. <br /> Feugiat purus a eget nunc aliquam. Porta tincidunt eu imperdiet sit pulvinar neque nam. Sed amet magna et enim quam morbi nulla mauris. In nam lectus suspendisse vitae nulla rhoncus. Adipiscing facilisi massa feugiat vitae vitae. Tortor iaculis sed ut maecenas. At erat tellus leo tellus maecenas pulvinar eu. Nam facilisis augue pretium morbi.</p>
                             </div>
                           </div>
                       ) : null

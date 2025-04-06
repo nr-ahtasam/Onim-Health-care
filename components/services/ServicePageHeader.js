@@ -9,7 +9,7 @@ export default function ServicePageHeader({ singleService }) {
   const serviceContent = singleService?.service?.content || "No description available.";
 
   return (
-      <main className="flex h-[300px] items-center bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] p-8">
+      <main className="flex h-[320px] items-center bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] p-8">
         <Card className="max-w-7xl mx-auto w-full bg-transparent border-none shadow-none relative flex flex-col justify-center">
           <CardHeader className="text-white m-0 p-0">
             <CardTitle className="text-3xl md:text-4xl font-bold max-w-lg">
