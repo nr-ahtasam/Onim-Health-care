@@ -36,7 +36,7 @@ export default function Page() {
             const fetchData = async () => {
                 try {
                     setLoading(true);
-                    const res = await fetch(`${process.env.API_REST_URL}?location=${locationSearch}&disease=${diseaseSearch}&search=${doctorSearch}&page=${currentPage}`);
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_REST_URL}?location=${locationSearch}&disease=${diseaseSearch}&search=${doctorSearch}&page=${currentPage}`);
                     const data = await res.json();
                     const doctors = data?.data?.map(doctor => {
                         return {
