@@ -16,29 +16,75 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
-import dummyDoctors from "@/dummy-data/doctors";
 import Link from "next/link";
+import Loader from "@/lib/Loader";
+import {useQuery} from "@apollo/client";
+import {FEATURED_SERVICES_QUERY} from "@/lib/graphql";
 
 export default function Page() {
     const [locationSearch, setLocationSearch] = useState("");
     const [doctorSearch, setDoctorSearch] = useState("");
+    const [diseaseSearch, setDiseaseSearch] = useState("");
     const [doctors, setDoctors] = useState([]);
     const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] = useState(false)
+    const [isloading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    const diseases = [
-        { name: "Kidney Stone", type: "Popular" },
-        { name: "Acl Tear", type: "Disease" },
-        { name: "Balanitis", type: "Disease" },
-        { name: "Spine Surgery", type: "Disease" },
-    ]
-
-    // Simulate fetching data
     useEffect(() => {
-        const fetchData = () => {
-            setDoctors(dummyDoctors);
-        };
-        fetchData();
-    }, []);
+        const debounceTimeout = setTimeout(() => {
+            const fetchData = async () => {
+                try {
+                    setLoading(true);
+                    const res = await fetch(`https://omni.fmmethod.online/wp-json/doctor-finder/v1/doctors?location=${locationSearch}&disease=${diseaseSearch}&search=${doctorSearch}&page=${currentPage}`);
+                    const data = await res.json();
+                    const doctors = data?.data?.map(doctor => {
+                        return {
+                            id: doctor.id,
+                            name: doctor.title,
+                            specialty: "Arthroscopy & Arthroplasty Surgeon",
+                            rating: doctor.acf.rating + "/5.00",
+                            experience: doctor.acf.experience + "+ Years Experience",
+                            consultationFees: [
+                                { method: "Cash", amount: doctor.acf.consultation_fees + " Taka" },
+                                { method: "Bkash", amount: doctor.acf.consultation_fees_online + " Taka" },
+                            ],
+                            hospital: doctor.acf.chamber?.[0]?.post_title || "Unknown Hospital",
+                            image: doctor.acf.image_gallery?.[0] || "https://via.placeholder.com/150",
+                        };
+                    });
+                    setDoctors(doctors);
+                    setTotalPages(data.pagination.total_pages)
+                } catch (error) {
+                    console.error("Error fetching doctor data:", error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchData();
+        }, 500); // 500ms debounce delay
+
+        return () => clearTimeout(debounceTimeout); // Clean up the timeout
+    }, [locationSearch, doctorSearch, diseaseSearch, currentPage]); // Watch these for changes
+
+
+    const { data, loading, error } = useQuery(FEATURED_SERVICES_QUERY);
+
+    if (loading) return <Loader />;
+    if (error) return <div>Error loading featured services: {error.message}</div>;
+    const diseases = data?.page?.homeSections?.featuredServices?.nodes?.map(d => {
+        return {
+            id: d.serviceId,
+            name: d.serviceFields.catName,
+        }
+    });
+
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+        }
+    };
 
     return (
         <div className="min-h-screen">
@@ -91,7 +137,10 @@ export default function Page() {
                                         <ArrowLeft size={20} className="text-gray-700"/>
                                     </button>
                                     <span className="flex-1 text-gray-700">Search by doctor name or diseases</span>
-                                    <button onClick={() => setShowDoctorSearchDropdown(false)}>
+                                    <button onClick={() => {
+                                        setShowDoctorSearchDropdown(false)
+                                        setDiseaseSearch("")
+                                    }}>
                                         <X size={20} className="text-gray-700"/>
                                     </button>
                                 </div>
@@ -106,12 +155,12 @@ export default function Page() {
                                 </div>
 
                                 <div>
-                                    {diseases.slice(1).map((disease, index) => (
+                                    {diseases.map((disease, index) => (
                                         <div
                                             key={index}
                                             className="flex justify-between items-center p-4 hover:bg-gray-200 cursor-pointer border-b border-gray-200"
                                             onClick={() => {
-                                                setDoctorSearch(disease.name)
+                                                setDiseaseSearch(disease.id)
                                                 setShowDoctorSearchDropdown(false)
                                             }}
                                         >
@@ -168,7 +217,9 @@ export default function Page() {
                     <div className="max-w-5xl mx-auto">
                         {/* Doctor Cards Container */}
                         <div className="space-y-6">
-                            {doctors.map((doctor) => (
+                            {
+                                isloading? <Loader/> :
+                                doctors.map((doctor) => (
                                 <DoctorCard key={doctor.id} doctor={doctor}/>
                             ))}
                         </div>
@@ -178,16 +229,29 @@ export default function Page() {
                             <Pagination>
                                 <PaginationContent>
                                     <PaginationItem>
-                                        <PaginationPrevious href="#"/>
+                                        <PaginationPrevious
+                                            onClick={() => handlePageChange(currentPage - 1)}
+                                            className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                        />
                                     </PaginationItem>
+
+                                    {[...Array(totalPages)].map((_, i) => (
+                                        <PaginationItem key={i}>
+                                            <PaginationLink
+                                                className={"cursor-pointer"}
+                                                isActive={currentPage === i + 1}
+                                                onClick={() => handlePageChange(i + 1)}
+                                            >
+                                                {i + 1}
+                                            </PaginationLink>
+                                        </PaginationItem>
+                                    ))}
+
                                     <PaginationItem>
-                                        <PaginationLink href="#">1</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationEllipsis/>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationNext href="#"/>
+                                        <PaginationNext
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                            className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                        />
                                     </PaginationItem>
                                 </PaginationContent>
                             </Pagination>
