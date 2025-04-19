@@ -1,32 +1,32 @@
-"use client"
-import MedicalServices from "@/components/services/MedicalServices";
-import ServicePageHeader from "@/components/services/ServicePageHeader";
-import BestTreatmentSection from "@/components/services/BestTreatmentSection";
+"use client";
 import AppointmentForm from "@/components/form/AppointmentForm";
+import BestTreatmentSection from "@/components/services/BestTreatmentSection";
 import DoctorProfileSection from "@/components/services/DoctorProfileSection";
 import FAQSection from "@/components/services/FAQSection";
-import {singleServiceQuery} from "@/lib/graphql";
-import {useParams} from "next/navigation";
-import {useQuery} from "@apollo/client";
+import MedicalServices from "@/components/services/MedicalServices";
+import ServicePageHeader from "@/components/services/ServicePageHeader";
+import { singleServiceQuery } from "@/lib/graphql";
 import Loader from "@/lib/Loader";
+import { useQuery } from "@apollo/client";
+import { useParams } from "next/navigation";
 
 export default function Service() {
-    const {id} =  useParams();
-    const {data, loading, error} = useQuery(singleServiceQuery, {
-        variables: { id },
-    });
-    if (loading) return <Loader/>;
+  const { id } = useParams();
+  const { data, loading, error } = useQuery(singleServiceQuery, {
+    variables: { id },
+  });
+  if (loading) return <Loader />;
 
-    return (
-        <>
-            <ServicePageHeader singleService={data} />
-            <BestTreatmentSection singleService={data} />
-            <div className={"block md:hidden"}>
-                <AppointmentForm />
-            </div>
-            <DoctorProfileSection singleService={data} />
-            <MedicalServices singleService={data} />
-            <FAQSection singleService={data} />
-        </>
-    );
+  return (
+    <>
+      <ServicePageHeader singleService={data} />
+      <BestTreatmentSection singleService={data} />
+      <div className={"block md:hidden"}>
+        <AppointmentForm />
+      </div>
+      <DoctorProfileSection singleService={data} />
+      <MedicalServices singleService={data} />
+      <FAQSection singleService={data} />
+    </>
+  );
 }
