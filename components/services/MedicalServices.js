@@ -81,11 +81,11 @@ export default function MedicalServices({ singleService }) {
             <div className="p-6 md:p-12">
               {/* Medical images */}
               <div className="mb-8 grid gap-4 md:grid-cols-2 relative">
-                <div className="overflow-hidden rounded-tl-[75px]">
+                <div className="overflow-hidden rounded-tl-[50px]">
                   <Image
                     src={featuredImageUrl}
                     alt="Brain scan"
-                    width={300}
+                    width={500}
                     height={200}
                     className="h-auto w-full object-cover"
                   />
@@ -102,7 +102,7 @@ export default function MedicalServices({ singleService }) {
               </div>
 
               {/* Overview Section Content */}
-              <div className="mb-8 border-b pb-8">
+              <div className="mb-8 border-b pb-8 ">
                 {/* Check if specialties exist */}
                 {specialties && specialties.length > 0 ? (
                   specialties.some(
@@ -114,16 +114,8 @@ export default function MedicalServices({ singleService }) {
                           <h2 className="mb-4 text-3xl font-bold">
                             {specialty.name}
                           </h2>
-                          <div className="text-[#656E77]">
-                            {/* Description from API or fallback */}
-                            <p className="mb-4 text-gray-700">
-                              {singleService?.service?.serviceOverviews?.nodes.find(
-                                (node) => node.name === activeSpecialty
-                              )?.description || "No description available."}
-                            </p>
-
-                            {/* Static overview text */}
-                            <p className="mb-4 text-gray-700">
+                          <div className="text-[#656E77] w-full h-[200px] sm:h-[250px] md:h-[300px] max-w-full overflow-x-auto pr-2">
+                            <p className="mb-4 text-gray-700 text-sm sm:text-base leading-relaxed">
                               Orci ultricies vulputate est quis non. Nam
                               imperdiet felis orci bibendum. Eu semper montes
                               faucibus nisi dui sit mauris orci. Dui nibh eget
@@ -134,6 +126,13 @@ export default function MedicalServices({ singleService }) {
                               Feugiat purus a eget nunc aliquam. Porta tincidunt
                               eu imperdiet sit pulvinar neque nam. Sed amet
                               magna et enim quam morbi nulla mauris. In nam
+                              lectus suspendisse vitae nulla rhoncus. Adipiscing
+                              facilisi massa feugiat vitae vitae. Tortor iaculis
+                              sed ut maecenas. At erat tellus leo tellus
+                              maecenas pulvinar eu. Nam facilisis augue pretium
+                              morbi. Feugiat purus a eget nunc aliquam. Porta
+                              tincidunt eu imperdiet sit pulvinar neque nam. Sed
+                              amet magna et enim quam morbi nulla mauris. In nam
                               lectus suspendisse vitae nulla rhoncus. Adipiscing
                               facilisi massa feugiat vitae vitae. Tortor iaculis
                               sed ut maecenas. At erat tellus leo tellus

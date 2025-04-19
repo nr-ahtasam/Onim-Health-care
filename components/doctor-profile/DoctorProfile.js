@@ -102,7 +102,7 @@ export default function DoctorProfile({ singleDoctor }) {
                 {/* You can replace or remove the following line if you have a specialization field */}
                 <p className="mb-6 text-xl font-medium text-blue-600">
                   {doctor.specialities?.nodes
-                    .map((speciality) => speciality.taxonomyName)
+                    .map((speciality) => speciality.name)
                     .join(", ")}
                 </p>
 
