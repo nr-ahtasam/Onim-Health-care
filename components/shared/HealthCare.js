@@ -1,38 +1,42 @@
-"use client"
-import {Button} from "@/components/ui/button"
-import {Card, CardContent} from "@/components/ui/card"
-import Image from "next/image"
-import {MapPin, ShoppingBag, Star} from "lucide-react"
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Link from "next/link";
-import dynamic from "next/dynamic";
-import {useQuery} from "@apollo/client";
-import {featureDoctorsQuery} from "@/lib/graphql";
+"use client";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { featureDoctorsQuery } from "@/lib/graphql";
 import Loader from "@/lib/Loader";
+import { useQuery } from "@apollo/client";
+import { MapPin, ShoppingBag, Star } from "lucide-react";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 const Slider = dynamic(() => import("react-slick"), { ssr: false });
 
 export default function HealthCare() {
-  const {data, loading, error} = useQuery(featureDoctorsQuery)
+  const { data, loading, error } = useQuery(featureDoctorsQuery);
 
-  if(loading) return <Loader/>;
+  if (loading) return <Loader />;
 
   // Transform the GraphQL response into the structure required by the UI.
-  const doctors = data?.page?.homeSections?.featuredDoctors?.nodes?.map((doctor) => ({
-    id: doctor.doctorId,
-    name: doctor.title,
-    // Modify or extend credentials if available from your data.
-    credentials: doctor.specialities.nodes.map(speciality => speciality.name).join(", "),
-    rating: doctor.doctorField.rating,
-    experience: doctor.doctorField.experience,
-    fees: {
-      cash: doctor.doctorField.consultationFees || 300,
-      bkash: doctor.doctorField.consultationFees || 300,
-    },
-    location: doctor.doctorField.chamber.nodes[0].title,
-    image: doctor.featuredImage?.node?.mediaItemUrl || "/images/doctor.jpeg",
-  }));
+  const doctors = data?.page?.homeSections?.featuredDoctors?.nodes?.map(
+    (doctor) => ({
+      id: doctor.doctorId,
+      name: doctor.title,
+      // Modify or extend credentials if available from your data.
+      credentials: doctor.specialities.nodes
+        .map((speciality) => speciality.name)
+        .join(", "),
+      rating: doctor.doctorField.rating,
+      experience: doctor.doctorField.experience,
+      fees: {
+        cash: doctor.doctorField.consultationFees || 300,
+        bkash: doctor.doctorField.consultationFees || 300,
+      },
+      location: doctor.doctorField.chamber.nodes[0].title,
+      image: doctor.featuredImage?.node?.mediaItemUrl || "/images/doctor.jpeg",
+    })
+  );
 
   const settings = {
     dots: false,
@@ -51,11 +55,10 @@ export default function HealthCare() {
           slidesToScroll: 1,
           infinite: true,
           dots: true,
-          arrows: false
-        }
+          arrows: false,
+        },
       },
-
-    ]
+    ],
   };
   return (
     <div className="container mx-auto px-4 py-12 z-10 relative">
@@ -67,15 +70,14 @@ export default function HealthCare() {
             </h2>
 
             <p className="text-gray-700 text-xl py-4">
-              Commodo diam sed sit amet volutpat sollicitudin tincidunt varius scelerisque. Ut rhoncus diam dictum ac
-              orci
-              purus.
+              Commodo diam sed sit amet volutpat sollicitudin tincidunt varius
+              scelerisque. Ut rhoncus diam dictum ac orci purus.
             </p>
           </div>
 
           <div className="mb-8 max-w-3xl">
             <Slider {...settings}>
-              {doctors.map((doctor, index) => (
+              {doctors?.map((doctor, index) => (
                 <Link key={index} href={"/doctors-profile/" + doctor.id}>
                   <Card className="overflow-hidden border border-blue-500">
                     <CardContent className="">
@@ -91,15 +93,21 @@ export default function HealthCare() {
                         />
                         <div className="flex-1">
                           <h3 className="font-semibold">{doctor.name}</h3>
-                          <p className="text-sm text-muted-foreground">{doctor.credentials}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {doctor.credentials}
+                          </p>
                           <div className="mt-1 flex items-center gap-2">
                             <div className="flex items-center ">
-                              <Star className="h-4 w-4 text-yellow-300"/>
-                              <span className="ml-1 text-sm">{doctor.rating}</span>
+                              <Star className="h-4 w-4 text-yellow-300" />
+                              <span className="ml-1 text-sm">
+                                {doctor.rating}
+                              </span>
                             </div>
                             <div className="flex items-center">
-                              <ShoppingBag className="h-4 w-4 "/>
-                              <span className="ml-1 text-sm">{doctor.experience}</span>
+                              <ShoppingBag className="h-4 w-4 " />
+                              <span className="ml-1 text-sm">
+                                {doctor.experience}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -107,21 +115,41 @@ export default function HealthCare() {
 
                       <div className="mt-4 space-y-3">
                         <div>
-                          <p className="text-sm font-medium">Consultation Fees:</p>
+                          <p className="text-sm font-medium">
+                            Consultation Fees:
+                          </p>
                           <p className="text-sm ">
-                            <span className={"text-[#20C5AF]"}>{doctor.fees.cash}</span> Taka (Cash) & <span
-                            className={"text-[#20C5AF]"}>{doctor.fees.bkash}</span> Taka (bKash)
+                            <span className={"text-[#20C5AF]"}>
+                              {doctor.fees.cash}
+                            </span>{" "}
+                            Taka (Cash) &{" "}
+                            <span className={"text-[#20C5AF]"}>
+                              {doctor.fees.bkash}
+                            </span>{" "}
+                            Taka (bKash)
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
-                          <MapPin className={"text-blue-500"}/>
-                          <span className="text-sm text-muted-foreground">{doctor.location}</span>
+                          <MapPin className={"text-blue-500"} />
+                          <span className="text-sm text-muted-foreground">
+                            {doctor.location}
+                          </span>
                         </div>
                         <div className="flex gap-3">
-                          <Button variant="outline" className="flex-1 border-blue-500 text-blue-500">
+                          <Button
+                            variant="outline"
+                            className="flex-1 border-blue-500 text-blue-500"
+                          >
                             Call Us
                           </Button>
-                          <Button className="flex-1 bg-blue-500 cursor-pointer" onClick={() => window.location.href = "/book-appointment"}>Book Appointment</Button>
+                          <Button
+                            className="flex-1 bg-blue-500 cursor-pointer"
+                            onClick={() =>
+                              (window.location.href = "/book-appointment")
+                            }
+                          >
+                            Book Appointment
+                          </Button>
                         </div>
                       </div>
                     </CardContent>
@@ -138,6 +166,5 @@ export default function HealthCare() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-

@@ -51,7 +51,7 @@ export default function Page() {
           />
         </div>
         <MedicalConditionGrid />
-        <DoctorTabs />
+        <DoctorTabs singleDoctor={data} />
       </div>
       <ServicesGrid singleDoctor={data} />
       <HealthCare />

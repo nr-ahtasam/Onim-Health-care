@@ -1,16 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { useState } from "react";
 
-export default function DoctorTabs() {
-  const [activeTab, setActiveTab] = useState("description")
+export default function DoctorTabs({ singleDoctor }) {
+  const doctor = singleDoctor?.doctor;
+  const [activeTab, setActiveTab] = useState("description");
 
   const tabs = [
     { id: "description", label: "Description" },
     { id: "certification", label: "Certification" },
     { id: "reviews", label: "Reviews" },
-  ]
+  ];
 
   const descriptionContent = [
     {
@@ -29,22 +31,22 @@ export default function DoctorTabs() {
       id: 4,
       text: "AO Trauma (Basic, Advanced) & AO Trauma Spine Basic: Specialized training in trauma management and spine surgery techniques, following the internationally recognized AO principles.",
     },
-  ]
+  ];
 
-  const certificationContent = [
-    {
-      id: 1,
-      text: "Board Certified in Orthopaedic Surgery with specialization in Arthroscopy and Arthroplasty procedures.",
-    },
-    {
-      id: 2,
-      text: "Certified by the National Medical Commission for advanced surgical procedures.",
-    },
-    {
-      id: 3,
-      text: "International certification in Joint Replacement Surgery from the International Society of Orthopaedic Surgery.",
-    },
-  ]
+  // const certificationContent = [
+  //   {
+  //     id: 1,
+  //     text: "Board Certified in Orthopaedic Surgery with specialization in Arthroscopy and Arthroplasty procedures.",
+  //   },
+  //   {
+  //     id: 2,
+  //     text: "Certified by the National Medical Commission for advanced surgical procedures.",
+  //   },
+  //   {
+  //     id: 3,
+  //     text: "International certification in Joint Replacement Surgery from the International Society of Orthopaedic Surgery.",
+  //   },
+  // ];
 
   const reviewsContent = [
     {
@@ -65,7 +67,7 @@ export default function DoctorTabs() {
       rating: 4,
       text: "Very knowledgeable doctor with excellent bedside manner. The only reason for 4 stars instead of 5 is the long waiting time at his clinic.",
     },
-  ]
+  ];
 
   return (
     <section className="w-full px-4 py-8 md:px-8 relative z-10">
@@ -77,13 +79,11 @@ export default function DoctorTabs() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "px-8 py-3 text-center font-medium transition-colors ",
+                "px-8 py-3 text-center font-medium transition-colors",
                 index === 0 && "rounded-tl-[30px]",
                 activeTab === tab.id
-                  ? tab.id === "description"
-                    ? "bg-[#FF937B] text-white"
-                    : "bg-blue-600 text-white"
-                  : "bg-blue-600 text-white opacity-80 hover:opacity-100",
+                  ? "bg-[#FF937B] text-white"
+                  : "bg-blue-700 text-white"
               )}
             >
               {tab.label}
@@ -95,18 +95,35 @@ export default function DoctorTabs() {
         <div className="rounded-tr-[30px] rounded-br-[30px] rounded-bl-[30px] bg-white/80 p-6  md:p-8">
           {activeTab === "description" && (
             <div className="space-y-6">
-              {descriptionContent.map((item) => (
-                <div key={item.id} className="space-y-1">
-                  <p className="text-gray-900">
-                    <span className="font-semibold">{item.id}. </span>
-                    {item.text}
-                  </p>
-                </div>
-              ))}
+              <div
+                className="mb-8"
+                dangerouslySetInnerHTML={{
+                  __html: doctor.doctorField.longDescription,
+                }}
+              />
             </div>
           )}
 
           {activeTab === "certification" && (
+            <div className="flex gap-3 flex-wrap">
+              {doctor?.doctorField?.certification?.nodes?.length > 0 ? (
+                doctor.doctorField.certification.nodes.map((cert, index) => (
+                  <div key={index} className="overflow-hidden rounded-[10px]">
+                    <Image
+                      src={cert.mediaItemUrl}
+                      alt={`Certification ${index + 1}`}
+                      width={150}
+                      height={100}
+                      className="h-auto w-full object-cover"
+                    />
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500">No certifications found.</p>
+              )}
+            </div>
+          )}
+          {/* {activeTab === "certification" && (
             <div className="space-y-6">
               {certificationContent.map((item) => (
                 <div key={item.id} className="space-y-1">
@@ -117,7 +134,7 @@ export default function DoctorTabs() {
                 </div>
               ))}
             </div>
-          )}
+          )} */}
 
           {activeTab === "reviews" && (
             <div className="space-y-6">
@@ -129,7 +146,11 @@ export default function DoctorTabs() {
                       {[...Array(5)].map((_, i) => (
                         <svg
                           key={i}
-                          className={`h-4 w-4 ${i < review.rating ? "text-yellow-400" : "text-gray-300"}`}
+                          className={`h-4 w-4 ${
+                            i < review.rating
+                              ? "text-yellow-400"
+                              : "text-gray-300"
+                          }`}
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -146,6 +167,5 @@ export default function DoctorTabs() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-
