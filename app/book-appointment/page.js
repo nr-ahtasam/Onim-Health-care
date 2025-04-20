@@ -8,7 +8,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Image from "next/image";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 export default function BookAppointment() {
+const router = useRouter();
     const searchParams = useSearchParams();
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -26,7 +29,8 @@ export default function BookAppointment() {
             setService(searchParams.get("service") || "");
             setDate(searchParams.get("date") || "");
         }
-    }, [searchParams]);
+        router.replace('/book-appointment');
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
