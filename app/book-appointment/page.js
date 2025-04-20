@@ -1,13 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Image from "next/image";
-
+import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
 export default function BookAppointment() {
+    const searchParams = useSearchParams();
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [phone, setPhone] = useState("")
@@ -16,11 +18,71 @@ export default function BookAppointment() {
     const [date, setDate] = useState("")
     const [description, setDescription] = useState("")
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        // Handle form submission
-        console.log({ name, email, phone, service, doctor, date, description })
-    }
+    useEffect(() => {
+        if (searchParams) {
+            setName(searchParams.get("name") || "");
+            setEmail(searchParams.get("email") || "");
+            setPhone(searchParams.get("phone") || "");
+            setService(searchParams.get("service") || "");
+            setDate(searchParams.get("date") || "");
+        }
+    }, [searchParams]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+      
+        const payload = {
+          title: `Appointment - ${name}`,
+          status: "publish",
+          acf: {
+            patient_name: name,
+            patient_email: email,
+            patient_phone: phone,
+            service,
+            doctor,
+            description,
+            date
+          },
+        };      
+        try {
+          const response = await fetch('https://omni.fmmethod.online/wp-json/wp/v2/appointment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+      
+        //   if (!response.ok) {
+        //     const errorData = await response.json();
+        //     throw new Error(JSON.stringify(errorData));
+        //   }
+      
+        toast.success("Appointment booked", {
+            description: "Someone from Omni Health will contact you",
+            className: "bg-green-500 text-white border-none shadow-lg",
+            action: {
+                label: "X",
+                onClick: () => console.log("Cancelled"),
+              },
+        });
+    
+      
+          // Optionally reset form
+          setName('');
+          setEmail('');
+          setPhone('');
+          setService('');
+          setDoctor('');
+          setDate('');
+          setDescription('');
+        } catch (error) {
+            const errorData = JSON.parse(error.message);
+          toast.error("Something went wrong. Please try again.");
+          console.error("API Error:", errorData);
+        }
+      };
 
     return (
         <div className="">

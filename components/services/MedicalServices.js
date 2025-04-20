@@ -4,24 +4,25 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function MedicalServices({ singleService }) {
-  // Use API data for specialties, default to empty array if no data
-  const specialtiesData = singleService?.service?.serviceOverviews?.nodes || [];
-  const specialties = specialtiesData.map((node, index) => ({
+  // Use API data for overviewsData, default to empty array if no data
+  const overviews = singleService?.service?.serviceOverviews?.nodes || [];
+  const overviewsData = overviews.map((node, index) => ({
     name: node.name,
+    description: node.description,
     active: index === 0, // Set the first item as active by default
   }));
 
   // State to track the active specialty, default to first item after data loads
   const [activeSpecialty, setActiveSpecialty] = useState(
-    specialtiesData.length > 0 ? specialtiesData[0].name : ""
+    overviews.length > 0 ? overviews[0].name : ""
   );
 
   // Update activeSpecialty when data loads (to ensure it’s the first item)
   useEffect(() => {
-    if (specialtiesData.length > 0 && !activeSpecialty) {
-      setActiveSpecialty(specialtiesData[0].name);
+    if (overviews.length > 0 && !activeSpecialty) {
+      setActiveSpecialty(overviews[0].name);
     }
-  }, [specialtiesData, activeSpecialty]);
+  }, [overviews, activeSpecialty]);
 
   // Opening hours data (static for now)
   const openingHours = [
@@ -32,7 +33,10 @@ export default function MedicalServices({ singleService }) {
   const featuredImageUrl =
     singleService?.service?.featuredImage?.node?.mediaItemUrl ||
     "/images/doctors.jpeg";
-  return (
+    const diagnosisTreatment =
+    singleService?.service?.serviceFields?.diagnosisTreatment || "";
+  
+    return (
     <div className="py-16 relative overflow-hidden">
       <div>
         <Image
@@ -57,10 +61,10 @@ export default function MedicalServices({ singleService }) {
       <section className="w-full px-4 py-12 md:px-8 relative z-10">
         <div className="mx-auto max-w-7xl overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-[350px_1fr]">
-            {/* Left sidebar - Specialties */}
+            {/* Left sidebar - overviewsData */}
             <div className="md:border-r border-[#05132080]">
               <ul className="divide-y text-[18px] font-semibold text-[#656E77]">
-                {specialties.map((specialty, index) => (
+                {overviewsData.map((specialty, index) => (
                   <li key={index}>
                     <button
                       className={`w-full px-6 py-2 text-left transition-colors border-b border-[#05132080] ${
@@ -103,56 +107,44 @@ export default function MedicalServices({ singleService }) {
 
               {/* Overview Section Content */}
               <div className="mb-8 border-b pb-8 ">
-                {/* Check if specialties exist */}
-                {specialties && specialties.length > 0 ? (
-                  specialties.some(
-                    (specialty) => specialty.name === activeSpecialty
+                {/* Check if overviewsData exist */}
+                {overviewsData && overviewsData.length > 0 ? (
+                  overviewsData.some(
+                    (overview) => overview.name === activeSpecialty
                   ) ? (
-                    specialties.map((specialty) =>
-                      specialty.name === activeSpecialty ? (
-                        <div key={specialty.name}>
-                          <h2 className="mb-4 text-3xl font-bold">
-                            {specialty.name}
-                          </h2>
-                          <div className="text-[#656E77] w-full h-[200px] sm:h-[250px] md:h-[300px] max-w-full overflow-x-auto pr-2">
-                            <p className="mb-4 text-gray-700 text-sm sm:text-base leading-relaxed">
-                              Orci ultricies vulputate est quis non. Nam
-                              imperdiet felis orci bibendum. Eu semper montes
-                              faucibus nisi dui sit mauris orci. Dui nibh eget
-                              interdum potenti elit elementum. Odio sit nulla
-                              molestie urna elit. Sit tortor consequat bibendum
-                              tristique amet erat. Quisque viverra mauris
-                              integer diam. <br />
-                              Feugiat purus a eget nunc aliquam. Porta tincidunt
-                              eu imperdiet sit pulvinar neque nam. Sed amet
-                              magna et enim quam morbi nulla mauris. In nam
-                              lectus suspendisse vitae nulla rhoncus. Adipiscing
-                              facilisi massa feugiat vitae vitae. Tortor iaculis
-                              sed ut maecenas. At erat tellus leo tellus
-                              maecenas pulvinar eu. Nam facilisis augue pretium
-                              morbi. Feugiat purus a eget nunc aliquam. Porta
-                              tincidunt eu imperdiet sit pulvinar neque nam. Sed
-                              amet magna et enim quam morbi nulla mauris. In nam
-                              lectus suspendisse vitae nulla rhoncus. Adipiscing
-                              facilisi massa feugiat vitae vitae. Tortor iaculis
-                              sed ut maecenas. At erat tellus leo tellus
-                              maecenas pulvinar eu. Nam facilisis augue pretium
-                              morbi.
+                    overviewsData.map((overview) =>
+                      overview.name === activeSpecialty ? (
+                        <div key={overview.name}>
+                          <h2 className="mb-4 text-3xl font-bold text-black">Overview</h2>
+
+                          <div className="pr-2 text-[#656E77] max-h-[300px] overflow-y-auto">
+                            <p className="text-sm sm:text-base leading-relaxed text-gray-700 whitespace-pre-line mb-4">
+                              {overview.description}
                             </p>
+
+                            {/* Divider */}
+                            <div className="my-4 border-t border-gray-400" />
+
+                            {/* Diagnosis & Treatment section (render raw HTML) */}
+                            <div
+                              className="diagnosis-treatment text-sm sm:text-base leading-relaxed "
+                              dangerouslySetInnerHTML={{ __html: diagnosisTreatment }}
+                            />
                           </div>
                         </div>
+
                       ) : null
                     )
                   ) : (
                     // When no match found
                     <p className="text-gray-500 italic">
-                      No data found for the selected specialty.
+                      No data found for the selected overview.
                     </p>
                   )
                 ) : (
-                  // When specialties list is empty or undefined
+                  // When overviewsData list is empty or undefined
                   <p className="text-gray-500 italic">
-                    No specialties available at the moment.
+                    No overviews available at the moment.
                   </p>
                 )}
               </div>

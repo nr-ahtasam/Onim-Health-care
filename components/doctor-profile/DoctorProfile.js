@@ -73,9 +73,9 @@ export default function DoctorProfile({ singleDoctor }) {
                   />
                 </div>
 
-                {/* Certification Thumbnails */}
+                {/* Image Thumbnails */}
                 <div className="flex gap-3">
-                  {doctor.doctorField.certification?.nodes?.map(
+                  {doctor.doctorField?.imageGallery?.nodes?.map(
                     (cert, index) => (
                       <div
                         key={index}
@@ -83,7 +83,7 @@ export default function DoctorProfile({ singleDoctor }) {
                       >
                         <Image
                           src={cert.mediaItemUrl}
-                          alt={`Certification ${index + 1}`}
+                          alt={`Image ${index + 1}`}
                           width={150}
                           height={100}
                           className="h-auto w-full object-cover"
@@ -150,7 +150,7 @@ export default function DoctorProfile({ singleDoctor }) {
                 <div
                   className="mb-8"
                   dangerouslySetInnerHTML={{
-                    __html: doctor.doctorField.longDescription,
+                    __html: doctor.content,
                   }}
                 />
 

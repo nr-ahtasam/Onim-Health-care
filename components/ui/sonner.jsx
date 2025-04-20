@@ -12,13 +12,14 @@ const Toaster = ({
     (<Sonner
       theme={theme}
       className="toaster group"
-      style={
-        {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)"
+      toastOptions={{
+        classNames: {
+          success: "toast-success",
+          error: "toast-error",
+          warning: "toast-warning",
+          info: "toast-info",
         }
-      }
+      }}
       {...props} />)
   );
 }

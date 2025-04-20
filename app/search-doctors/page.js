@@ -11,6 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { LOCATIONS } from "@/constants/locations";
 import { FEATURED_SERVICES_QUERY } from "@/lib/graphql";
 import Loader from "@/lib/Loader";
 import { useQuery } from "@apollo/client";
@@ -35,9 +36,13 @@ export default function Page() {
   const [doctors, setDoctors] = useState([]);
   const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] =
     useState(false);
+  const [showLocationDropdown, setShowLocationDropdown] =
+    useState(false);
   const [isloading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const getLocationIdByName = name => LOCATIONS.find(loc => loc.name === name)?.id;
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
@@ -45,7 +50,7 @@ export default function Page() {
         try {
           setLoading(true);
           const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_REST_URL}?location=${locationSearch}&disease=${diseaseSearch}&search=${doctorSearch}&page=${currentPage}`
+            `${process.env.NEXT_PUBLIC_API_REST_URL}?location=${getLocationIdByName(locationSearch)}&disease=${diseaseSearch}&search=${doctorSearch}&page=${currentPage}`
           );
           const data = await res.json();
           const doctors = data?.data?.map((doctor) => {
@@ -67,9 +72,7 @@ export default function Page() {
               ],
               hospital:
                 doctor.acf.chamber?.[0]?.post_title || "Unknown Hospital",
-              image:
-                doctor.acf.image_gallery?.[0] ||
-                "https://via.placeholder.com/150",
+              image: doctor.acf.image_gallery?.[0] || "/images/doctors.jpg",
             };
           });
           setDoctors(doctors);
@@ -96,6 +99,7 @@ export default function Page() {
       return {
         id: d.serviceId,
         name: d.serviceFields.catName,
+        type: d.serviceFields.type,
       };
     }
   );
@@ -125,10 +129,50 @@ export default function Page() {
               className="pl-10 pr-10 py-6 rounded-full w-full bg-white text-black"
               value={locationSearch}
               onChange={(e) => setLocationSearch(e.target.value)}
+              onFocus={() => setShowLocationDropdown(true)}
+
             />
             <button className="absolute right-3 top-1/2 -translate-y-1/2">
               <Search size={20} className="text-gray-500" />
             </button>
+            {/* Doctor search dropdown */}
+            {showLocationDropdown && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-gray-100 rounded-3xl shadow-lg overflow-hidden z-50">
+                <div className="p-4 flex items-center gap-3 border-b border-gray-200">
+                  <button onClick={() => setShowLocationDropdown(false)}>
+                    <ArrowLeft size={20} className="text-gray-700" />
+                  </button>
+                  <span className="flex-1 text-gray-700">
+                    Search by locations
+                  </span>
+                  <button
+                    onClick={() => {
+                      setShowLocationDropdown(false);
+                      setLocationSearch("");
+                    }}
+                  >
+                    <X size={20} className="text-gray-700" />
+                  </button>
+                </div>
+
+                <div>
+                  {LOCATIONS.map((location, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center p-4 hover:bg-gray-200 cursor-pointer border-b border-gray-200"
+                      onClick={() => {
+                        setLocationSearch(location.name);
+                        setShowLocationDropdown(false);
+                      }}
+                    >
+                      <span className="text-gray-500">{location.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+
           </div>
 
           {/* Doctor/disease search */}
@@ -170,11 +214,6 @@ export default function Page() {
 
                 <div className="p-4 border-b border-gray-200">
                   <h3 className="text-gray-500 font-medium mb-2">Popular</h3>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-4 py-1 bg-white text-blue-500 border border-blue-500 rounded-full text-sm">
-                      Kidney Stone
-                    </span>
-                  </div>
                 </div>
 
                 <div>
@@ -302,16 +341,17 @@ export default function Page() {
   );
 }
 
-function DoctorCard({ doctor }) {
+function DoctorCard({ doctor }) {  
   return (
     <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white">
       <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
-        <Images
-          src={doctor.image}
-          alt={doctor.name}
-          fill
-          className="object-cover"
-        />
+          <Image
+            src={doctor.image}
+            alt={doctor.name}
+            className="object-cover"
+            width={150}
+            height={150}
+          />
       </div>
 
       <div className="flex-1 space-y-4">

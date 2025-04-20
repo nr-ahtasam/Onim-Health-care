@@ -3,8 +3,9 @@ import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Button} from "@/components/ui/button";
 import {useState} from "react";
-
+import { useRouter } from "next/navigation";
 export default function AppointmentForm(){
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,6 +18,16 @@ export default function AppointmentForm(){
     e.preventDefault()
     console.log("Form submitted:", formData)
     // Handle form submission logic here
+    const queryParams = new URLSearchParams({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      service: formData.department,
+      date: formData.dateTime, 
+    }).toString();
+    
+    // Navigate to book-appointment page with query params
+    router.push(`/book-appointment?${queryParams}`);
   }
 
   return (
@@ -73,7 +84,7 @@ export default function AppointmentForm(){
           </SelectContent>
         </Select>
         <Button type="submit" className="w-fit rounded-full bg-white text-blue-500 hover:bg-gray-200">
-          Default Button
+        Book Now
         </Button>
       </form>
     </div>

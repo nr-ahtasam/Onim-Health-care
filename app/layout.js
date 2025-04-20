@@ -7,6 +7,7 @@ import Newsletter from "@/components/news-letter/news-letter";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ApolloWrapper from "@/components/apollo/ApolloWrapper";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -41,6 +42,7 @@ export default function RootLayout({children}) {
                 <Testimonials/>
                 <Newsletter/>
                 <Footer/>
+                <Toaster/>
             </ApolloWrapper>
         </body>
         </html>

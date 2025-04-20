@@ -94,7 +94,9 @@ export default function HealthCare() {
                         <div className="flex-1">
                           <h3 className="font-semibold">{doctor.name}</h3>
                           <p className="text-sm text-muted-foreground">
-                            {doctor.credentials}
+                            {doctor.specialities?.nodes
+                              .map((speciality) => speciality.name)
+                              .join(", ")}
                           </p>
                           <div className="mt-1 flex items-center gap-2">
                             <div className="flex items-center ">

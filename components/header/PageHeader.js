@@ -10,7 +10,7 @@ export default function PageHeader({doctor}) {
             {doctor.title}
           </CardDescription>
           <CardDescription className="text-md md:text-lg  text-white">
-            {doctor.specialities?.nodes.map(speciality => speciality.taxonomyName).join(" & ")}
+            {doctor.specialities?.nodes.map(speciality => speciality?.name).join(" & ")}
           </CardDescription>
         </CardHeader>
       </Card>

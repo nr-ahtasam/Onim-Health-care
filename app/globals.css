@@ -98,6 +98,25 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Success toast colors */
+  --toast-success-bg: hsl(142, 75%, 46%);
+  --toast-success-text: hsl(0, 0%, 0%);
+  --toast-success-border: hsl(143, 64%, 24%);
+  
+  /* Error toast colors */
+  --toast-error-bg: hsl(0, 84.2%, 60.2%);
+  --toast-error-text: hsl(0, 0%, 100%);
+  --toast-error-border: hsl(0, 72%, 46%);
+  
+  /* Warning toast colors */
+  --toast-warning-bg: hsl(38, 92%, 50%);
+  --toast-warning-text: hsl(0, 0%, 0%);
+  --toast-warning-border: hsl(38, 100%, 40%);
+  
+  /* Info toast colors */
+  --toast-info-bg: hsl(221, 83%, 53%);
+  --toast-info-text: hsl(0, 0%, 100%);
+  --toast-info-border: hsl(221, 83%, 45%);
 }
 
 .dark {
@@ -132,6 +151,22 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  --toast-success-bg: hsl(142.1, 70%, 29%);
+  --toast-success-text: hsl(141, 100%, 96%);
+  --toast-success-border: hsl(143, 64%, 20%);
+  
+  --toast-error-bg: hsl(0, 72%, 46%);
+  --toast-error-text: hsl(0, 0%, 100%);
+  --toast-error-border: hsl(0, 84%, 32%);
+  
+  --toast-warning-bg: hsl(38, 92%, 46%);
+  --toast-warning-text: hsl(0, 0%, 0%);
+  --toast-warning-border: hsl(38, 100%, 36%);
+  
+  --toast-info-bg: hsl(221, 83%, 45%);
+  --toast-info-text: hsl(0, 0%, 100%);
+  --toast-info-border: hsl(221, 83%, 35%);
 }
 
 @layer base {
@@ -144,3 +179,47 @@
 }
 .slick-list {margin: 0 -20px !important;}
 .slick-slide>div {padding: 0 20px !important;}
+.diagnosis-treatment h2 {
+  @apply text-2xl font-bold text-black mb-4;
+}
+
+.diagnosis-treatment h3 {
+  @apply text-xl font-semibold text-gray-800 mt-3 mb-2;
+}
+
+.diagnosis-treatment p {
+  @apply mb-4;
+}
+
+.diagnosis-treatment ul {
+  @apply list-disc ml-6 mb-4;
+}
+
+.diagnosis-treatment li {
+  @apply mb-2;
+}
+
+/* Toast variants */
+.toast-success {
+  background-color: var(--toast-success-bg) !important;
+  color: var(--toast-success-text) !important;
+  border-color: var(--toast-success-border) !important;
+}
+
+.toast-error {
+  background-color: var(--toast-error-bg) !important;
+  color: var(--toast-error-text) !important;
+  border-color: var(--toast-error-border) !important;
+}
+
+.toast-warning {
+  background-color: var(--toast-warning-bg) !important;
+  color: var(--toast-warning-text) !important;
+  border-color: var(--toast-warning-border) !important;
+}
+
+.toast-info {
+  background-color: var(--toast-info-bg) !important;
+  color: var(--toast-info-text) !important;
+  border-color: var(--toast-info-border) !important;
+}
