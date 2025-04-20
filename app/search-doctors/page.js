@@ -18,7 +18,6 @@ import { useQuery } from "@apollo/client";
 import {
   ArrowLeft,
   Heart,
-  Images,
   MapPin,
   Search,
   ShoppingBag,
@@ -36,13 +35,13 @@ export default function Page() {
   const [doctors, setDoctors] = useState([]);
   const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] =
     useState(false);
-  const [showLocationDropdown, setShowLocationDropdown] =
-    useState(false);
+  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [isloading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const getLocationIdByName = name => LOCATIONS.find(loc => loc.name === name)?.id;
+  const getLocationIdByName = (name) =>
+    LOCATIONS.find((loc) => loc.name === name)?.id;
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
@@ -50,7 +49,11 @@ export default function Page() {
         try {
           setLoading(true);
           const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_REST_URL}?location=${getLocationIdByName(locationSearch)}&disease=${diseaseSearch}&search=${doctorSearch}&page=${currentPage}`
+            `${
+              process.env.NEXT_PUBLIC_API_REST_URL
+            }?location=${getLocationIdByName(
+              locationSearch
+            )}&disease=${diseaseSearch}&search=${doctorSearch}&page=${currentPage}`
           );
           const data = await res.json();
           const doctors = data?.data?.map((doctor) => {
@@ -130,7 +133,6 @@ export default function Page() {
               value={locationSearch}
               onChange={(e) => setLocationSearch(e.target.value)}
               onFocus={() => setShowLocationDropdown(true)}
-
             />
             <button className="absolute right-3 top-1/2 -translate-y-1/2">
               <Search size={20} className="text-gray-500" />
@@ -171,8 +173,6 @@ export default function Page() {
                 </div>
               </div>
             )}
-
-
           </div>
 
           {/* Doctor/disease search */}
@@ -341,17 +341,17 @@ export default function Page() {
   );
 }
 
-function DoctorCard({ doctor }) {  
+function DoctorCard({ doctor }) {
   return (
     <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white">
-      <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
-          <Image
-            src={doctor.image}
-            alt={doctor.name}
-            className="object-cover"
-            width={150}
-            height={150}
-          />
+      <div className=" w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
+        <Image
+          src={doctor.image}
+          alt={doctor.name}
+          className="object-cover h-[200px] mt-5"
+          width={200}
+          height={200}
+        />
       </div>
 
       <div className="flex-1 space-y-4">
