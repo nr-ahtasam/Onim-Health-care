@@ -23,6 +23,7 @@ import { useState } from "react";
 const specialties = [
   {
     name: "Proctology",
+
     submenu: [
       { label: "Piles Treatment", href: "/proctology/piles-treatment" },
       { label: "Fistula Treatment", href: "/proctology/fistula-treatment" },
@@ -36,10 +37,10 @@ const specialties = [
   },
   {
     name: "Laparoscopy",
+
     submenu: [
       { label: "Hernia Surgery", href: "/proctology/piles-treatment" },
       { label: "Gallstones Treatment", href: "/proctology/fistula-treatment" },
-      { label: "Appendicitis", href: "/proctology/fissure-treatment" },
       {
         label: "Inguinal Hernia Treatment",
         href: "/proctology/pilonidal-sinus-treatment",
@@ -54,60 +55,21 @@ const specialties = [
     name: "Gynaecology",
 
     submenu: [
-      { label: "Surgical Abortion", href: "/proctology/piles-treatment" },
-      { label: "MTP", href: "/proctology/fistula-treatment" },
       {
-        label: "Ectopic Pregnancy Treatment",
+        label: "Uterus Removal",
         href: "/proctology/fissure-treatment",
       },
-      {
-        label: "Molar Pregnancy Treatment",
-        href: "/proctology/pilonidal-sinus-treatment",
-      },
-      { label: "Ovarian Cyst", href: "/proctology/rectal-prolapse" },
-      { label: "Miscarriage Treatment", href: "/proctology/rectal-prolapse" },
-      { label: "Endometriosis Treatment", href: "/proctology/rectal-prolapse" },
-      { label: "Adenomyosis Treatment", href: "/proctology/rectal-prolapse" },
-      { label: "PCOS-PCOD Treatment", href: "/proctology/rectal-prolapse" },
-      {
-        label: "Laser Vaginal Tightening",
-        href: "/proctology/rectal-prolapse",
-      },
-      { label: "Hymenoplasty", href: "/proctology/rectal-prolapse" },
-      { label: "Vaginoplasty", href: "/proctology/rectal-prolapse" },
-      { label: "Labiaplasty", href: "/proctology/rectal-prolapse" },
-      { label: "Vaginal Wart Removal", href: "/proctology/rectal-prolapse" },
-    ],
-  },
-  {
-    name: "ENT",
 
-    submenu: [
-      { label: "Tympanoplasty", href: "/proctology/piles-treatment" },
-      { label: "Adenoidectomy", href: "/proctology/fistula-treatment" },
-      { label: "Sinus Treatment", href: "/proctology/fissure-treatment" },
-      {
-        label: "Septoplasty",
-        href: "/proctology/pilonidal-sinus-treatment",
-      },
-      { label: "FESS Surgery", href: "/proctology/rectal-prolapse" },
-      { label: "Thyroidectomy", href: "/proctology/rectal-prolapse" },
-      { label: "Tonsillectomy", href: "/proctology/rectal-prolapse" },
-      { label: "Stapedectomy", href: "/proctology/rectal-prolapse" },
-      { label: "Myringotomy", href: "/proctology/rectal-prolapse" },
-      { label: "Throat Surgery", href: "/proctology/rectal-prolapse" },
-      { label: "Ear Surgery", href: "/proctology/rectal-prolapse" },
-      { label: "Vocal Cord Polyps", href: "/proctology/rectal-prolapse" },
-      { label: "Nasal Polyps", href: "/proctology/rectal-prolapse" },
-      { label: "Turbinate Reduction", href: "/proctology/rectal-prolapse" },
+      ,
+      { label: " Ovarian Cyst", href: "/proctology/rectal-prolapse" },
     ],
   },
+
   {
     name: "Urology",
 
     submenu: [
       { label: "Circumcision", href: "/proctology/piles-treatment" },
-      { label: "Stapler Circumcision", href: "/proctology/fistula-treatment" },
       {
         label: "Kidney Stones Treatment",
         href: "/proctology/fissure-treatment",
@@ -116,27 +78,9 @@ const specialties = [
         label: "Hydrocele",
         href: "/proctology/pilonidal-sinus-treatment",
       },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "RIRS", href: "/proctology/rectal-prolapse" },
-      { label: "PCNL", href: "/proctology/rectal-prolapse" },
-      { label: "URSL", href: "/proctology/rectal-prolapse" },
-      { label: "Enlarged Prostate", href: "/proctology/rectal-prolapse" },
-      { label: "Frenuloplasty Surgery", href: "/proctology/rectal-prolapse" },
       { label: "Balanitis", href: "/proctology/rectal-prolapse" },
-      { label: "Balanoposthitis", href: "/proctology/rectal-prolapse" },
       { label: "Paraphimosis", href: "/proctology/rectal-prolapse" },
-      { label: "Foreskin Infection", href: "/proctology/rectal-prolapse" },
-      { label: "Prostatectomy", href: "/proctology/rectal-prolapse" },
-      { label: "Tight Foreskin", href: "/proctology/rectal-prolapse" },
       { label: "Phimosis", href: "/proctology/rectal-prolapse" },
-      { label: "Toenail Removal", href: "/proctology/rectal-prolapse" },
-      { label: "Epididymal cyst", href: "/proctology/rectal-prolapse" },
-      { label: "Testicular Torsion", href: "/proctology/rectal-prolapse" },
-      { label: "Vasectomy", href: "/proctology/rectal-prolapse" },
-      { label: "Corn Removal", href: "/proctology/rectal-prolapse" },
-      { label: "Swollen Penis", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
     ],
   },
   {
@@ -148,91 +92,59 @@ const specialties = [
         href: "/proctology/rectal-prolapse",
       },
       { label: "Varicocele Treatment", href: "/proctology/rectal-prolapse" },
-      { label: "DVT Treatment", href: "/proctology/rectal-prolapse" },
-      {
-        label: "Diabetic Foot Ulcer Treatment",
-        href: "/proctology/rectal-prolapse",
-      },
-      { label: "Uterine Fibroids", href: "/proctology/rectal-prolapse" },
-      { label: "AV Fistula", href: "/proctology/rectal-prolapse" },
     ],
   },
   {
     name: "Aesthetics",
 
     submenu: [
-      { label: "Gynecomastia", href: "/proctology/rectal-prolapse" },
-      { label: "Cleft Lip", href: "/proctology/rectal-prolapse" },
-      { label: "Beard Transplant", href: "/proctology/rectal-prolapse" },
-      { label: "Blepharoplasty", href: "/proctology/rectal-prolapse" },
-      { label: "Earlobe Repair", href: "/proctology/rectal-prolapse" },
-      { label: "Buccal Fat", href: "/proctology/rectal-prolapse" },
-      { label: "Double Chin", href: "/proctology/rectal-prolapse" },
-      { label: "Scar Removal", href: "/proctology/rectal-prolapse" },
-      { label: "Breast Reduction", href: "/proctology/rectal-prolapse" },
-      { label: "Breast Lump", href: "/proctology/rectal-prolapse" },
-      { label: "Tummy Tuck", href: "/proctology/rectal-prolapse" },
-      { label: "Axillary Breast", href: "/proctology/rectal-prolapse" },
+      {
+        label: "Gynecomastia",
+        href: "/proctology/rectal-prolapse",
+      },
+      { label: "Liposuction", href: "/proctology/rectal-prolapse" },
       {
         label: "Breast Augmentation Surgery",
         href: "/proctology/rectal-prolapse",
       },
-      { label: "Rhinoplasty", href: "/proctology/rectal-prolapse" },
-      { label: "Sebaceous Cyst Surgery", href: "/proctology/rectal-prolapse" },
-      { label: "Breast Lift Surgery", href: "/proctology/rectal-prolapse" },
-      { label: "Lipoma Surgery", href: "/proctology/rectal-prolapse" },
-      { label: "Liposuction", href: "/proctology/rectal-prolapse" },
+      { label: "Tummy Tuck", href: "/proctology/rectal-prolapse" },
+      { label: " Buccal Fat", href: "/proctology/rectal-prolapse" },
     ],
   },
   {
-    name: "Dermatology",
+    name: "Orthopedics",
 
     submenu: [
-      { label: "Total Knee Replacement", href: "/proctology/rectal-prolapse" },
-      { label: "Shoulder Arthroscopy", href: "/proctology/rectal-prolapse" },
-      { label: "Knee Arthroscopy", href: "/proctology/rectal-prolapse" },
-      { label: "Arthroscopy Surgery", href: "/proctology/rectal-prolapse" },
-      { label: "Rotator Cuff Repair", href: "/proctology/rectal-prolapse" },
-      { label: "Shoulder Replacement", href: "/proctology/rectal-prolapse" },
-      { label: "Shoulder Dislocation", href: "/proctology/rectal-prolapse" },
-      { label: "Spine Surgery", href: "/proctology/rectal-prolapse" },
-      { label: "Hip Replacement Surgery", href: "/proctology/rectal-prolapse" },
-      { label: "Meniscus Tear Treatment", href: "/proctology/rectal-prolapse" },
+      { label: "Knee Replacement", href: "/proctology/rectal-prolapse" },
       { label: "ACL Tear Treatment", href: "/proctology/rectal-prolapse" },
-      { label: "Carpal Tunnel Syndrome", href: "/proctology/rectal-prolapse" },
-      { label: " Knee Replacement", href: "/proctology/rectal-prolapse" },
+      {
+        label: "Hip Replacement Surgery",
+        href: "/proctology/rectal-prolapse",
+      },
+      { label: "Spine Surgery", href: "/proctology/rectal-prolapse" },
+    ],
+  },
+  {
+    name: "Ophthalmology",
+
+    submenu: [
+      { label: "Lasik Eye Surgery", href: "/proctology/rectal-prolapse" },
+      { label: "Cataract Surgery", href: "/proctology/rectal-prolapse" },
+      {
+        label: "Glaucoma Treatment",
+        href: "/proctology/rectal-prolapse",
+      },
+      { label: "Squint Surgery", href: "/proctology/rectal-prolapse" },
+      { label: "ICL surgery", href: "/proctology/rectal-prolapse" },
+      { label: "Contoura Vision", href: "/proctology/rectal-prolapse" },
+      { label: "Phaco Surgery", href: "/proctology/rectal-prolapse" },
     ],
   },
 
   {
     name: "Weight Loss",
 
-    submenu: [
-      { label: "Bariatric Surgery", href: "/proctology/rectal-prolapse" },
-      {
-        label: "SPATZ intragastric balloon",
-        href: "/proctology/rectal-prolapse",
-      },
-      { label: "Weightloss Surgery", href: "/proctology/rectal-prolapse" },
-    ],
-  },
-  {
-    name: "Opthalmology",
-    submenu: [
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-      { label: "ESWL", href: "/proctology/rectal-prolapse" },
-    ],
-  },
-  {
-    name: "Our Hospitals",
+    submenu: [{ label: "Phaco Surgery", href: "/proctology/rectal-prolapse" }],
   },
 ];
 
