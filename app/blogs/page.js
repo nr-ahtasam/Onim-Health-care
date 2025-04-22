@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function Blogs() {
-  const postsPerPage = 2;
+  const postsPerPage = 4;
   const [pagination, setPagination] = useState({
     isGoingBack: false,
     after: "",
