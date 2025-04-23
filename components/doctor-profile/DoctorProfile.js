@@ -4,14 +4,27 @@ import { Button } from "@/components/ui/button";
 import { Facebook, Instagram, Linkedin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function DoctorProfile({ singleDoctor }) {
   const doctor = singleDoctor?.doctor;
 
+  const defaultImage =
+    doctor.featuredImage?.node?.mediaItemUrl || "/images/doctor.jpeg";
+
+  const imageGallery = [
+    defaultImage,
+    ...(doctor.doctorField?.imageGallery?.nodes?.map(
+      (img) => img.mediaItemUrl
+    ) || []),
+  ];
+
+  const [selectedImage, setSelectedImage] = useState(defaultImage);
+
   return (
     <>
       <PageHeader doctor={doctor} />
-      <div className="pt-16 pb-8 relative overflow-hidden">
+      <div className="  relative overflow-hidden">
         {/* Background Decorative Images */}
         <div>
           <Image
@@ -58,39 +71,36 @@ export default function DoctorProfile({ singleDoctor }) {
               {/* Left Column - Doctor Images */}
               <div className="flex flex-col gap-4">
                 {/* Main Image */}
-                <div className="overflow-hidden rounded-3xl md:rounded-[50px]">
+                <div className="relative w-full aspect-[5/3] rounded-3xl md:rounded-[50px] overflow-hidden">
                   <Image
-                    src={
-                      doctor.featuredImage?.node?.mediaItemUrl ||
-                      "/images/doctor.jpeg"
-                    }
+                    src={selectedImage}
                     alt={doctor.title}
-                    width={0}
-                    height={0}
-                    sizes={"100vw"}
+                    fill
                     priority
-                    className="  max-h-[500px] w-full object-cover"
+                    className="object-cover"
                   />
                 </div>
-
                 {/* Image Thumbnails */}
                 <div className="flex gap-3">
-                  {doctor.doctorField?.imageGallery?.nodes?.map(
-                    (cert, index) => (
-                      <div
-                        key={index}
-                        className="overflow-hidden rounded-[10px]"
-                      >
-                        <Image
-                          src={cert.mediaItemUrl}
-                          alt={`Image ${index + 1}`}
-                          width={150}
-                          height={100}
-                          className="h-auto w-full object-cover"
-                        />
-                      </div>
-                    )
-                  )}
+                  {imageGallery.map((img, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(img)}
+                      className={`rounded-[10px] overflow-hidden border-2 ${
+                        selectedImage === img
+                          ? "border-blue-500 shadow-md"
+                          : "border-transparent"
+                      }`}
+                    >
+                      <Image
+                        src={img}
+                        alt={`Image ${index + 1}`}
+                        width={150}
+                        height={100}
+                        className="h-[150px] w-[200px] object-cover"
+                      />
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -99,7 +109,7 @@ export default function DoctorProfile({ singleDoctor }) {
                 <h1 className="mb-2 text-3xl font-bold md:text-4xl">
                   {doctor.title}
                 </h1>
-                {/* You can replace or remove the following line if you have a specialization field */}
+
                 <p className="mb-6 text-xl font-medium text-blue-600">
                   {doctor.specialities?.nodes
                     .map((speciality) => speciality.name)
