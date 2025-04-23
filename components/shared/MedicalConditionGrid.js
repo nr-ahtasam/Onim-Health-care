@@ -29,20 +29,23 @@ export default function MedicalConditionGrid() {
       {/* The Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-10 md:gap-20">
         {displayedConditions.map((condition) => (
-          <div className="text-center" key={condition.id}>
+          <div
+            className="flex flex-col justify-center items-center"
+            key={condition.id}
+          >
             <Link href={`/service/${condition.serviceId}`}>
-              <div className="bg-white h-[150px] w-[150px] border border-blue-500 rounded-[20px] flex justify-center items-center">
+              <div className="bg-white h-[100px] w-[100px] border border-blue-500 rounded-[20px] flex  items-center">
                 <Image
                   src={condition.serviceFields.serviceIconn.node.mediaItemUrl}
                   alt={condition.serviceFields.catName}
                   width={200}
                   height={200}
-                  className="object-cover w-full h-full rounded-[20px]"
+                  className=" object-cover w-full h-full rounded-[20px]"
                   priority
                 />
               </div>
             </Link>
-            <p className="text-[16px] mt-2">
+            <p className="text-center text-[16px] mt-2">
               {condition.serviceFields.catName}
             </p>
           </div>
