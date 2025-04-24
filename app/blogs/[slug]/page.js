@@ -49,7 +49,7 @@ export default function ArticlePage() {
         {/* Title + Excerpt */}
         <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
 
-        <p className="text-gray-600">{cleanExcerpt(post.excerpt)}</p>
+        <p className="text-gray-600">{cleanExcerpt(post.content)}</p>
 
         <div className="flex flex-col sm:flex-row justify-between text-sm text-gray-600 mt-10">
           <div className="mb-2 sm:mb-0">
