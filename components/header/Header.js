@@ -19,6 +19,7 @@ import { ChevronDown, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import GoogleTranslateButton from "../shared/GoogleTranslateButton";
 
 const specialties = [
   {
@@ -188,12 +189,13 @@ export default function Header() {
               </Button>
             </Link>
 
-            <Button
+            {/* <Button
               variant="outline"
               className="py-5 text-blue-500 bg-white hover:bg-blue-500 border border-blue-500 hover:text-white"
             >
               EN | বা
-            </Button>
+            </Button> */}
+            <GoogleTranslateButton />
           </div>
 
           <div className="md:hidden">

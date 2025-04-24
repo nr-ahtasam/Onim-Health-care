@@ -102,17 +102,17 @@
   --toast-success-bg: hsl(142, 75%, 46%);
   --toast-success-text: hsl(0, 0%, 0%);
   --toast-success-border: hsl(143, 64%, 24%);
-  
+
   /* Error toast colors */
   --toast-error-bg: hsl(0, 84.2%, 60.2%);
   --toast-error-text: hsl(0, 0%, 100%);
   --toast-error-border: hsl(0, 72%, 46%);
-  
+
   /* Warning toast colors */
   --toast-warning-bg: hsl(38, 92%, 50%);
   --toast-warning-text: hsl(0, 0%, 0%);
   --toast-warning-border: hsl(38, 100%, 40%);
-  
+
   /* Info toast colors */
   --toast-info-bg: hsl(221, 83%, 53%);
   --toast-info-text: hsl(0, 0%, 100%);
@@ -155,15 +155,15 @@
   --toast-success-bg: hsl(142.1, 70%, 29%);
   --toast-success-text: hsl(141, 100%, 96%);
   --toast-success-border: hsl(143, 64%, 20%);
-  
+
   --toast-error-bg: hsl(0, 72%, 46%);
   --toast-error-text: hsl(0, 0%, 100%);
   --toast-error-border: hsl(0, 84%, 32%);
-  
+
   --toast-warning-bg: hsl(38, 92%, 46%);
   --toast-warning-text: hsl(0, 0%, 0%);
   --toast-warning-border: hsl(38, 100%, 36%);
-  
+
   --toast-info-bg: hsl(221, 83%, 45%);
   --toast-info-text: hsl(0, 0%, 100%);
   --toast-info-border: hsl(221, 83%, 35%);
@@ -177,8 +177,12 @@
     @apply bg-background text-foreground font-poppins;
   }
 }
-.slick-list {margin: 0 -20px !important;}
-.slick-slide>div {padding: 0 20px !important;}
+.slick-list {
+  margin: 0 -20px !important;
+}
+.slick-slide > div {
+  padding: 0 20px !important;
+}
 .diagnosis-treatment h2 {
   @apply text-2xl font-bold text-black mb-4;
 }
@@ -222,4 +226,28 @@
   background-color: var(--toast-info-bg) !important;
   color: var(--toast-info-text) !important;
   border-color: var(--toast-info-border) !important;
+}
+/* globals.css */
+/* Hides the Google Translate banner */
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+body {
+  top: 0px !important;
+}
+
+/* Hide dropdown and popup widget */
+.goog-te-gadget,
+.goog-te-menu-value {
+  display: none !important;
+}
+
+/* Hide iframe that sometimes loads */
+iframe.goog-te-banner-frame {
+  display: none !important;
+}
+
+/* Prevent page shift when banner is hidden */
+body > .skiptranslate {
+  display: none !important;
 }
