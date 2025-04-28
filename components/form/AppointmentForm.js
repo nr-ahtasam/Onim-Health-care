@@ -1,92 +1,162 @@
-"use client"
-import {Input} from "@/components/ui/input";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Button} from "@/components/ui/button";
-import {useState} from "react";
+"use client";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-export default function AppointmentForm(){
+import { useQuery } from "@apollo/client";
+
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+
+import Loader from "@/lib/Loader";
+import { FEATURED_SERVICES_QUERY } from "@/lib/graphql";
+
+export default function AppointmentForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    department: "",
-    dateTime: "",
-  })
+    service: "",
+    date: "",
+  });
 
+  // 1) fetch services
+  const {
+    data: servicesData,
+    loading: servicesLoading,
+    error: servicesError,
+  } = useQuery(FEATURED_SERVICES_QUERY);
+
+  // 2) build options once data arrives
+  const serviceOptions = (servicesData?.page?.homeSections
+    ?.featuredServices?.nodes || []
+  ).map((svc) => ({
+    value: svc.serviceId.toString(),
+    label: svc.serviceFields.catName,
+  }));
+
+  // 3) change handler
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // 4) submit → push query params to BookAppointment page
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("Form submitted:", formData)
-    // Handle form submission logic here
-    const queryParams = new URLSearchParams({
+    e.preventDefault();
+    const params = new URLSearchParams({
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
-      service: formData.department,
-      date: formData.dateTime, 
+      service: formData.service,
+      date: formData.date,
     }).toString();
-    
-    // Navigate to book-appointment page with query params
-    router.push(`/book-appointment?${queryParams}`);
-  }
+    router.push(`/book-appointment?${params}`);
+  };
+
+  // 5) loading / error UI
+  if (servicesLoading) return <Loader />;
+  if (servicesError)
+    return (
+      <div className="p-4 text-red-600">
+        Error loading services: {servicesError.message}
+      </div>
+    );
 
   return (
-    <div className="bg-[#0f1b2a] rounded-br-[50px] p-6 md:p-8 shadow-xl max-w-[400px] ">
-      <h3 className="text-2xl md:text-4xl font-bold text-white mb-6">Book an appointment</h3>
+    <div className="bg-[#0f1b2a] rounded-br-[50px] p-6 md:p-8 shadow-xl max-w-[400px]">
+      <h3 className="text-2xl md:text-4xl font-bold text-white mb-6">
+        Book an appointment
+      </h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
+          name="name"
           type="text"
           placeholder="Enter your name"
           className="rounded-none bg-transparent border-gray-700 text-white placeholder:text-white"
           value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          onChange={(e) => handleChange("name", e.target.value)}
+          required
         />
+
         <Input
+          name="email"
           type="email"
           placeholder="Enter your email"
           className="rounded-none bg-transparent border-gray-700 text-white placeholder:text-white"
           value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          onChange={(e) => handleChange("email", e.target.value)}
+          required
         />
+
         <Input
+          name="phone"
           type="tel"
           placeholder="Enter your phone number"
           className="rounded-none bg-transparent border-gray-700 text-white placeholder:text-white"
           value={formData.phone}
-          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+          onChange={(e) => handleChange("phone", e.target.value)}
+          required
         />
+
+        {/* dynamic services */}
         <Select
-          onValueChange={(value) => setFormData({ ...formData, department: value })}
-          value={formData.department}
+          value={formData.service}
+          onValueChange={(v) => handleChange("service", v)}
         >
-          <SelectTrigger className="rounded-none w-full bg-transparent border-gray-700 text-white placeholder:text-white">
-            <SelectValue placeholder="Select department" />
+          <SelectTrigger
+            className={`
+              rounded-none 
+              w-full 
+              bg-transparent 
+              border border-gray-700 
+              text-white         /* sets currentColor to white */
+              [&>svg]:fill-current  /* make the SVG’s fill use currentColor */
+            `}
+          >
+            <SelectValue placeholder="Select service" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="cardiology">Cardiology</SelectItem>
-            <SelectItem value="orthopedics">Orthopedics</SelectItem>
-            <SelectItem value="neurology">Neurology</SelectItem>
-            <SelectItem value="pediatrics">Pediatrics</SelectItem>
-            <SelectItem value="gynecology">Gynecology</SelectItem>
+            {serviceOptions.map((opt) => (
+              <SelectItem key={opt.value} value={opt.value}>
+                {opt.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
-        <Select
-          onValueChange={(value) => setFormData({ ...formData, dateTime: value })}
-          value={formData.dateTime}
+
+        <Input
+          name="date"
+          type="date"
+          className={`
+            block w-full 
+            rounded-none 
+            border border-gray-700 
+            bg-transparent 
+            text-white 
+            p-2 
+            appearance-auto
+            [&::-webkit-calendar-picker-indicator]:invert
+            [&::-moz-calendar-picker-indicator]:invert
+          `}
+          value={formData.date}
+          onChange={(e) => handleChange("date", e.target.value)}
+          required
+        />
+
+        <Button
+          type="submit"
+          className="w-full rounded-full bg-white text-blue-500 hover:bg-gray-200"
         >
-          <SelectTrigger className="rounded-none w-full bg-transparent border-gray-700 text-white placeholder:text-white">
-            <SelectValue placeholder="Select date and time" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="morning">Morning (9AM - 12PM)</SelectItem>
-            <SelectItem value="afternoon">Afternoon (1PM - 4PM)</SelectItem>
-            <SelectItem value="evening">Evening (5PM - 8PM)</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button type="submit" className="w-fit rounded-full bg-white text-blue-500 hover:bg-gray-200">
-        Book Now
+          Next
         </Button>
       </form>
     </div>
-  )
+  );
 }
