@@ -11,8 +11,6 @@ export function useSearchDoctors({ locationSearch, doctorSearch, diseases, disea
   const getLocationIdByName = (name) =>
     LOCATIONS.find((loc) => loc.name === name)?.id;
 
-  console.log(diseases);
-  
   const getDiseaseIdByName = (name) =>
     diseases?.find((diseas) => diseas.name === name)?.id;
 

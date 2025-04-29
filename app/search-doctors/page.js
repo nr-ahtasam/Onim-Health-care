@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { LOCATIONS } from "@/constants/locations";
-import { FEATURED_SERVICES_QUERY } from "@/lib/graphql";
+import { getAllServices } from "@/lib/graphql";
 import { useSearchDoctors } from "@/hooks/useSearchDoctors";
 import Loader from "@/lib/Loader";
 import {
@@ -41,11 +41,18 @@ export default function SearchDoctorPage() {
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] = useState(false);
 
-  const { data, loading: servicesLoading, error } = useQuery(FEATURED_SERVICES_QUERY);
-  const diseases = data?.page?.homeSections?.featuredServices?.nodes.map((d) => ({
-    id: d.serviceId,
-    name: d.serviceFields.catName,
-    type: d.serviceFields.type,
+  // const { data, loading: servicesLoading, error } = useQuery(FEATURED_SERVICES_QUERY);
+  // const diseases = data?.page?.homeSections?.featuredServices?.nodes.map((d) => ({
+  //   id: d.serviceId,
+  //   name: d.serviceFields.catName,
+  //   type: d.serviceFields.type,
+  // }));
+
+  const { data, loading: servicesLoading, error } = useQuery(getAllServices);
+  const diseases = data?.services?.nodes.map((d) => ({
+    id: d.databaseId,
+    name: d.title,
+    type: d.__typename,
   }));
 
   const { doctors, totalPages, loading } = useSearchDoctors({

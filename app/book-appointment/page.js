@@ -18,10 +18,7 @@ import { toast } from "sonner";
 
 import { useQuery } from "@apollo/client";
 import Loader from "@/lib/Loader";
-import {
-  FEATURED_SERVICES_QUERY,
-  featureDoctorsQuery,
-} from "@/lib/graphql";
+import { getAllServices, getAllDoctors } from "@/lib/graphql";
 import { useCreateAppointment } from "@/hooks/useCreateAppointment";
 
 export default function BookAppointment() {
@@ -30,13 +27,15 @@ export default function BookAppointment() {
     data: servicesData,
     loading: servicesLoading,
     error: servicesError,
-  } = useQuery(FEATURED_SERVICES_QUERY);
+  } = useQuery(getAllServices);
+  const services = servicesData?.services?.nodes || [];
 
   const {
     data: doctorsData,
     loading: doctorsLoading,
     error: doctorsError,
-  } = useQuery(featureDoctorsQuery);
+  } = useQuery(getAllDoctors);
+  const doctors = doctorsData?.doctors?.nodes || [];
 
   const {
     createAppointment,
@@ -46,8 +45,6 @@ export default function BookAppointment() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  console.log("searchParams", searchParams.toString());
-  
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -57,7 +54,7 @@ export default function BookAppointment() {
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
 
-  // Prefill from URL once
+  // ── 2) Prefill from URL once ────────────────────────────────────
   useEffect(() => {
     setName(searchParams.get("name") || "");
     setEmail(searchParams.get("email") || "");
@@ -67,7 +64,7 @@ export default function BookAppointment() {
     router.replace("/book-appointment");
   }, []);
 
-  // ── 2) Early returns after hooks ────────────────────────────────────
+  // ── 3) Early returns after hooks ────────────────────────────────────
   if (servicesLoading || doctorsLoading) {
     return <Loader />;
   }
@@ -78,13 +75,6 @@ export default function BookAppointment() {
       </div>
     );
   }
-
-  // ── 3) Derive your arrays ────────────────────────────────────────────
-  const services =
-    servicesData?.page?.homeSections?.featuredServices?.nodes || [];
-    
-  const doctors =
-    doctorsData?.page?.homeSections?.featuredDoctors?.nodes || [];
 
   // ── 4) Submit handler ───────────────────────────────────────────────
   const handleSubmit = async (e) => {
@@ -288,10 +278,10 @@ export default function BookAppointment() {
                 <SelectContent>
                   {services.map((svc) => (
                     <SelectItem
-                      key={svc.serviceId}
-                      value={svc.serviceId.toString()}
+                      key={svc.databaseId}
+                      value={svc.databaseId.toString()}
                     >
-                      {svc.serviceFields.catName}
+                      {svc.title}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -304,8 +294,8 @@ export default function BookAppointment() {
                 <SelectContent>
                   {doctors.map((doc) => (
                     <SelectItem
-                      key={doc.id}
-                      value={doc.id.toString()}
+                      key={doc.databaseId}
+                      value={doc.databaseId.toString()}
                     >
                       {doc.title}
                     </SelectItem>
