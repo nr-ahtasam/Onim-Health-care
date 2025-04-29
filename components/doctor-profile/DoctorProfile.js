@@ -5,6 +5,7 @@ import { Facebook, Instagram, Linkedin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import AppointmentForm from "../form/AppointmentForm";
 
 export default function DoctorProfile({ singleDoctor }) {
   const doctor = singleDoctor?.doctor;
@@ -67,7 +68,7 @@ export default function DoctorProfile({ singleDoctor }) {
 
         <section className="w-full px-4 py-12 md:px-8 relative z-10">
           <div className="mx-auto container">
-            <div className="grid gap-12 md:grid-cols-2">
+            <div className="grid gap-12 md:grid-cols-3">
               {/* Left Column - Doctor Images */}
               <div className="flex flex-col gap-4">
                 {/* Main Image */}
@@ -117,7 +118,7 @@ export default function DoctorProfile({ singleDoctor }) {
                 </p>
 
                 {/* Rating and Experience */}
-                <div className="mb-6 flex flex-wrap items-center gap-6">
+                <div className="mb-6 flex flex-wrap items-center gap-4">
                   <div className="flex items-center gap-2">
                     <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                     <span className="font-medium">
@@ -217,6 +218,9 @@ export default function DoctorProfile({ singleDoctor }) {
                       </a>
                     )}
                 </div>
+              </div>
+              <div className="flex flex-col justify-start">
+                <AppointmentForm />
               </div>
             </div>
           </div>

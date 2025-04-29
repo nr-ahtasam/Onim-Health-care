@@ -41,21 +41,30 @@ export default function WhyChooseUsSection() {
                 <br />
                 Care?
               </h2>
-              <p className="text-blue-100 max-w-[470px]">
+              <dev className="text-blue-100 max-w-[470px]">
                 <ul>
-                  <li>1. <b>Expert Doctors:</b> Board-certified specialists across 30+ treatments.<br/></li>
-                  <li><br/>2. <b>Advanced Procedures:</b> Latest technology and minimally invasive techniques.</li>
-                  <li><br/>3. <b>Personalized Care:</b> Dedicated medical coordinators at every step.</li>
-                  <li><br/>4. <b>Seamless Process:</b> Consultation, surgery, insurance — all handled for you.</li>
-                </ul>  
-              
-
-              
-
-              
-
-              
-              </p>
+                  <li>
+                    1. <b>Expert Doctors:</b> Board-certified specialists across
+                    30+ treatments.
+                    <br />
+                  </li>
+                  <li>
+                    <br />
+                    2. <b>Advanced Procedures:</b> Latest technology and
+                    minimally invasive techniques.
+                  </li>
+                  <li>
+                    <br />
+                    3. <b>Personalized Care:</b> Dedicated medical coordinators
+                    at every step.
+                  </li>
+                  <li>
+                    <br />
+                    4. <b>Seamless Process:</b> Consultation, surgery, insurance
+                    — all handled for you.
+                  </li>
+                </ul>
+              </dev>
             </div>
             <div className="mt-4">
               <Link href={"/book-appointment"}>

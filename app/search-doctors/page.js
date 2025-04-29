@@ -1,11 +1,21 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { LOCATIONS } from "@/constants/locations";
-import { getAllServices } from "@/lib/graphql";
 import { useSearchDoctors } from "@/hooks/useSearchDoctors";
+import { getAllServices } from "@/lib/graphql";
 import Loader from "@/lib/Loader";
+import { useQuery } from "@apollo/client";
 import {
   ArrowLeft,
   Heart,
@@ -15,19 +25,9 @@ import {
   Star,
   X,
 } from "lucide-react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 export default function SearchDoctorPage() {
   const locationDropdownRef = useRef(null);
@@ -39,7 +39,8 @@ export default function SearchDoctorPage() {
   const [diseaseSearch, setDiseaseSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
-  const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] = useState(false);
+  const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] =
+    useState(false);
 
   // const { data, loading: servicesLoading, error } = useQuery(FEATURED_SERVICES_QUERY);
   // const diseases = data?.page?.homeSections?.featuredServices?.nodes.map((d) => ({
@@ -78,24 +79,23 @@ export default function SearchDoctorPage() {
         setShowDoctorSearchDropdown(false);
       }
     };
-  
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showLocationDropdown, showDoctorSearchDropdown]);
-  
-
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
   };
+
   return (
     <div className="min-h-screen">
-            {/* Header with gradient background */}
-            <div className="w-full h-[300px] bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] py-12 px-4 text-center text-white">
+      {/* Header with gradient background */}
+      <div className="w-full h-[300px] bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] py-12 px-4 text-center text-white">
         <h1 className="text-4xl font-bold mb-2">Search Doctors</h1>
         <p className="text-xl">In Omni Health Care</p>
 
@@ -118,7 +118,7 @@ export default function SearchDoctorPage() {
             </button>
             {/* Doctor search dropdown */}
             {showLocationDropdown && (
-              <div 
+              <div
                 ref={locationDropdownRef}
                 className="absolute top-full left-0 right-0 mt-2 bg-gray-100 rounded-3xl shadow-lg overflow-hidden z-50"
               >
@@ -181,10 +181,10 @@ export default function SearchDoctorPage() {
 
             {/* Doctor search dropdown */}
             {showDoctorSearchDropdown && (
-              <div 
+              <div
                 className="absolute top-full left-0 right-0 mt-2 bg-gray-100 rounded-3xl shadow-lg overflow-hidden z-50"
                 ref={searchDropdownRef}
-                >
+              >
                 <div className="p-4 flex items-center gap-3 border-b border-gray-200">
                   <button onClick={() => setShowDoctorSearchDropdown(false)}>
                     <ArrowLeft size={20} className="text-gray-700" />
@@ -241,7 +241,9 @@ export default function SearchDoctorPage() {
               {loading ? (
                 <Loader />
               ) : (
-                doctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} />)
+                doctors.map((doctor) => (
+                  <DoctorCard key={doctor.id} doctor={doctor} />
+                ))
               )}
             </div>
 
@@ -252,7 +254,11 @@ export default function SearchDoctorPage() {
                   <PaginationItem>
                     <PaginationPrevious
                       onClick={() => handlePageChange(currentPage - 1)}
-                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
                     />
                   </PaginationItem>
 
@@ -270,7 +276,11 @@ export default function SearchDoctorPage() {
                   <PaginationItem>
                     <PaginationNext
                       onClick={() => handlePageChange(currentPage + 1)}
-                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
                     />
                   </PaginationItem>
                 </PaginationContent>
@@ -284,6 +294,7 @@ export default function SearchDoctorPage() {
 }
 
 function DoctorCard({ doctor }) {
+  console.log(doctor);
   return (
     <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white">
       <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
@@ -297,19 +308,27 @@ function DoctorCard({ doctor }) {
       </div>
       <div className="flex-1 space-y-4">
         <div>
-          <p className="font-poppins font-semibold text-[35px]">{doctor.name}</p>
-          <p className="font-poppins font-[400] text-[22px] text-[#0068F9]">{doctor.specialty}</p>
+          <p className="font-poppins font-semibold text-[35px]">
+            {doctor.name}
+          </p>
+          <p className="font-poppins font-[400] text-[22px] text-[#0068F9]">
+            {doctor.specialty}
+          </p>
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
           <div className="flex items-center gap-1">
             <Star className="fill-yellow-400 text-yellow-400" size={20} />
-            <span className="font-poppins font-semibold text-[18px]">{doctor.rating}</span>
+            <span className="font-poppins font-semibold text-[18px]">
+              {doctor.rating}
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
             <ShoppingBag size={20} />
-            <span className="font-poppins font-semibold text-[18px]">{doctor.experience}</span>
+            <span className="font-poppins font-semibold text-[18px]">
+              {doctor.experience}
+            </span>
           </div>
         </div>
 
@@ -327,7 +346,10 @@ function DoctorCard({ doctor }) {
       </div>
 
       <div className="flex flex-col gap-4 min-w-[200px]">
-        <Button variant="outline" className="w-full border-blue-500 text-blue-500 hover:bg-blue-50">
+        <Button
+          variant="outline"
+          className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
+        >
           Call Us
         </Button>
         <Link href={"/book-appointment"}>
@@ -343,10 +365,42 @@ function DoctorCard({ doctor }) {
 function GradientBackground() {
   return (
     <div>
-      <Image src="/images/green-ecllipse.png" width={0} height={0} alt="bg" sizes="100vw" priority className="absolute top-0 left-0 w-auto h-full" />
-      <Image src="/images/red-ecllipse.png" width={0} height={0} alt="bg" sizes="100vw" priority className="absolute top-20 left-0 w-auto h-full" />
-      <Image src="/images/green-ecllipse-right.png" width={0} height={0} alt="bg" sizes="100vw" priority className="absolute top-0 right-0 w-auto h-full" />
-      <Image src="/images/red-ecllipse-right.png" width={0} height={0} alt="bg" sizes="100vw" priority className="absolute top-20 right-0 w-auto h-full" />
+      <Image
+        src="/images/green-ecllipse.png"
+        width={0}
+        height={0}
+        alt="bg"
+        sizes="100vw"
+        priority
+        className="absolute top-0 left-0 w-auto h-full"
+      />
+      <Image
+        src="/images/red-ecllipse.png"
+        width={0}
+        height={0}
+        alt="bg"
+        sizes="100vw"
+        priority
+        className="absolute top-20 left-0 w-auto h-full"
+      />
+      <Image
+        src="/images/green-ecllipse-right.png"
+        width={0}
+        height={0}
+        alt="bg"
+        sizes="100vw"
+        priority
+        className="absolute top-0 right-0 w-auto h-full"
+      />
+      <Image
+        src="/images/red-ecllipse-right.png"
+        width={0}
+        height={0}
+        alt="bg"
+        sizes="100vw"
+        priority
+        className="absolute top-20 right-0 w-auto h-full"
+      />
     </div>
   );
 }

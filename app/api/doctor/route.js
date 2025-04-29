@@ -32,12 +32,18 @@ export async function GET(req) {
     const data = await wpResponse.json();
 
     if (!wpResponse.ok) {
-      return NextResponse.json({ message: data.message || "Failed to fetch doctors" }, { status: wpResponse.status });
+      return NextResponse.json(
+        { message: data.message || "Failed to fetch doctors" },
+        { status: wpResponse.status }
+      );
     }
 
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.error("API doctor route error:", error);
-    return NextResponse.json({ message: error.message || "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { message: error.message || "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
