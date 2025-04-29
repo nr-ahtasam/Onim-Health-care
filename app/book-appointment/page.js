@@ -46,6 +46,8 @@ export default function BookAppointment() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
+  console.log("searchParams", searchParams.toString());
+  
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -63,7 +65,7 @@ export default function BookAppointment() {
     setService(searchParams.get("service") || "");
     setDate(searchParams.get("date") || "");
     router.replace("/book-appointment");
-  }, [searchParams, router]);
+  }, []);
 
   // ── 2) Early returns after hooks ────────────────────────────────────
   if (servicesLoading || doctorsLoading) {
