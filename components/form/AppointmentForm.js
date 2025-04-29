@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import Loader from "@/lib/Loader";
-import { FEATURED_SERVICES_QUERY } from "@/lib/graphql";
+import { getAllServices } from "@/lib/graphql";
 
 export default function AppointmentForm() {
   const router = useRouter();
@@ -28,18 +28,24 @@ export default function AppointmentForm() {
   });
 
   // 1) fetch services
-  const {
-    data: servicesData,
-    loading: servicesLoading,
-    error: servicesError,
-  } = useQuery(FEATURED_SERVICES_QUERY);
+  // const {
+  //   data: servicesData,
+  //   loading: servicesLoading,
+  //   error: servicesError,
+  // } = useQuery(FEATURED_SERVICES_QUERY);
+
+  // const serviceOptions = (servicesData?.page?.homeSections
+  //   ?.featuredServices?.nodes || []
+  // ).map((svc) => ({
+  //   value: svc.serviceId.toString(),
+  //   label: svc.serviceFields.catName,
+  // }));
 
   // 2) build options once data arrives
-  const serviceOptions = (servicesData?.page?.homeSections
-    ?.featuredServices?.nodes || []
-  ).map((svc) => ({
-    value: svc.serviceId.toString(),
-    label: svc.serviceFields.catName,
+  const { data, loading, error } = useQuery(getAllServices);
+  const serviceOptions = data?.services?.nodes.map((d) => ({
+    value: d.databaseId.toString(),
+    label: d.title,
   }));
 
   // 3) change handler
@@ -61,11 +67,11 @@ export default function AppointmentForm() {
   };
 
   // 5) loading / error UI
-  if (servicesLoading) return <Loader />;
-  if (servicesError)
+  if (loading) return <Loader />;
+  if (error)
     return (
       <div className="p-4 text-red-600">
-        Error loading services: {servicesError.message}
+        Error loading services: {error.message}
       </div>
     );
 
