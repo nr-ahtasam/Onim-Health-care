@@ -37,18 +37,14 @@ export default function AboutUsSection() {
           <div className="flex flex-col justify-center">
             <span className="mb-2 text-sm font-medium uppercase text-[#FF937B]">About us</span>
             <h2 className="mb-6 text-3xl font-bold leading-tight md:text-5xl">
-              Aliquam nullam
+            A New Standard  
               <br/>
-              quam cursus
+              in Patient-Centered
               <br/>
-              odio erat
+              Medical Services
             </h2>
             <p className="mb-8 text-gray-600 max-w-[400px]">
-              Orci ultricies vulputate est quis non. Nam imperdiet felis erat bibendum. Eu semper mortes faucibus nisi
-              qui
-              at mauris orci. Dui nisl eget eleifend placerat elit elementum. Nibh sit quis molestie urna elit. Sit
-              turpis
-              consequat vivamus tempus amet sit. Sit sed quis sed tempus diam.
+            At Omni Health Care, we are committed to delivering safe, efficient, and patient-centered medical services. We bring together experienced surgeons, advanced treatment facilities, and compassionate care coordination to simplify complex healthcare journeys. From the first consultation to post-surgical recovery, we ensure every step is smooth, transparent, and focused entirely on your well-being.
             </p>
 
             <div className="mb-8 border-t border-gray-200 pt-8">
@@ -57,9 +53,9 @@ export default function AboutUsSection() {
                   <Hospital/>
                 </div>
                 <div>
-                  <h3 className="mb-1 font-semibold">Patient assessment</h3>
+                  <h3 className="mb-1 font-semibold">Medical assessment</h3>
                   <p className="text-sm text-gray-600 max-w-[400px]">
-                    Orci ultricies vulputate est quis non. Nam imperdiet felis erat bibendum. Eu semper mortes.
+                  We support patients from consultation to full recovery, ensuring a stress-free healthcare journey.
                   </p>
                 </div>
               </div>
@@ -95,23 +91,23 @@ export default function AboutUsSection() {
                     <p className="text-sm">
                       Expert
                       <br/>
-                      doctors team
+                      doctors
                     </p>
                   </div>
                   <div className="my-8">
-                    <span className="text-[45px] font-bold text-[#FF937B]">15+</span>
+                    <span className="text-[45px] font-bold text-[#FF937B]">60+</span>
                     <p className="text-sm">
-                      Expert
+                      Specialized
                       <br/>
-                      doctors team
+                      Services
                     </p>
                   </div>
                   <div className="my-8">
-                    <span className="text-[45px] font-bold text-[#FF937B]">15+</span>
+                    <span className="text-[45px] font-bold text-[#FF937B]">40+</span>
                     <p className="text-sm">
-                      Expert
+                      Happy
                       <br/>
-                      doctors team
+                      Clients
                     </p>
                   </div>
                 </div>

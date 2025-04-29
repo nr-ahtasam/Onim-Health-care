@@ -175,21 +175,19 @@ export default function MedicalServices({ singleService }) {
             <div className={"md:p-6"}>
               <h3 className="mb-3 text-xl font-semibold">Emergency Cases</h3>
               <p className="mb-3 text-gray-600">
-                Ornare nunc tellus quis eget ullamcorper arcu ullamcorper. Etem
-                semblier lacinia sed cursus.
+               For urgent medical emergencies, please call at this number
               </p>
-              <p className="text-xl font-bold">0123456789</p>
+              <p className="text-xl font-bold">01711-997401</p>
             </div>
 
             {/* Doctors Timetable */}
             <div className={"md:p-6"}>
               <h3 className="mb-3 text-xl font-semibold">Doctors Timetable</h3>
               <p className="mb-3 text-gray-600">
-                Fames interdum ut tellus pellentesque amet. Velit ut in egestas
-                consectetur. Amet et.
+                For consultation timetable, check respective doctor's page
               </p>
               <Button className="rounded-full bg-blue-600 px-6 hover:bg-blue-700">
-                View timetable
+                View Doctors
               </Button>
             </div>
 

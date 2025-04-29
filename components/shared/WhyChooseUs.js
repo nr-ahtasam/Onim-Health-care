@@ -42,10 +42,19 @@ export default function WhyChooseUsSection() {
                 Care?
               </h2>
               <p className="text-blue-100 max-w-[470px]">
-                Elit arcu vitae metus sed. Justo urna id quis aliquam. Sed
-                elementum elementum quidem erat. Ut enim erat dolor ultricies
-                aliquam. Adipiscing mattis semper pellentesque sit malesuada leo
-                nibh mauris viverra. Amet id sed vestibulum pulvinar lectus.
+                <ul>
+                  <li>1. <b>Expert Doctors:</b> Board-certified specialists across 30+ treatments.<br/></li>
+                  <li><br/>2. <b>Advanced Procedures:</b> Latest technology and minimally invasive techniques.</li>
+                  <li><br/>3. <b>Personalized Care:</b> Dedicated medical coordinators at every step.</li>
+                  <li><br/>4. <b>Seamless Process:</b> Consultation, surgery, insurance — all handled for you.</li>
+                </ul>  
+              
+
+              
+
+              
+
+              
               </p>
             </div>
             <div className="mt-4">

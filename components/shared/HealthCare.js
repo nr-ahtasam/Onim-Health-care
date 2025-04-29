@@ -65,13 +65,12 @@ export default function HealthCare() {
       <section className="w-full z-10 relative">
         <div className="flex flex-col md:flex-row justify-evenly">
           <div className="space-y-6 max-w-[550px] text-center md:text-start">
-            <h2 className="text-3xl md:text-[60px] font-bold text-gray-900 leading-tight ">
-              World Standard Healthcare Doctors
+            <h2 className="text-3xl md:text-[45px] font-bold text-gray-900 leading-tight ">
+            Redefining Modern Healthcare in Bangladesh
             </h2>
 
             <p className="text-gray-700 text-xl py-4">
-              Commodo diam sed sit amet volutpat sollicitudin tincidunt varius
-              scelerisque. Ut rhoncus diam dictum ac orci purus.
+            Omni Health Care brings together experienced surgeons, state-of-the-art hospitals, and a compassionate care team to deliver top-notch treatments.
             </p>
           </div>
 
