@@ -174,7 +174,7 @@ export default function DoctorProfile({ singleDoctor }) {
                     Call Us
                   </Button>
                   <Link href={"/book-appointment"}>
-                    <Button className="h-12 rounded-md bg-blue-600 text-base hover:bg-blue-700">
+                    <Button className="h-12 rounded-md bg-[#0068F9] text-base hover:bg-blue-700">
                       Book Appointment
                     </Button>
                   </Link>
