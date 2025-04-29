@@ -1,20 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { useState } from "react";
+import { useQuery } from "@apollo/client";
 import { LOCATIONS } from "@/constants/locations";
 import { FEATURED_SERVICES_QUERY } from "@/lib/graphql";
+import { useSearchDoctors } from "@/hooks/useSearchDoctors";
 import Loader from "@/lib/Loader";
-import { useQuery } from "@apollo/client";
 import {
   ArrowLeft,
   Heart,
@@ -24,88 +15,41 @@ import {
   Star,
   X,
 } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-export default function Page() {
+export default function SearchDoctorPage() {
   const [locationSearch, setLocationSearch] = useState("");
   const [doctorSearch, setDoctorSearch] = useState("");
   const [diseaseSearch, setDiseaseSearch] = useState("");
-  const [doctors, setDoctors] = useState([]);
-  const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] =
-    useState(false);
-  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
-  const [isloading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
+  const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] = useState(false);
 
-  const getLocationIdByName = (name) =>
-    LOCATIONS.find((loc) => loc.name === name)?.id;
+  const { doctors, totalPages, loading } = useSearchDoctors({
+    locationSearch,
+    doctorSearch,
+    diseaseSearch,
+    currentPage,
+  });
 
-  useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      const fetchData = async () => {
-        try {
-          setLoading(true);
-          const res = await fetch(
-            `${
-              process.env.NEXT_PUBLIC_API_REST_URL
-            }?location=${getLocationIdByName(
-              locationSearch
-            )}&disease=${diseaseSearch}&search=${doctorSearch}&page=${currentPage}`
-          );
-          const data = await res.json();
-          const doctors = data?.data?.map((doctor) => {
-            return {
-              id: doctor.id,
-              name: doctor.title,
-              specialty: "Arthroscopy & Arthroplasty Surgeon",
-              rating: doctor.acf.rating + "/5.00",
-              experience: doctor.acf.experience + "+ Years Experience",
-              consultationFees: [
-                {
-                  method: "Cash",
-                  amount: doctor.acf.consultation_fees + " Taka",
-                },
-                {
-                  method: "Bkash",
-                  amount: doctor.acf.consultation_fees_online + " Taka",
-                },
-              ],
-              hospital:
-                doctor.acf.chamber?.[0]?.post_title || "Unknown Hospital",
-              image: doctor.acf.image_gallery?.[0] || "/images/doctors.jpg",
-            };
-          });
-          setDoctors(doctors);
-          setTotalPages(data.pagination.total_pages);
-        } catch (error) {
-          console.error("Error fetching doctor data:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchData();
-    }, 500); // 500ms debounce delay
-
-    return () => clearTimeout(debounceTimeout); // Clean up the timeout
-  }, [locationSearch, doctorSearch, diseaseSearch, currentPage]); // Watch these for changes
-
-  const { data, loading, error } = useQuery(FEATURED_SERVICES_QUERY);
-
-  if (loading) return <Loader />;
-  if (error) return <div>Error loading featured services: {error.message}</div>;
-  const diseases = data?.page?.homeSections?.featuredServices?.nodes?.map(
-    (d) => {
-      return {
-        id: d.serviceId,
-        name: d.serviceFields.catName,
-        type: d.serviceFields.type,
-      };
-    }
-  );
+  const { data, loading: servicesLoading, error } = useQuery(FEATURED_SERVICES_QUERY);
+  const diseases = data?.page?.homeSections?.featuredServices?.nodes.map((d) => ({
+    id: d.serviceId,
+    name: d.serviceFields.catName,
+    type: d.serviceFields.type,
+  }));
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -115,8 +59,8 @@ export default function Page() {
 
   return (
     <div className="min-h-screen">
-      {/* Header with gradient background */}
-      <div className="w-full h-[300px] bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] py-12 px-4 text-center text-white">
+            {/* Header with gradient background */}
+            <div className="w-full h-[300px] bg-gradient-to-r from-[#68AAF0] to-[#6BAAF1] py-12 px-4 text-center text-white">
         <h1 className="text-4xl font-bold mb-2">Search Doctors</h1>
         <p className="text-xl">In Omni Health Care</p>
 
@@ -223,6 +167,8 @@ export default function Page() {
                       className="flex justify-between items-center p-4 hover:bg-gray-200 cursor-pointer border-b border-gray-200"
                       onClick={() => {
                         setDiseaseSearch(disease.id);
+                        console.log(disease);
+                        
                         setShowDoctorSearchDropdown(false);
                       }}
                     >
@@ -241,78 +187,33 @@ export default function Page() {
 
       <section className="relative overflow-hidden">
         {/* Gradient background */}
-        <div>
-          <Image
-            src="/images/green-ecllipse.png"
-            width={0}
-            height={0}
-            alt={"Asdf"}
-            sizes={"100vw"}
-            priority
-            className={"absolute top-0 left-0 w-auto h-full"}
-          />
-          <Image
-            src="/images/red-ecllipse.png"
-            width={0}
-            height={0}
-            alt={"Asdf"}
-            sizes={"100vw"}
-            priority
-            className={"absolute top-20 left-0 w-auto h-full"}
-          />
-          <Image
-            src="/images/green-ecllipse-right.png"
-            width={0}
-            height={0}
-            alt={"Asdf"}
-            sizes={"100vw"}
-            priority
-            className={"absolute top-0 right-0 w-auto h-full"}
-          />
-          <Image
-            src="/images/red-ecllipse-right.png"
-            width={0}
-            height={0}
-            alt={"Asdf"}
-            sizes={"100vw"}
-            priority
-            className={"absolute top-20 right-0 w-auto h-full "}
-          />
-        </div>
+        <GradientBackground />
 
-        {/* Doctor listings with gradient background */}
+        {/* Doctor listings */}
         <div className="w-full py-12 px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
-            {/* Doctor Cards Container */}
             <div className="space-y-6">
-              {isloading ? (
+              {loading ? (
                 <Loader />
               ) : (
-                doctors.map((doctor) => (
-                  <DoctorCard key={doctor.id} doctor={doctor} />
-                ))
+                doctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} />)
               )}
             </div>
 
-            {/* Pagination with Margin */}
+            {/* Pagination */}
             <div className="mt-12 flex justify-center">
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious
                       onClick={() => handlePageChange(currentPage - 1)}
-                      className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50"
-                          : "cursor-pointer"
-                      }
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
                     />
                   </PaginationItem>
 
                   {[...Array(totalPages)].map((_, i) => (
                     <PaginationItem key={i}>
                       <PaginationLink
-                        className={"cursor-pointer"}
                         isActive={currentPage === i + 1}
                         onClick={() => handlePageChange(i + 1)}
                       >
@@ -324,11 +225,7 @@ export default function Page() {
                   <PaginationItem>
                     <PaginationNext
                       onClick={() => handlePageChange(currentPage + 1)}
-                      className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50"
-                          : "cursor-pointer"
-                      }
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
                     />
                   </PaginationItem>
                 </PaginationContent>
@@ -344,53 +241,40 @@ export default function Page() {
 function DoctorCard({ doctor }) {
   return (
     <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white">
-      <div className=" w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
+      <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
         <Image
           src={doctor.image}
           alt={doctor.name}
-          className="object-cover h-[200px] mt-5"
+          className="object-cover h-[200px]"
           width={200}
           height={200}
         />
       </div>
-
       <div className="flex-1 space-y-4">
         <div>
-          <p className="font-poppins font-semibold text-[35px]">
-            {doctor.name}
-          </p>
-          <p className="font-poppins font-[400] text-[22px] text-[#0068F9]">
-            {doctor.specialty}
-          </p>
+          <p className="font-poppins font-semibold text-[35px]">{doctor.name}</p>
+          <p className="font-poppins font-[400] text-[22px] text-[#0068F9]">{doctor.specialty}</p>
         </div>
 
-        {/* Flex container for Star and Experience side by side */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
           <div className="flex items-center gap-1">
             <Star className="fill-yellow-400 text-yellow-400" size={20} />
-            <span className="font-poppins font-semibold text-[18px]">
-              {doctor.rating}
-            </span>
+            <span className="font-poppins font-semibold text-[18px]">{doctor.rating}</span>
           </div>
 
           <div className="flex items-center gap-2">
             <ShoppingBag size={20} />
-            <span className="font-poppins font-semibold text-[18px]">
-              {doctor.experience}
-            </span>
+            <span className="font-poppins font-semibold text-[18px]">{doctor.experience}</span>
           </div>
         </div>
 
         <div>
           <p className="font-medium">Consultation Fees:</p>
           <div className="flex items-center gap-2 flex-wrap">
-            {doctor.consultationFees.map((fee, index) => (
-              <span key={index} className="flex items-center gap-1">
+            {doctor.consultationFees.map((fee, idx) => (
+              <span key={idx} className="flex items-center gap-1">
                 <span className="text-[#20C5AF] font-medium">{fee.amount}</span>
-                <span className="text-black"> ({fee.method})</span>
-                {index < doctor.consultationFees.length - 1 && (
-                  <span className="text-black">&</span>
-                )}
+                <span className="text-black">({fee.method})</span>
               </span>
             ))}
           </div>
@@ -398,24 +282,26 @@ function DoctorCard({ doctor }) {
       </div>
 
       <div className="flex flex-col gap-4 min-w-[200px]">
-        <Button
-          variant="outline"
-          className="w-full border-blue-500 text-blue-500 hover:bg-blue-50 cursor-pointer"
-        >
+        <Button variant="outline" className="w-full border-blue-500 text-blue-500 hover:bg-blue-50">
           Call Us
         </Button>
         <Link href={"/book-appointment"}>
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 cursor-pointer">
+          <Button className="w-full bg-blue-600 hover:bg-blue-700">
             Book Appointment
           </Button>
         </Link>
-        <div className="flex items-center gap-2 mt-2">
-          <MapPin size={20} className="text-blue-500" />
-          <span className="font-[400] font-poppins break-words max-w-[180px]">
-            {doctor.hospital}
-          </span>
-        </div>
       </div>
     </Card>
+  );
+}
+
+function GradientBackground() {
+  return (
+    <div>
+      <Image src="/images/green-ecllipse.png" width={0} height={0} alt="bg" sizes="100vw" priority className="absolute top-0 left-0 w-auto h-full" />
+      <Image src="/images/red-ecllipse.png" width={0} height={0} alt="bg" sizes="100vw" priority className="absolute top-20 left-0 w-auto h-full" />
+      <Image src="/images/green-ecllipse-right.png" width={0} height={0} alt="bg" sizes="100vw" priority className="absolute top-0 right-0 w-auto h-full" />
+      <Image src="/images/red-ecllipse-right.png" width={0} height={0} alt="bg" sizes="100vw" priority className="absolute top-20 right-0 w-auto h-full" />
+    </div>
   );
 }
