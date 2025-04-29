@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { LOCATIONS } from "@/constants/locations";
 
-export function useSearchDoctors({ locationSearch, doctorSearch, diseaseSearch, currentPage }) {
+export function useSearchDoctors({ locationSearch, doctorSearch, diseases, diseaseSearch, currentPage }) {
   const [doctors, setDoctors] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -11,16 +11,22 @@ export function useSearchDoctors({ locationSearch, doctorSearch, diseaseSearch, 
   const getLocationIdByName = (name) =>
     LOCATIONS.find((loc) => loc.name === name)?.id;
 
+  console.log(diseases);
+  
+  const getDiseaseIdByName = (name) =>
+    diseases?.find((diseas) => diseas.name === name)?.id;
+
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
       const fetchDoctors = async () => {
         setLoading(true);
         try {
           const locationId = getLocationIdByName(locationSearch);
+          const diseaseId = getDiseaseIdByName(diseaseSearch);
 
           const params = new URLSearchParams();
           if (locationId) params.append("location", locationId);
-          if (diseaseSearch) params.append("disease", diseaseSearch);
+          if (diseaseId) params.append("disease", diseaseId);
           if (doctorSearch) params.append("search", doctorSearch);
           if (currentPage) params.append("page", currentPage);
 

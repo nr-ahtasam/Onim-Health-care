@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { LOCATIONS } from "@/constants/locations";
 import { FEATURED_SERVICES_QUERY } from "@/lib/graphql";
@@ -30,19 +30,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function SearchDoctorPage() {
+  const locationDropdownRef = useRef(null);
+  const searchDropdownRef = useRef(null);
+
   const [locationSearch, setLocationSearch] = useState("");
+  const [searchText, setSearchText] = useState("");
   const [doctorSearch, setDoctorSearch] = useState("");
   const [diseaseSearch, setDiseaseSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] = useState(false);
-
-  const { doctors, totalPages, loading } = useSearchDoctors({
-    locationSearch,
-    doctorSearch,
-    diseaseSearch,
-    currentPage,
-  });
 
   const { data, loading: servicesLoading, error } = useQuery(FEATURED_SERVICES_QUERY);
   const diseases = data?.page?.homeSections?.featuredServices?.nodes.map((d) => ({
@@ -51,12 +48,43 @@ export default function SearchDoctorPage() {
     type: d.serviceFields.type,
   }));
 
+  const { doctors, totalPages, loading } = useSearchDoctors({
+    locationSearch,
+    doctorSearch,
+    diseases,
+    diseaseSearch,
+    currentPage,
+  });
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        locationDropdownRef.current &&
+        !locationDropdownRef.current.contains(event.target)
+      ) {
+        setShowLocationDropdown(false);
+      }
+      if (
+        searchDropdownRef.current &&
+        !searchDropdownRef.current.contains(event.target)
+      ) {
+        setShowDoctorSearchDropdown(false);
+      }
+    };
+  
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showLocationDropdown, showDoctorSearchDropdown]);
+  
+
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
   };
-
   return (
     <div className="min-h-screen">
             {/* Header with gradient background */}
@@ -83,7 +111,10 @@ export default function SearchDoctorPage() {
             </button>
             {/* Doctor search dropdown */}
             {showLocationDropdown && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-gray-100 rounded-3xl shadow-lg overflow-hidden z-50">
+              <div 
+                ref={locationDropdownRef}
+                className="absolute top-full left-0 right-0 mt-2 bg-gray-100 rounded-3xl shadow-lg overflow-hidden z-50"
+              >
                 <div className="p-4 flex items-center gap-3 border-b border-gray-200">
                   <button onClick={() => setShowLocationDropdown(false)}>
                     <ArrowLeft size={20} className="text-gray-700" />
@@ -128,8 +159,13 @@ export default function SearchDoctorPage() {
               type="text"
               placeholder="Search by doctor name or disease"
               className="pl-10 pr-10 py-6 rounded-full w-full bg-white text-black"
-              value={doctorSearch}
-              onChange={(e) => setDoctorSearch(e.target.value)}
+              value={searchText}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSearchText(value);
+                setDoctorSearch(value);
+                setDiseaseSearch(value);
+              }}
               onFocus={() => setShowDoctorSearchDropdown(true)}
             />
             <button className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -138,7 +174,10 @@ export default function SearchDoctorPage() {
 
             {/* Doctor search dropdown */}
             {showDoctorSearchDropdown && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-gray-100 rounded-3xl shadow-lg overflow-hidden z-50">
+              <div 
+                className="absolute top-full left-0 right-0 mt-2 bg-gray-100 rounded-3xl shadow-lg overflow-hidden z-50"
+                ref={searchDropdownRef}
+                >
                 <div className="p-4 flex items-center gap-3 border-b border-gray-200">
                   <button onClick={() => setShowDoctorSearchDropdown(false)}>
                     <ArrowLeft size={20} className="text-gray-700" />
@@ -166,9 +205,8 @@ export default function SearchDoctorPage() {
                       key={index}
                       className="flex justify-between items-center p-4 hover:bg-gray-200 cursor-pointer border-b border-gray-200"
                       onClick={() => {
-                        setDiseaseSearch(disease.id);
-                        console.log(disease);
-                        
+                        setDiseaseSearch(disease.name);
+                        setSearchText(disease.name);
                         setShowDoctorSearchDropdown(false);
                       }}
                     >
