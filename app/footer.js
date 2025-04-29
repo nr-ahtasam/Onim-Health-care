@@ -101,10 +101,10 @@ export default function Footer() {
               <div className="space-y-6">
                 <div>
                   <div className="border-b border-gray-200 pb-2 mb-4">
-                    <h4 className="font-bold">Visit our Hospital</h4>
+                    <h4 className="font-bold">Visit our Head Quarters</h4>
                   </div>
                   <p className="text-sm text-gray-600 mb-4">
-                    123 Main street, Area name, Location name, City - 123456
+                  Block#D, House#42, Rd No-15, Dhaka 1213
                   </p>
                 </div>
 
@@ -112,14 +112,15 @@ export default function Footer() {
                   <div className="border-b border-gray-200 pb-2 mb-4">
                     <h4 className="font-bold">Give us a call</h4>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">0123456789</p>
+                  <p className="text-sm text-gray-600 mb-4">01711-997401
+                  </p>
                 </div>
 
                 <div>
                   <div className="border-b border-gray-200 pb-2 mb-4">
                     <h4 className="font-bold">Email us on</h4>
                   </div>
-                  <p className="text-sm text-gray-600">enquiry@hospital.com</p>
+                  <p className="text-sm text-gray-600">enquiry@omnihealthcare.com.bd</p>
                 </div>
               </div>
             </div>
@@ -130,9 +131,9 @@ export default function Footer() {
                 <h4 className="font-bold">Opening Hours</h4>
               </div>
               <div className="text-sm text-gray-600">
-                <p className="mb-2">Mon - Fri : 08:00 - 16:00</p>
-                <p className="mb-2">Sat : 08:00 - 16:00</p>
-                <p className="mb-2">Sun : 08:00 - 16:00</p>
+                <p className="mb-2">Mon - Fri : 10:00 - 19:00</p>
+                <p className="mb-2">Sat : 10:00 - 19:00</p>
+                <p className="mb-2">Sun : 10:00 - 19:00</p>
               </div>
             </div>
 

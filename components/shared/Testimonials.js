@@ -35,11 +35,9 @@ export default function Testimonials() {
         <div className="flex flex-col md:flex-row justify-evenly">
           {/* Testimonial Heading */}
           <div className="md:col-span-2 md:max-w-[230px] text-center md:text-left">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">What our customers say</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Testimonials</h2>
             <p className="text-gray-600 mb-6">
-              Elit odio vitae metus sed. Justo urna id quis augue. Lectus donec venenatis pretium cras. Ut enim erat
-              dolor
-              ultricies aliquam
+              Let's have a look at some of the feedbacks from our clients!
             </p>
           </div>
 

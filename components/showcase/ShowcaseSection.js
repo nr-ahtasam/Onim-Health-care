@@ -85,13 +85,12 @@ export default function ShowcaseSection() {
               <div className="absolute bottom-0 left-0 right-0 h-54 md:h-86 rounded-tr-[75px] bg-blue-500 z-0" />
 
               <div className="space-y-6 md:p-12 max-w-[600px] text-center md:text-start">
-                <h2 className="text-3xl md:text-[60px] font-bold text-gray-900 leading-tight ">
-                  Your medical and healthcare solutions
+                <h2 className="text-3xl md:text-[50px] font-bold text-gray-900 leading-tight ">
+                Welcome to Omni Health Care
                 </h2>
 
                 <p className="text-gray-700 text-xl border-t border-black/40 py-4">
-                  Ullamcorper amet hac commodo tincidunt turpis venenatis lectus
-                  purus leo. Natoque.
+                Your Trusted Partner in Specialized Medical Care <br/> <b>Book Appointments | Get Second Opinions | Experience Seamless Surgeries</b>
                 </p>
               </div>
               <div className={"md:flex items-end relative md:-mb-14"}>
@@ -107,7 +106,7 @@ export default function ShowcaseSection() {
                       </p>
                       <p className="text-sm text-gray-700">call us on</p>
                       <p className="text-xl font-bold text-[#FF937B]">
-                        0123456789
+                      01711-997401
                       </p>
                     </div>
                   </div>
