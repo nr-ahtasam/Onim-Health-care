@@ -6,10 +6,10 @@ import Link from "next/link";
 
 export default function Footer() {
   const newsLinks = [
-    { label: "News", href: "/news" },
-    { label: "Events", href: "/events" },
-    { label: "Gallery", href: "/gallery" },
-    { label: "Testimonials", href: "testimonials" },
+    { label: "Hotel Omni Residency", href: "/news" },
+    { label: "Omni Lights", href: "/events" },
+    { label: "Ray International", href: "/gallery" },
+    { label: "GMT Trading", href: "testimonials" },
     { label: "Insurance Partners", href: "insurance-partners" },
   ];
   return (
@@ -104,7 +104,7 @@ export default function Footer() {
                     <h4 className="font-bold">Visit our Head Quarters</h4>
                   </div>
                   <p className="text-sm text-gray-600 mb-4">
-                  Block#D, House#42, Rd No-15, Dhaka 1213
+                    Block#D, House#42, Rd No-15, Dhaka 1213
                   </p>
                 </div>
 
@@ -112,15 +112,16 @@ export default function Footer() {
                   <div className="border-b border-gray-200 pb-2 mb-4">
                     <h4 className="font-bold">Give us a call</h4>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">01711-997401
-                  </p>
+                  <p className="text-sm text-gray-600 mb-4">01711-997401</p>
                 </div>
 
                 <div>
                   <div className="border-b border-gray-200 pb-2 mb-4">
                     <h4 className="font-bold">Email us on</h4>
                   </div>
-                  <p className="text-sm text-gray-600">enquiry@omnihealthcare.com.bd</p>
+                  <p className="text-sm text-gray-600">
+                    enquiry@omnihealthcare.com.bd
+                  </p>
                 </div>
               </div>
             </div>
@@ -174,7 +175,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <div className="border-b border-gray-200 pb-2 mb-4">
-                    <h4 className="font-bold">News and media</h4>
+                    <h4 className="font-bold">Sister Concerns</h4>
                   </div>
                   <ul className="text-sm text-gray-600 space-y-2">
                     {newsLinks.map((item, index) => (

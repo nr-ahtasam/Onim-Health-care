@@ -3,7 +3,10 @@ import BreadCrumbs from "@/components/breadcrumbs/BreadCrumbs";
 const page = () => {
   return (
     <div>
-      <BreadCrumbs title="News" subtitle="In Omni Health Care" />
+      <BreadCrumbs
+        title="Hotel Omni Residency"
+        subtitle="In Omni Health Care"
+      />
     </div>
   );
 };

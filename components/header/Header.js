@@ -153,8 +153,8 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   return (
-    <header className="w-full">
-      <div className="sticky top-0 z-50 bg-[#333333] text-white border-b border-[#D9D9D9]">
+    <header className="w-full sticky top-0 z-50 bg-white ">
+      <div className=" bg-[#333333] text-white border-b border-[#D9D9D9]">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <Link href="/" className="flex items-center">
             <Image

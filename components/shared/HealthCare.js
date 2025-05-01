@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { featureDoctorsQuery } from "@/lib/graphql";
-import Loader from "@/lib/Loader";
+import LoadingSkeleton from "@/lib/LoadingSkeleton";
 import { useQuery } from "@apollo/client";
 import { MapPin, ShoppingBag, Star } from "lucide-react";
 import dynamic from "next/dynamic";
@@ -16,7 +16,7 @@ const Slider = dynamic(() => import("react-slick"), { ssr: false });
 export default function HealthCare() {
   const { data, loading, error } = useQuery(featureDoctorsQuery);
 
-  if (loading) return <Loader />;
+  if (loading) return <LoadingSkeleton />;
 
   // Transform the GraphQL response into the structure required by the UI.
   const doctors = data?.page?.homeSections?.featuredDoctors?.nodes?.map(
@@ -66,11 +66,13 @@ export default function HealthCare() {
         <div className="flex flex-col md:flex-row justify-evenly">
           <div className="space-y-6 max-w-[550px] text-center md:text-start">
             <h2 className="text-3xl md:text-[45px] font-bold text-gray-900 leading-tight ">
-            Redefining Modern Healthcare in Bangladesh
+              Redefining Modern Healthcare in Bangladesh
             </h2>
 
             <p className="text-gray-700 text-xl py-4">
-            Omni Health Care brings together experienced surgeons, state-of-the-art hospitals, and a compassionate care team to deliver top-notch treatments.
+              Omni Health Care brings together experienced surgeons,
+              state-of-the-art hospitals, and a compassionate care team to
+              deliver top-notch treatments.
             </p>
           </div>
 

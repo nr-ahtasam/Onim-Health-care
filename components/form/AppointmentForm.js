@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useQuery } from "@apollo/client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -12,10 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 
-import Loader from "@/lib/Loader";
 import { getAllServices } from "@/lib/graphql";
+import LoadingSkeletonForm from "@/lib/LoadingSkeletonForm";
 
 export default function AppointmentForm() {
   const router = useRouter();
@@ -67,7 +67,7 @@ export default function AppointmentForm() {
   };
 
   // 5) loading / error UI
-  if (loading) return <Loader />;
+  if (loading) return <LoadingSkeletonForm />;
   if (error)
     return (
       <div className="p-4 text-red-600">
