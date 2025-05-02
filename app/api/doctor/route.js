@@ -7,8 +7,9 @@ export async function GET(req) {
     const location = searchParams.get("location");
     const disease = searchParams.get("disease");
     const search = searchParams.get("search");
-    const page = searchParams.get("page") || 1;
-
+    // const page = searchParams.get("page") || 1;
+    const page = searchParams.get("page");
+    const perPage = searchParams.get("per_page");
     const user = process.env.WP_API_USER;
     const pass = process.env.WP_API_PASS;
     const basicAuth = Buffer.from(`${user}:${pass}`).toString("base64");
@@ -17,7 +18,8 @@ export async function GET(req) {
     if (location) params.append("location", location);
     if (disease) params.append("disease", disease);
     if (search) params.append("search", search);
-    params.append("page", page);
+    if (page) params.append("page", page);
+    if (perPage) params.append("per_page", perPage);
 
     const url = `https://omni.fmmethod.online/wp-json/doctor-finder/v1/doctors?${params.toString()}`;
 

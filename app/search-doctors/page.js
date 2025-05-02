@@ -38,6 +38,7 @@ export default function SearchDoctorPage() {
   const [doctorSearch, setDoctorSearch] = useState("");
   const [diseaseSearch, setDiseaseSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] =
     useState(false);
@@ -62,7 +63,9 @@ export default function SearchDoctorPage() {
     diseases,
     diseaseSearch,
     currentPage,
+    perPage,
   });
+  console.log("naim2", totalPages);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -294,71 +297,76 @@ export default function SearchDoctorPage() {
 }
 
 function DoctorCard({ doctor }) {
-  console.log(doctor);
   return (
-    <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white">
-      <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
-        <Image
-          src={doctor.image}
-          alt={doctor.name}
-          className="object-cover h-[200px]"
-          width={200}
-          height={200}
-        />
-      </div>
-      <div className="flex-1 space-y-4">
-        <div>
-          <p className="font-poppins font-semibold text-[35px]">
-            {doctor.name}
-          </p>
-          <p className="font-poppins font-[400] text-[22px] text-[#0068F9]">
-            {doctor.specialty}
-          </p>
-        </div>
+    <>
+      <Link href={`/doctors-profile/${doctor.id}`}>
+        <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white">
+          <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
+            <Image
+              src={doctor.image}
+              alt={doctor.name}
+              className="object-cover h-[200px]"
+              width={200}
+              height={200}
+            />
+          </div>
+          <div className="flex-1 space-y-4">
+            <div>
+              <p className="font-poppins font-semibold text-[35px]">
+                {doctor.name}
+              </p>
+              <p className="font-poppins font-[400] text-[22px] text-[#0068F9]">
+                {doctor.specialty}
+              </p>
+            </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-          <div className="flex items-center gap-1">
-            <Star className="fill-yellow-400 text-yellow-400" size={20} />
-            <span className="font-poppins font-semibold text-[18px]">
-              {doctor.rating}
-            </span>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+              <div className="flex items-center gap-1">
+                <Star className="fill-yellow-400 text-yellow-400" size={20} />
+                <span className="font-poppins font-semibold text-[18px]">
+                  {doctor.rating}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <ShoppingBag size={20} />
+                <span className="font-poppins font-semibold text-[18px]">
+                  {doctor.experience}
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <p className="font-medium">Consultation Fees:</p>
+              <div className="flex items-center gap-2 flex-wrap">
+                {doctor.consultationFees.map((fee, idx) => (
+                  <span key={idx} className="flex items-center gap-1">
+                    <span className="text-[#20C5AF] font-medium">
+                      {fee.amount}
+                    </span>
+                    <span className="text-black">({fee.method})</span>
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <ShoppingBag size={20} />
-            <span className="font-poppins font-semibold text-[18px]">
-              {doctor.experience}
-            </span>
+          <div className="flex flex-col gap-4 min-w-[200px]">
+            <Button
+              variant="outline"
+              className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
+            >
+              Call Us
+            </Button>
+            <Link href={"/book-appointment"}>
+              <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                Book Appointment
+              </Button>
+            </Link>
           </div>
-        </div>
-
-        <div>
-          <p className="font-medium">Consultation Fees:</p>
-          <div className="flex items-center gap-2 flex-wrap">
-            {doctor.consultationFees.map((fee, idx) => (
-              <span key={idx} className="flex items-center gap-1">
-                <span className="text-[#20C5AF] font-medium">{fee.amount}</span>
-                <span className="text-black">({fee.method})</span>
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-4 min-w-[200px]">
-        <Button
-          variant="outline"
-          className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
-        >
-          Call Us
-        </Button>
-        <Link href={"/book-appointment"}>
-          <Button className="w-full bg-blue-600 hover:bg-blue-700">
-            Book Appointment
-          </Button>
-        </Link>
-      </div>
-    </Card>
+        </Card>
+      </Link>
+    </>
   );
 }
 

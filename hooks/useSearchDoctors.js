@@ -1,9 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { LOCATIONS } from "@/constants/locations";
+import { useEffect, useState } from "react";
 
-export function useSearchDoctors({ locationSearch, doctorSearch, diseases, diseaseSearch, currentPage }) {
+export function useSearchDoctors({
+  locationSearch,
+  doctorSearch,
+  diseases,
+  diseaseSearch,
+  currentPage,
+  perPage,
+}) {
   const [doctors, setDoctors] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -27,11 +34,14 @@ export function useSearchDoctors({ locationSearch, doctorSearch, diseases, disea
           if (diseaseId) params.append("disease", diseaseId);
           if (doctorSearch) params.append("search", doctorSearch);
           if (currentPage) params.append("page", currentPage);
+          if (perPage) params.append("per_page", perPage);
+          // console.log(params.toString());
 
           const response = await fetch(`/api/doctor?${params.toString()}`);
           if (!response.ok) throw new Error("Failed to fetch doctors");
 
           const data = await response.json();
+          console.log("naim", data);
 
           const formattedDoctors = (data?.data || []).map((doctor) => ({
             id: doctor.id,
@@ -40,11 +50,17 @@ export function useSearchDoctors({ locationSearch, doctorSearch, diseases, disea
             rating: `${doctor.acf.rating}/5.00`,
             experience: `${doctor.acf.experience}+ Years Experience`,
             consultationFees: [
-              { method: "Cash", amount: `${doctor.acf.consultation_fees} Taka` },
-              { method: "Bkash", amount: `${doctor.acf.consultation_fees_online} Taka` },
+              {
+                method: "Cash",
+                amount: `${doctor.acf.consultation_fees} Taka`,
+              },
+              {
+                method: "Bkash",
+                amount: `${doctor.acf.consultation_fees_online} Taka`,
+              },
             ],
             hospital: doctor.acf.chamber?.[0]?.post_title || "Unknown Hospital",
-            image: doctor.acf.image_gallery?.[0] || "/images/doctor_placeholder.jpg",
+            image: doctor.image || "/images/doctor_placeholder.jpg",
           }));
 
           setDoctors(formattedDoctors);
