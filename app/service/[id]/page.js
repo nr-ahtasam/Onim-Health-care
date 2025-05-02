@@ -6,7 +6,7 @@ import FAQSection from "@/components/services/FAQSection";
 import MedicalServices from "@/components/services/MedicalServices";
 import ServicePageHeader from "@/components/services/ServicePageHeader";
 import { singleServiceQuery } from "@/lib/graphql";
-import Loader from "@/lib/Loader";
+import LoadingSkeleton from "@/lib/LoadingSkeleton";
 import { useQuery } from "@apollo/client";
 import { useParams } from "next/navigation";
 
@@ -15,7 +15,7 @@ export default function Service() {
   const { data, loading, error } = useQuery(singleServiceQuery, {
     variables: { id },
   });
-  if (loading) return <Loader />;
+  if (loading) return <LoadingSkeleton />;
 
   return (
     <>

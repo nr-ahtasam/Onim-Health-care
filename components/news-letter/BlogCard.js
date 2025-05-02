@@ -11,7 +11,7 @@ export default function BlogCard({ post }) {
 
   return (
     <div className="flex flex-col md:flex-row bg-white overflow-hidden md:w-[calc(50%-0.5rem)] mb-15">
-      <div className="md:w-1/2 h-10 md:h-auto relative">
+      <div className="w-full md:w-1/2 h-40 md:h-auto relative">
         <Image
           src={post.featuredImage?.node?.sourceUrl || "/placeholder.svg"}
           alt={post.title}

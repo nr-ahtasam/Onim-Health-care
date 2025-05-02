@@ -12,6 +12,8 @@ const page = () => {
     variables: { id },
   });
   if (loading) return <Loader />;
+  console.log(data);
+
   return (
     <div>
       <BreadCrumbs title="FAQs" subtitle="In Omni Health Care" />

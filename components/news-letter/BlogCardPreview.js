@@ -23,7 +23,7 @@ export default function BlogCardPreview() {
         </h2>
         <Link
           href="/blogs"
-          className="text-gray-600 flex items-center gap-1 hover:text-gray-900"
+          className="w-20 md:w-20 text-[12px] text-gray-600 flex  gap-1 hover:text-gray-900"
         >
           View all <ArrowRight size={16} />
         </Link>

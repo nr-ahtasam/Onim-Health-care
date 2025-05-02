@@ -15,10 +15,10 @@ export default function Footer() {
   return (
     <footer className=" text-gray-800">
       {/* Top section - Social and Newsletter */}
-      <div className="border-t border-gray-400">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 divide-x divide-gray-400">
+      <div className="md:border-t border-gray-400">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 md:divide-x divide-gray-400">
           {/* Social Network */}
-          <div className="py-16 px-8 flex flex-col items-center justify-center">
+          <div className="md:py-16 px-8 flex flex-col items-center justify-center">
             <p className="text-sm text-gray-500 mb-2 text-center">
               Social network
             </p>
@@ -67,7 +67,7 @@ export default function Footer() {
       </div>
 
       {/* Middle section - Logo, Contact, Hours, Specialties */}
-      <div className="border-t border-gray-400">
+      <div className="md:border-t border-gray-400">
         <div className="max-w-7xl mx-auto py-12 px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Logo and Tagline (Full Width) */}
@@ -100,7 +100,7 @@ export default function Footer() {
             <div className="col-span-1">
               <div className="space-y-6">
                 <div>
-                  <div className="border-b border-gray-200 pb-2 mb-4">
+                  <div className="md:border-b border-gray-200 pb-2 mb-4">
                     <h4 className="font-bold">Visit our Head Quarters</h4>
                   </div>
                   <p className="text-sm text-gray-600 mb-4">
@@ -148,27 +148,32 @@ export default function Footer() {
                   <ul className="text-sm text-gray-600 space-y-2">
                     <li>
                       <Link href="#" className="hover:text-blue-500">
-                        Cardiac Sciences
+                        Hernia
                       </Link>
                     </li>
                     <li>
                       <Link href="#" className="hover:text-blue-500">
-                        Clinical Diagnostics
+                        Piles
                       </Link>
                     </li>
                     <li>
                       <Link href="#" className="hover:text-blue-500">
-                        Cosmetic Surgery
+                        Pilonidal
                       </Link>
                     </li>
                     <li>
                       <Link href="#" className="hover:text-blue-500">
-                        Critical & Intensive Care
+                        Sinus
                       </Link>
                     </li>
                     <li>
                       <Link href="#" className="hover:text-blue-500">
-                        Dental Sciences
+                        Lipoma
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="#" className="hover:text-blue-500">
+                        Fissure Treatment
                       </Link>
                     </li>
                   </ul>

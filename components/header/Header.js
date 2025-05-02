@@ -148,7 +148,12 @@ const specialties = [
     submenu: [{ label: "Gastric Balloon", href: "/service/353" }],
   },
 ];
-
+const patientMenuItems = [
+  { label: "Search Doctors", href: "/search-doctors" },
+  { label: "Booking Policy", href: "/book-appointment" },
+  { label: "Insurance", href: "/" },
+  { label: "Patient Portal", href: "/" },
+];
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
 
@@ -177,9 +182,11 @@ export default function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem>Patient Information</DropdownMenuItem>
-                <DropdownMenuItem>Insurance</DropdownMenuItem>
-                <DropdownMenuItem>Patient Portal</DropdownMenuItem>
+                {patientMenuItems.map((item, index) => (
+                  <Link key={index} href={item.href}>
+                    <DropdownMenuItem>{item.label}</DropdownMenuItem>
+                  </Link>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -189,12 +196,6 @@ export default function Header() {
               </Button>
             </Link>
 
-            {/* <Button
-              variant="outline"
-              className="py-5 text-blue-500 bg-white hover:bg-blue-500 border border-blue-500 hover:text-white"
-            >
-              EN | বা
-            </Button> */}
             <GoogleTranslateButton />
           </div>
 

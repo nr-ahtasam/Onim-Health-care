@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function AboutUsSection() {
   return (
-    <div className="py-16 relative overflow-hidden">
+    <div className="md:py-16 relative overflow-hidden">
       <div>
         <Image
           src="/images/green-ecllipse.png"
@@ -86,9 +86,7 @@ export default function AboutUsSection() {
           {/* Right side - Image with stats */}
           <div className="relative rounded-3xl ">
             <div className="relative md:h-[670px]">
-              <div
-                className={"md:absolute top-20 -left-25 z-10 pr-40 shrink-0"}
-              >
+              <div className="w-full md:absolute top-20 -left-25 z-10 pb-5 ">
                 <Image
                   src="/images/about-us.jpeg"
                   alt="Healthcare professionals"
@@ -96,14 +94,14 @@ export default function AboutUsSection() {
                   height={0}
                   priority
                   sizes={"100vw"}
-                  className="object-cover w-[500px] h-[300px] md:h-[520px] rounded-tl-[100px]"
+                  className="object-cover w-[100%] h-[300px] md:w-[500px]  md:h-[520px] rounded-tl-[100px]"
                 />
               </div>
 
               {/* Stats overlay */}
               <div className="w-[100%] flex h-full justify-center items-end   text-white bg-[#051320] md:rounded-tr-[100px]">
-                <div className="w-[70%]"></div>
-                <div className="w-[30%] pr-10 flex h-full flex-col justify-center items-end ">
+                <div className="md:w-[70%]"></div>
+                <div className="w-[100%] md:w-[30%] md:pr-10 flex h-full flex-col justify-center items-center md:items-end ">
                   <div className="my-8">
                     <span className="text-[45px] font-bold text-[#FF937B]">
                       15+
