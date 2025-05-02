@@ -202,7 +202,7 @@ export default function Footer() {
       <div className="border-t border-gray-200">
         <div className="max-w-7xl mx-auto py-6 px-4 flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm text-gray-500 mb-4 md:mb-0">
-            ©2025 Omni Health Care. All Rights Reserved. Made By Rubytech
+            ©2025 Omni Health Care. All Rights Reserved. Made By DevSpace
           </div>
           <div className="flex flex-wrap gap-6 text-sm">
             <Link

@@ -41,7 +41,7 @@ export default function WhyChooseUsSection() {
                 <br />
                 Care?
               </h2>
-              <dev className="text-blue-100 max-w-[470px]">
+              <div className="text-blue-100 max-w-[470px]">
                 <ul>
                   <li>
                     1. <b>Expert Doctors:</b> Board-certified specialists across
@@ -64,7 +64,7 @@ export default function WhyChooseUsSection() {
                     — all handled for you.
                   </li>
                 </ul>
-              </dev>
+              </div>
             </div>
             <div className="mt-4">
               <Link href={"/book-appointment"}>

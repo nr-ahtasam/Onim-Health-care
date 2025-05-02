@@ -81,7 +81,6 @@ const specialties = [
       },
       { label: "Balanitis", href: "/service/343" },
       { label: "Paraphimosis", href: "/service/226" },
-      // { label: "Phimosis", href: "/proctology/rectal-prolapse" },
     ],
   },
   {
@@ -108,8 +107,6 @@ const specialties = [
         label: "Breast Augmentation Surgery",
         href: "/service/281",
       },
-      // { label: "Tummy Tuck", href: "/proctology/rectal-prolapse" },
-      // { label: " Buccal Fat", href: "/proctology/rectal-prolapse" },
     ],
   },
   {
