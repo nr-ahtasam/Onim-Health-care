@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import ConditionGridSkeleton from "@/lib/ConditionGridSkeleton";
 import { FEATURED_SERVICES_QUERY } from "@/lib/graphql";
-import LoadingSkeleton from "@/lib/LoadingSkeleton";
 import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,7 +13,7 @@ export default function MedicalConditionGrid() {
   const { data, loading, error } = useQuery(FEATURED_SERVICES_QUERY);
 
   // if (loading) return <Loader />;
-  if (loading) return <LoadingSkeleton />;
+  if (loading) return <ConditionGridSkeleton />;
   if (error) return <div>Error loading featured services: {error.message}</div>;
 
   // Use API data if available, otherwise fallback to empty array

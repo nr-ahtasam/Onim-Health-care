@@ -14,7 +14,7 @@ import {
 import { LOCATIONS } from "@/constants/locations";
 import { useSearchDoctors } from "@/hooks/useSearchDoctors";
 import { getAllServices } from "@/lib/graphql";
-import Loader from "@/lib/Loader";
+import SearchDoctorCardSkeleton from "@/lib/SearchDoctorCardSkeleton";
 import { useQuery } from "@apollo/client";
 import {
   ArrowLeft,
@@ -58,7 +58,7 @@ export default function SearchDoctorPage() {
     currentPage,
     perPage,
   });
-  
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -232,9 +232,9 @@ export default function SearchDoctorPage() {
         {/* Doctor listings */}
         <div className="w-full py-12 px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
-            <div className="space-y-6">
+            <div className="space-y-6 mb-6">
               {loading ? (
-                <Loader />
+                <SearchDoctorCardSkeleton />
               ) : (
                 doctors.map((doctor) => (
                   <DoctorCard key={doctor.id} doctor={doctor} />
@@ -292,7 +292,7 @@ function DoctorCard({ doctor }) {
   return (
     <>
       <Link href={`/doctors-profile/${doctor.id}`}>
-        <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white">
+        <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white mb-10">
           <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
             <Image
               src={doctor.image}

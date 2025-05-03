@@ -1,8 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import DoctorCardGridSkeleton from "@/lib/DoctorCardGridSkeleton";
 import { featureDoctorsQuery } from "@/lib/graphql";
-import LoadingSkeleton from "@/lib/LoadingSkeleton";
 import { useQuery } from "@apollo/client";
 import { MapPin, ShoppingBag, Star } from "lucide-react";
 import dynamic from "next/dynamic";
@@ -16,7 +16,7 @@ const Slider = dynamic(() => import("react-slick"), { ssr: false });
 export default function HealthCare() {
   const { data, loading, error } = useQuery(featureDoctorsQuery);
 
-  if (loading) return <LoadingSkeleton />;
+  if (loading) return <DoctorCardGridSkeleton />;
 
   // Transform the GraphQL response into the structure required by the UI.
   const doctors = data?.page?.homeSections?.featuredDoctors?.nodes?.map(
