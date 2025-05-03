@@ -43,13 +43,6 @@ export default function SearchDoctorPage() {
   const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] =
     useState(false);
 
-  // const { data, loading: servicesLoading, error } = useQuery(FEATURED_SERVICES_QUERY);
-  // const diseases = data?.page?.homeSections?.featuredServices?.nodes.map((d) => ({
-  //   id: d.serviceId,
-  //   name: d.serviceFields.catName,
-  //   type: d.serviceFields.type,
-  // }));
-
   const { data, loading: servicesLoading, error } = useQuery(getAllServices);
   const diseases = data?.services?.nodes.map((d) => ({
     id: d.databaseId,
@@ -65,8 +58,7 @@ export default function SearchDoctorPage() {
     currentPage,
     perPage,
   });
-  console.log("naim2", totalPages);
-
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (

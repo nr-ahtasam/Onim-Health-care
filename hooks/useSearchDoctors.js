@@ -35,14 +35,11 @@ export function useSearchDoctors({
           if (doctorSearch) params.append("search", doctorSearch);
           if (currentPage) params.append("page", currentPage);
           if (perPage) params.append("per_page", perPage);
-          // console.log(params.toString());
 
           const response = await fetch(`/api/doctor?${params.toString()}`);
           if (!response.ok) throw new Error("Failed to fetch doctors");
 
           const data = await response.json();
-          console.log("naim", data);
-
           const formattedDoctors = (data?.data || []).map((doctor) => ({
             id: doctor.id,
             name: doctor.title,
