@@ -293,11 +293,11 @@ function DoctorCard({ doctor }) {
     <>
       <Link href={`/doctors-profile/${doctor.id}`}>
         <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white mb-10">
-          <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
+          <div className="w-100 md:w-48 h-48 relative  overflow-hidden">
             <Image
               src={doctor.image}
               alt={doctor.name}
-              className="object-cover h-[200px]"
+              className="object-cover h-[250px] w-[300px] rounded-[30px]"
               width={200}
               height={200}
             />

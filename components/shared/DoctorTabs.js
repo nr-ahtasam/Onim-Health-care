@@ -73,13 +73,13 @@ export default function DoctorTabs({ singleDoctor }) {
     <section className="w-full px-4 py-8 md:px-8 relative z-10">
       <div className="mx-auto container">
         {/* Tabs */}
-        <div className="flex md:gap-4 flex-wrap">
+        <div className="flex gap-2 w-100 md:w-200  md:gap-4 flex-wrap">
           {tabs.map((tab, index) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "px-8 py-3 text-center font-medium transition-colors",
+                "px-2 py-1 md:px-8 md:py-3 text-center font-medium transition-colors",
                 index === 0 && "rounded-tl-[30px]",
                 activeTab === tab.id
                   ? "bg-[#FF937B] text-white"

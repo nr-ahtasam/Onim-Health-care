@@ -68,11 +68,11 @@ export default function DoctorProfile({ singleDoctor }) {
 
         <section className="w-full px-4 py-12 md:px-8 relative z-10">
           <div className="mx-auto container">
-            <div className="grid gap-12 md:grid-cols-3">
+            <div className="w-[100%] flex flex-col md:flex-row gap-12 ">
               {/* Left Column - Doctor Images */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col w-[30%] gap-4">
                 {/* Main Image */}
-                <div className="relative w-full aspect-[5/3] rounded-3xl md:rounded-[50px] overflow-hidden">
+                <div className="relative  md:w-full h-50 w-80  md:h-70 rounded-3xl md:rounded-[50px] overflow-hidden">
                   <Image
                     src={selectedImage}
                     alt={doctor.title}
@@ -82,12 +82,12 @@ export default function DoctorProfile({ singleDoctor }) {
                   />
                 </div>
                 {/* Image Thumbnails */}
-                <div className="flex gap-3">
+                <div className="hidden md:block  ">
                   {imageGallery.map((img, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImage(img)}
-                      className={`rounded-[10px] overflow-hidden border-2 ${
+                      className={`rounded-[10px] gap-2 overflow-hidden border-2 ${
                         selectedImage === img
                           ? "border-blue-500 shadow-md"
                           : "border-transparent"
@@ -98,7 +98,7 @@ export default function DoctorProfile({ singleDoctor }) {
                         alt={`Image ${index + 1}`}
                         width={150}
                         height={100}
-                        className="h-[150px] w-[200px] object-cover"
+                        className="h-[100px] w-[100px] flex object-cover gap-6"
                       />
                     </button>
                   ))}
@@ -106,19 +106,19 @@ export default function DoctorProfile({ singleDoctor }) {
               </div>
 
               {/* Right Column - Doctor Information */}
-              <div className="flex flex-col justify-start">
-                <h1 className="mb-2 text-3xl font-bold md:text-4xl">
+              <div className="flex flex-col justify-start w-[40%]">
+                <h1 className="w-80 md:mb-2 text-2xl font-bold md:text-4xl">
                   {doctor.title}
                 </h1>
 
-                <p className="mb-6 text-xl font-medium text-blue-600">
+                <p className="mb-6 w-80 text-xl font-medium text-blue-600">
                   {doctor.specialities?.nodes
                     .map((speciality) => speciality.name)
                     .join(", ")}
                 </p>
 
                 {/* Rating and Experience */}
-                <div className="mb-6 flex flex-wrap items-center gap-4">
+                <div className="mb-6 flex flex-wrap items-center gap-4 w-[30%]">
                   <div className="flex items-center gap-2">
                     <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                     <span className="font-medium">
@@ -158,18 +158,19 @@ export default function DoctorProfile({ singleDoctor }) {
                 </div>
 
                 {/* Doctor's Long Description */}
-                <div
-                  className="mb-8"
-                  dangerouslySetInnerHTML={{
-                    __html: doctor.content,
-                  }}
-                />
-
+                <div className="w-[350px] ">
+                  <div
+                    className="mb-8 w-[80%]"
+                    dangerouslySetInnerHTML={{
+                      __html: doctor.content,
+                    }}
+                  />
+                </div>
                 {/* Action Buttons */}
-                <div className="mb-8 grid gap-4 sm:grid-cols-2 max-w-md">
+                <div className="mb-4 flex  gap-4  max-w-md">
                   <Button
                     variant="outline"
-                    className="h-12 rounded-md text-base text-blue-500 border border-blue-500"
+                    className="h-12 w-30 md:w-50 rounded-md text-center text-blue-500 border border-blue-500"
                   >
                     Call Us
                   </Button>
@@ -219,7 +220,7 @@ export default function DoctorProfile({ singleDoctor }) {
                     )}
                 </div>
               </div>
-              <div className="flex flex-col justify-start">
+              <div className="flex flex-col justify-end">
                 <AppointmentForm />
               </div>
             </div>
