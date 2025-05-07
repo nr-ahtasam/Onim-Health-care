@@ -1,7 +1,6 @@
 "use client";
 import DoctorChambers from "@/components/doctor-chambers/doctor-chambers";
 import DoctorProfile from "@/components/doctor-profile/DoctorProfile";
-import ServicesGrid from "@/components/doctor-profile/ServicesGrid";
 import AboutUsSection from "@/components/shared/AboutUs";
 import DividerLine from "@/components/shared/DividerLine";
 import DoctorTabs from "@/components/shared/DoctorTabs";
@@ -53,7 +52,8 @@ export default function Page() {
         <MedicalConditionGrid />
         <DoctorTabs singleDoctor={data} />
       </div>
-      <ServicesGrid singleDoctor={data} />
+      <DoctorChambers singleDoctor={data} />
+      {/* <ServicesGrid singleDoctor={data} /> */}
       <HealthCare />
       <div className="py-16 relative overflow-hidden">
         <div>
@@ -76,7 +76,6 @@ export default function Page() {
             className="absolute top-50 right-0 w-auto h-full"
           />
         </div>
-        <DoctorChambers singleDoctor={data} />
       </div>
       <DividerLine />
       <AboutUsSection />

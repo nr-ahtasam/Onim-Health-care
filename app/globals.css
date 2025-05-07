@@ -251,3 +251,7 @@ iframe.goog-te-banner-frame {
 body > .skiptranslate {
   display: none !important;
 }
+.fb-customerchat iframe {
+  bottom: 0 !important;
+  right: 0 !important;
+}

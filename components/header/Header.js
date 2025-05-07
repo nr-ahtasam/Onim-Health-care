@@ -282,6 +282,11 @@ export default function Header() {
 
                   <div className="p-4 border-t mt-auto">
                     <div className="grid gap-2">
+                      <Link href="tel:+880 1781445825">
+                        <Button className="w-full bg-blue-500 hover:bg-blue-600">
+                          Call Us
+                        </Button>
+                      </Link>
                       <Link href="/book-appointment">
                         <Button className="w-full bg-blue-500 hover:bg-blue-600">
                           Make Appointment
