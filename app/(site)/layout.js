@@ -1,4 +1,4 @@
-import Footer from "@/app/footer";
+import Footer from "@/app/(site)/footer";
 import ApolloWrapper from "@/components/apollo/ApolloWrapper";
 import Header from "@/components/header/Header";
 import BlogCardPreview from "@/components/news-letter/BlogCardPreview";
