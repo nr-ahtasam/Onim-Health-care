@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import "./globals.css";
+import "@/app/globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
