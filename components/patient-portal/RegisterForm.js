@@ -1,38 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function RegisterForm({ switchToLogin }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const { register } = useAuth();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const BASE_URL = process.env.NEXT_PUBLIC_API_REST_URL;
-      const res = await fetch(`${BASE_URL}/custom-auth/v1/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          phone,
-          password,
-          role: "patient",
-        }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.token) {
-        localStorage.setItem("authToken", data.token);
-        window.location.reload(); // Refresh to load portal
-      } else {
-        alert(data.message || "Registration failed");
-      }
+      await register({ email, phone, password });
+      window.location.reload();
     } catch (err) {
-      console.error("Register error:", err);
-      alert("Something went wrong during registration");
+      alert(err.message);
     }
   };
 

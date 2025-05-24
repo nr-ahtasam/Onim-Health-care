@@ -5,7 +5,7 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
 export default function AuthPortal() {
-  const [mode, setMode] = useState("login"); // 'login' or 'register'
+  const [mode, setMode] = useState("login");
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#FAFBFC] p-4">

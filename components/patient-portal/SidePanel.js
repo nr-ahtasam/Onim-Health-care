@@ -15,7 +15,7 @@ import {
 import PatientHistory from "./PatientHistory";
 import Ratings from "./Ratings";
 import Schedule from "./Schedule";
-
+import { removeStoredPatient } from "@/lib/storage";
 export default function SidePanel() {
   const [isOpen, setIsOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -50,8 +50,8 @@ export default function SidePanel() {
   ];
 
   const bottomMenu = [
-    { name: "Settings", path: "/settings", icon: <FiSettings /> },
-    { name: "Log Out", path: "/logout", icon: <FiLogOut /> },
+    { name: "Settings",action: "action", path: "/settings", icon: <FiSettings /> },
+    { name: "Log Out",action: "logout", path: "/logout", icon: <FiLogOut /> },
   ];
 
   return (
@@ -147,18 +147,24 @@ export default function SidePanel() {
             <div className="border-t border-gray-100 my-4" />
             <ul className="space-y-2">
               {bottomMenu.map((item) => (
-                <li key={item.path}>
-                  <Link
-                    href={item.path}
-                    className={`
-                      flex items-center gap-3 px-4 py-3 rounded-lg
-                      transition-colors duration-200
-                      text-gray-600 hover:bg-gray-50
-                    `}
-                  >
-                    <span className="text-xl">{item.icon}</span>
-                    <span>{item.name}</span>
-                  </Link>
+                <li key={item.name}>
+                  {item.action === "logout" ? (
+                    <button
+                      onClick={() => removeStoredPatient()}
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 w-full text-left"
+                    >
+                      <span className="text-xl">{item.icon}</span>
+                      <span>{item.name}</span>
+                    </button>
+                  ) : (
+                    <Link
+                      href={item.path}
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50"
+                    >
+                      <span className="text-xl">{item.icon}</span>
+                      <span>{item.name}</span>
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
