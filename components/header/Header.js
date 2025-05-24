@@ -149,7 +149,7 @@ const patientMenuItems = [
   { label: "Search Doctors", href: "/search-doctors" },
   { label: "Booking Policy", href: "/book-appointment" },
   { label: "Insurance", href: "/" },
-  { label: "Patient Portal", href: "/" },
+  { label: "Patient Portal", href: "/patient-portal" },
 ];
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
