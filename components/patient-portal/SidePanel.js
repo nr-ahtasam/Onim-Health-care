@@ -1,5 +1,6 @@
 "use client";
 import Overview from "@/components/patient-portal/Overview";
+import { removeStoredPatient } from "@/lib/storage";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,7 +16,6 @@ import {
 import PatientHistory from "./PatientHistory";
 import Ratings from "./Ratings";
 import Schedule from "./Schedule";
-import { removeStoredPatient } from "@/lib/storage";
 export default function SidePanel() {
   const [isOpen, setIsOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -35,7 +35,7 @@ export default function SidePanel() {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Cleanup
     return () => window.removeEventListener("resize", handleResize);
@@ -50,8 +50,13 @@ export default function SidePanel() {
   ];
 
   const bottomMenu = [
-    { name: "Settings",action: "action", path: "/settings", icon: <FiSettings /> },
-    { name: "Log Out",action: "logout", path: "/logout", icon: <FiLogOut /> },
+    {
+      name: "Settings",
+      action: "action",
+      path: "/settings",
+      icon: <FiSettings />,
+    },
+    { name: "Log Out", action: "logout", path: "/logout", icon: <FiLogOut /> },
   ];
 
   return (
@@ -111,7 +116,11 @@ export default function SidePanel() {
         {/* Top section: Logo and Main Menu */}
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-center px-6 py-8">
-            <img src="/images/patient-portal-logo.png" alt="Logo" className="w-40 h-15" />
+            <img
+              src="/images/patient-portal-logo.png"
+              alt="Logo"
+              className="w-40 h-15"
+            />
           </div>
 
           {/* Main Navigation */}
@@ -176,13 +185,7 @@ export default function SidePanel() {
       <div
         className={`
           transition-all duration-300 ease-in-out
-          ${
-            isMobile
-              ? isOpen
-                ? "ml-[280px]"
-                : "ml-0"
-              : "ml-[280px] lg:ml-[320px]"
-          }
+          ${isMobile ? (isOpen ? "ml-[280px]" : "ml-0") : "ml-[280px] lg:ml-0"}
         `}
       >
         {selectedMenu === "Overview" && <Overview />}
