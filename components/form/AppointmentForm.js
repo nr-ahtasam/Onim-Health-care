@@ -98,7 +98,6 @@ export default function AppointmentForm() {
           className="rounded-none bg-transparent border-gray-700 text-white placeholder:text-white"
           value={formData.email}
           onChange={(e) => handleChange("email", e.target.value)}
-          required
         />
 
         <Input
