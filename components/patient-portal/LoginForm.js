@@ -1,31 +1,19 @@
 "use client";
 
 import { useState } from "react";
-
+import { useAuth } from "@/hooks/useAuth";
 export default function LoginForm({ switchToRegister }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${BASE_URL}/custom-auth/v1/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.token) {
-        localStorage.setItem("authToken", data.token);
-        window.location.reload(); // Refresh to re-check auth
-      } else {
-        alert(data.message || "Login failed");
-      }
+      await login({ identifier, password });
+      window.location.reload();
     } catch (err) {
-      console.error("Login error:", err);
-      alert("Something went wrong during login");
+      alert(err.message);
     }
   };
 
