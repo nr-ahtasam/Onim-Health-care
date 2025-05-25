@@ -3,12 +3,13 @@ import Overview from "@/components/patient-portal/Overview";
 import { removeStoredPatient } from "@/lib/storage";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   FiCalendar,
   FiClock,
   FiGrid,
   FiLogOut,
+  FiMenu,
   FiMessageSquare,
   FiSettings,
   FiUser,
@@ -16,30 +17,11 @@ import {
 import PatientHistory from "./PatientHistory";
 import Ratings from "./Ratings";
 import Schedule from "./Schedule";
+
 export default function SidePanel() {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const [selectedMenu, setSelectedMenu] = useState("Overview");
-
-  // Handle mobile detection and sidebar state
-  useEffect(() => {
-    const handleResize = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      if (mobile) {
-        setIsOpen(false);
-      } else {
-        setIsOpen(true);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const mainMenu = [
     { name: "Overview", path: "/Overview", icon: <FiGrid /> },
@@ -61,56 +43,35 @@ export default function SidePanel() {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
-      {isMobile && (
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="fixed top-4 left-4 z-[60] p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 flex items-center justify-center"
-          aria-label="Toggle Sidebar"
-        >
-          <div className="flex flex-col gap-1.5">
-            <span
-              className={`block w-6 h-0.5 bg-gray-600 transition-all duration-300 ${
-                isOpen ? "rotate-45 translate-y-2" : ""
-              }`}
-            ></span>
-            <span
-              className={`block w-6 h-0.5 bg-gray-600 transition-all duration-300 ${
-                isOpen ? "opacity-0" : ""
-              }`}
-            ></span>
-            <span
-              className={`block w-6 h-0.5 bg-gray-600 transition-all duration-300 ${
-                isOpen ? "-rotate-45 -translate-y-2" : ""
-              }`}
-            ></span>
-          </div>
-        </button>
-      )}
+      {/* Mobile Burger Menu Button - Only visible on mobile */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed top-6 left-4 z-[60] p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 md:hidden"
+        aria-label="Toggle Sidebar"
+      >
+        <FiMenu className="w-6 h-6 text-gray-600" />
+      </button>
 
-      {/* Mobile Overlay */}
-      {isMobile && isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-[55]"
-          onClick={() => setIsOpen(false)}
-          aria-hidden="true"
-        />
-      )}
+      {/* Mobile Overlay - Only visible on mobile when sidebar is open */}
+      <div
+        className={`
+          fixed inset-0 bg-black/50 z-[55] md:hidden
+          transition-opacity duration-300
+          ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
+        `}
+        onClick={() => setIsOpen(false)}
+        aria-hidden="true"
+      />
 
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 h-full w-[400px] bg-white border-r border-gray-100 shadow-sm z-[60]
+          fixed top-0 left-0 h-full bg-white border-r border-gray-100 shadow-sm z-[60]
           flex flex-col justify-between
           transition-all duration-300 ease-in-out
-          ${isMobile ? "w-[280px]" : "w-[280px] lg:w-[320px]"}
-          ${
-            isMobile
-              ? isOpen
-                ? "translate-x-0"
-                : "-translate-x-full"
-              : "translate-x-0"
-          }
+          w-[280px] lg:w-[320px]
+          md:translate-x-0
+          ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
         `}
       >
         {/* Top section: Logo and Main Menu */}
@@ -131,7 +92,7 @@ export default function SidePanel() {
                   <button
                     onClick={() => {
                       setSelectedMenu(item.name);
-                      if (isMobile) setIsOpen(false);
+                      setIsOpen(false);
                     }}
                     className={`
                       flex items-center gap-3 px-4 py-3 rounded-lg w-full text-left
@@ -183,16 +144,15 @@ export default function SidePanel() {
 
       {/* Main Content */}
       <div
-        className={`
-          transition-all duration-300 ease-in-out
-          ${isMobile ? (isOpen ? "ml-[280px]" : "ml-0") : "ml-[280px] lg:ml-0"}
-        `}
+      // className={`
+      //   transition-all duration-300 ease-in-out
+      //   md:ml-[280px] lg:ml-0
+      // `}
       >
         {selectedMenu === "Overview" && <Overview />}
         {selectedMenu === "Schedule" && <Schedule />}
         {selectedMenu === "History" && <PatientHistory />}
         {selectedMenu === "Ratings" && <Ratings />}
-        {/* {selectedMenu === "Profile" && <Profile />} */}
       </div>
     </>
   );

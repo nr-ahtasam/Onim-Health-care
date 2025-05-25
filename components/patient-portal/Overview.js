@@ -8,14 +8,14 @@ import Header from "./Header";
 export default function Overview() {
   const [date, setDate] = useState(new Date());
   return (
-    <div className="p-4 w-full max-w-full  sm:p-6 bg-white min-h-screen  overflow-x-hidden">
+    <div className="lg:p-4 w-full   sm:p-6 bg-white min-h-screen  overflow-x-hidden">
       {/* Top bar */}
       <Header />
 
       {/* Main content */}
       <div className="flex flex-col lg:flex-row w-[100%] gap-4 lg:gap-8">
         {/* Profile Card */}
-        <div className="w-full lg:w-[50%] bg-white rounded-xl shadow p-4 lg:p-8 flex flex-col items-center">
+        <div className="w-full lg:w-[60%] bg-white rounded-xl shadow p-4 lg:p-8 flex flex-col items-center">
           <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-200 rounded-full mb-4 flex items-center justify-center">
             <FiUser className="text-4xl lg:text-5xl text-gray-400" />
           </div>
@@ -46,8 +46,8 @@ export default function Overview() {
         </div>
 
         {/* Right side cards */}
-        <div className="w-full lg:w-[50%] flex flex-col gap-3 lg:gap-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
+        <div className="w-full lg:w-[40%] flex flex-col gap-3 lg:gap-4">
+          <div className="flex flex-col grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
             <ActionCard
               color="bg-[#4DC6F6]"
               title="Appointments"

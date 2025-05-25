@@ -30,89 +30,181 @@ export default function AppointmentsTable() {
   ];
 
   return (
-    <div className="p-8 bg-[#FAFBFC] min-h-screen">
-      {/* Top bar */}
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
       <Header />
 
-      {/* Appointments Table */}
-      <div className="bg-white rounded-xl shadow p-6 max-w-5xl mx-auto">
-        <div className="font-semibold text-xl mb-4">Appointments</div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead>
-              <tr className="bg-[#F3F8FB] text-gray-500">
-                <th className="py-3 px-4 font-medium">Appointment Type</th>
-                <th className="py-3 px-4 font-medium">Date & Time</th>
-                <th className="py-3 px-4 font-medium">Location</th>
-                <th className="py-3 px-4 font-medium">Doctor</th>
-                <th className="py-3 px-4 font-medium">Status</th>
-                <th className="py-3 px-4 font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {appointments.map((a, i) => (
-                <tr key={i} className="border-b last:border-b-0">
-                  <td className="py-4 px-4">{a.type}</td>
-                  <td className="py-4 px-4">
-                    <div>{a.date}</div>
-                    <div className="text-xs text-gray-400">{a.time}</div>
-                  </td>
-                  <td className="py-4 px-4">
-                    <div>{a.location}</div>
-                    <div className="text-xs text-gray-400">{a.city}</div>
-                  </td>
-                  <td className="py-4 px-4">{a.doctor}</td>
-                  <td className="py-4 px-4">
-                    <span className="text-green-500 font-medium">
-                      {a.status}
+      {/* Main Content */}
+      <div className="p-4 md:p-6 lg:p-8">
+        {/* Appointments Table */}
+        <div className="bg-white rounded-xl shadow-sm">
+          <div className="p-4 md:p-6">
+            <div className="font-semibold text-lg md:text-xl text-gray-800 mb-4">
+              Appointments
+            </div>
+
+            {/* Mobile View - Cards */}
+            <div className="md:hidden space-y-4">
+              {appointments.map((appointment, index) => (
+                <div
+                  key={index}
+                  className="bg-white border border-gray-100 rounded-lg p-4 space-y-3"
+                >
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-1">
+                      <div className="text-sm font-medium text-gray-900">
+                        {appointment.type}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {appointment.date} at {appointment.time}
+                      </div>
+                    </div>
+                    <span className="px-2 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full">
+                      {appointment.status}
                     </span>
-                  </td>
-                  <td className="py-4 px-4">
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center text-sm">
+                      <span className="text-gray-500 w-20">Location:</span>
+                      <span className="text-gray-900">
+                        {appointment.location}, {appointment.city}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-sm">
+                      <span className="text-gray-500 w-20">Doctor:</span>
+                      <span className="text-gray-900">
+                        {appointment.doctor}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="pt-2">
                     <button
-                      className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition"
-                      onClick={() => setSelectedAppointment(a)}
+                      className="w-full bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                      onClick={() => setSelectedAppointment(appointment)}
                     >
-                      View
+                      View Details
                     </button>
-                  </td>
-                </tr>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
-          {/* Modal */}
-          <AppointmentModal
-            appointment={selectedAppointment}
-            onClose={() => setSelectedAppointment(null)}
-          />
+            </div>
+
+            {/* Desktop View - Table */}
+            <div className="hidden md:block">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Appointment Type
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Date & Time
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Location
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Doctor
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {appointments.map((appointment, index) => (
+                      <tr key={index} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                          {appointment.type}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {appointment.date}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {appointment.time}
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {appointment.location}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {appointment.city}
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                          {appointment.doctor}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className="px-2 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full">
+                            {appointment.status}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm">
+                          <button
+                            className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                            onClick={() => setSelectedAppointment(appointment)}
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Pagination */}
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-sm text-gray-500">
+                Viewing {appointments.length} of {appointments.length}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 disabled:opacity-50"
+                  disabled
+                >
+                  Previous
+                </button>
+                <button className="px-3 py-1.5 text-sm bg-gray-900 text-white rounded-lg">
+                  1
+                </button>
+                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
+                  2
+                </button>
+                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
+                  3
+                </button>
+                <span className="text-gray-500">...</span>
+                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
+                  67
+                </button>
+                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Pagination */}
-        <div className="flex items-center justify-between mt-6">
-          <div className="bg-[#F3F8FB] px-4 py-2 rounded text-gray-500 text-sm">
-            Viewing 10 of 11
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="text-gray-400 px-2 py-1 rounded" disabled>
-              &larr; Previous
-            </button>
-            <button className="bg-gray-900 text-white px-3 py-1 rounded">
-              1
-            </button>
-            <button className="text-gray-500 px-2 py-1 rounded">2</button>
-            <button className="text-gray-500 px-2 py-1 rounded">3</button>
-            <span className="text-gray-400">...</span>
-            <button className="text-gray-500 px-2 py-1 rounded">67</button>
-            <button className="text-gray-500 px-2 py-1 rounded">68</button>
-            <button className="text-gray-400 px-2 py-1 rounded">
-              Next &rarr;
-            </button>
-          </div>
-        </div>
-      </div>
+        {/* Modal */}
+        <AppointmentModal
+          appointment={selectedAppointment}
+          onClose={() => setSelectedAppointment(null)}
+        />
 
-      {/* Footer */}
-      <div className="mt-8 text-xs text-gray-400 text-center">
-        © Omni Health Care's Patient Portal Version 1.0. Made by Rubytech
+        {/* Footer */}
+        <div className="mt-8 text-xs text-gray-400 text-center">
+          © Omni Health Care's Patient Portal Version 1.0. Made by Rubytech
+        </div>
       </div>
     </div>
   );

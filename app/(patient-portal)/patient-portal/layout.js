@@ -4,7 +4,7 @@ export default function Layout({ children }) {
     <html lang="en">
       <body>
         <div className="min-h-screen flex">
-          <main className="flex-1 ml-64 p-6">{children}</main>
+          <main className="flex-1 lg:ml-64 p-6">{children}</main>
         </div>
       </body>
     </html>
