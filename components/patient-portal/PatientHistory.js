@@ -1,87 +1,106 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import AppointmentModal from "./AppoinmentModal";
-import Header from "./Header";
-import { useFetchHistory } from "@/hooks/useFetchHistory";
-import { LOCATIONS } from "@/constants/locations";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { LOCATIONS } from "@/constants/locations";
+import { useFetchHistory } from "@/hooks/useFetchHistory";
+import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
+import { useEffect, useState } from "react";
+import AppointmentModal from "./AppoinmentModal";
+import Header from "./Header";
 
 export default function PatientHistory() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(100);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const [appointments, setAppointments] = useState([]);
-  const { history, loading: historyL, error: historyE } = useFetchHistory({
+  const {
+    history,
+    loading: historyL,
+    error: historyE,
+  } = useFetchHistory({
     page: currentPage,
     perPage: perPage,
   });
   console.log("History Data:", history);
-  
-    // const { bookings, loading, error } = useFetchBookings({
-    //   page: 1,
-    //   perPage: 10,
-    // });
-const capitalize = str => str[0]?.toUpperCase() + str.slice(1).toLowerCase();
 
-    const getLocationNameById = (id) =>
-      LOCATIONS.find((loc) => loc.id === id)?.name;
-    useEffect(() => {
-      if (!history || history.length === 0) return;
-  
-      const prepareAppointments = async () => {
+  const capitalize = (str) =>
+    str[0]?.toUpperCase() + str.slice(1).toLowerCase();
+
+  const getLocationNameById = (id) =>
+    LOCATIONS.find((loc) => loc.id === id)?.name;
+  useEffect(() => {
+    if (!history || history.length === 0) return;
+
+    const prepareAppointments = async () => {
+      setIsProcessing(true);
+      try {
         const results = await Promise.all(
           history.map(async (booking) => {
             const doctorId = booking.acf?.doctor?.[0];
-  
+
             let doctorName = "N/A";
-  
+
             if (doctorId) {
               try {
                 const res = await fetch(`/api/doctor/${doctorId}`);
                 const doctorData = await res.json();
                 doctorName = doctorData?.title?.rendered || doctorName;
               } catch (err) {
-              console.error(`Failed to fetch doctor ${doctorId}`, err);
+                console.error(`Failed to fetch doctor ${doctorId}`, err);
+              }
             }
-          }
 
-          // Format date and time
-          const fullDate = booking.acf?.["date_time"] || "";
-          const appointmentType = String(booking.acf?.appointment_type || "").split(":")?.[1] || "N/A";
-          const [date, time] = fullDate.split(" ");
+            // Format date and time
+            const fullDate = booking.acf?.["date_time"] || "";
+            const appointmentType =
+              String(booking.acf?.appointment_type || "").split(":")?.[1] ||
+              "N/A";
+            const [date, time] = fullDate.split(" ");
 
-          return {
-            type: appointmentType,
-            date: date || "N/A",
-            time: time || "N/A",
-            location: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-            city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-            doctor: doctorName,
-            status: capitalize(booking.acf?.status || "") || "Pending",
-          };
-        })
-      );
+            return {
+              type: appointmentType,
+              date: date || "N/A",
+              time: time || "N/A",
+              location:
+                getLocationNameById(booking.acf?.location?.[0]) || "N/A",
+              city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
+              doctor: doctorName,
+              status: capitalize(booking.acf?.status || "") || "Pending",
+            };
+          })
+        );
 
-      setAppointments(results);
+        setAppointments(results);
+      } finally {
+        setIsProcessing(false);
+      }
     };
 
     prepareAppointments();
   }, [history]);
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
   };
+
+  if (historyL || isProcessing) return <AppointmentsTableSkeleton />;
+  if (historyE)
+    return (
+      <div className="p-4 text-red-600">
+        Error loading history: {historyE.message}
+      </div>
+    );
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}

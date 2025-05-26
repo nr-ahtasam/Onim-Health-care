@@ -1,19 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import AppointmentModal from "./AppoinmentModal";
-import Header from "./Header";
-import RateDoctorModal from "./RateDoctorModal";
-import { LOCATIONS } from "@/constants/locations";
-import { useFetchBookings } from "@/hooks/useFetchBookings";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { LOCATIONS } from "@/constants/locations";
+import { useFetchBookings } from "@/hooks/useFetchBookings";
+import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
+import { useEffect, useState } from "react";
+import AppointmentModal from "./AppoinmentModal";
+import Header from "./Header";
+import RateDoctorModal from "./RateDoctorModal";
 
 export default function Ratings() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -22,13 +22,19 @@ export default function Ratings() {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(100);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const [appointments, setAppointments] = useState([]);
-  const { bookings, loading, error } = useFetchBookings({
+  const {
+    bookings,
+    loading: bookingsL,
+    error: bookingsE,
+  } = useFetchBookings({
     page: currentPage,
     perPage: perPage,
   });
-const capitalize = str => str[0]?.toUpperCase() + str.slice(1).toLowerCase();
+  const capitalize = (str) =>
+    str[0]?.toUpperCase() + str.slice(1).toLowerCase();
 
   const getLocationNameById = (id) =>
     LOCATIONS.find((loc) => loc.id === id)?.name;
@@ -36,49 +42,66 @@ const capitalize = str => str[0]?.toUpperCase() + str.slice(1).toLowerCase();
     if (!bookings || bookings.length === 0) return;
 
     const prepareAppointments = async () => {
-      const results = await Promise.all(
-        bookings.map(async (booking) => {
-          const doctorId = booking.acf?.doctor?.[0];
+      setIsProcessing(true);
+      try {
+        const results = await Promise.all(
+          bookings.map(async (booking) => {
+            const doctorId = booking.acf?.doctor?.[0];
 
-          let doctorName = "N/A";
+            let doctorName = "N/A";
 
-          if (doctorId) {
-            try {
-              const res = await fetch(`/api/doctor/${doctorId}`);
-              const doctorData = await res.json();
-              doctorName = doctorData?.title?.rendered || doctorName;
-            } catch (err) {
-              console.error(`Failed to fetch doctor ${doctorId}`, err);
+            if (doctorId) {
+              try {
+                const res = await fetch(`/api/doctor/${doctorId}`);
+                const doctorData = await res.json();
+                doctorName = doctorData?.title?.rendered || doctorName;
+              } catch (err) {
+                console.error(`Failed to fetch doctor ${doctorId}`, err);
+              }
             }
-          }
 
-          // Format date and time
-          const fullDate = booking.acf?.["date_&_time"] || "";
-          const appointmentType = String(booking.acf?.appointment_type || "").split(":")?.[1] || "N/A";
-          const [date, time] = fullDate.split(" ");
+            // Format date and time
+            const fullDate = booking.acf?.["date_&_time"] || "";
+            const appointmentType =
+              String(booking.acf?.appointment_type || "").split(":")?.[1] ||
+              "N/A";
+            const [date, time] = fullDate.split(" ");
 
-          return {
-            type: appointmentType,
-            date: date || "N/A",
-            time: time || "N/A",
-            location: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-            city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-            doctor: doctorName,
-            status: capitalize(booking.acf?.status || "") || "Pending",
-          };
-        })
-      );
+            return {
+              type: appointmentType,
+              date: date || "N/A",
+              time: time || "N/A",
+              location:
+                getLocationNameById(booking.acf?.location?.[0]) || "N/A",
+              city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
+              doctor: doctorName,
+              status: capitalize(booking.acf?.status || "") || "Pending",
+            };
+          })
+        );
 
-      setAppointments(results);
+        setAppointments(results);
+      } finally {
+        setIsProcessing(false);
+      }
     };
 
     prepareAppointments();
   }, [bookings]);
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
   };
+
+  if (bookingsL || isProcessing) return <AppointmentsTableSkeleton />;
+  if (bookingsE)
+    return (
+      <div className="p-4 text-red-600">
+        Error loading ratings: {bookingsE.message}
+      </div>
+    );
   return (
     <div className="p-4 md:p-6 lg:p-8 bg-[#FAFBFC] min-h-screen">
       {/* Top bar */}
@@ -202,33 +225,33 @@ const capitalize = str => str[0]?.toUpperCase() + str.slice(1).toLowerCase();
         </div>
 
         {/* Pagination */}
-            <div className="mt-12 flex justify-center">
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50"
-                          : "cursor-pointer"
-                      }
-                    />
-                  </PaginationItem>
+        <div className="mt-12 flex justify-center">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  className={
+                    currentPage === 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
 
-                  <PaginationItem>
-                    <PaginationNext
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50"
-                          : "cursor-pointer"
-                      }
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </div>
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  className={
+                    currentPage === totalPages
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
 
         {/* Modal */}
         <AppointmentModal
