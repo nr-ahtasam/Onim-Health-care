@@ -61,6 +61,7 @@ const capitalize = str => str[0]?.toUpperCase() + str.slice(1).toLowerCase();
           const [date, time] = fullDate.split(" ");
 
           return {
+            id: booking.id,
             type: appointmentType,
             date: date || "N/A",
             time: time || "N/A",
@@ -68,6 +69,7 @@ const capitalize = str => str[0]?.toUpperCase() + str.slice(1).toLowerCase();
             city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
             doctor: doctorName,
             status: capitalize(booking.acf?.status || "") || "Pending",
+            mediaId: booking.acf?.file || null,
           };
         })
       );

@@ -21,7 +21,7 @@ export function useFetchHistory({ page = 1, perPage = 10 } = {}) {
 
       try {
         const res = await fetch(
-          `/api/patient-history?patient=${9}&page=${page}&per_page=${perPage}`
+          `/api/patient-history?patient=${patientId}&page=${page}&per_page=${perPage}`
         );
         if (!res.ok) throw new Error("Failed to fetch History");
         const data = await res.json();

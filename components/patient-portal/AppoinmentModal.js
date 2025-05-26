@@ -1,11 +1,103 @@
 "use client";
-
+import { useEffect, useState } from "react";
 export default function AppointmentModal({
   appointment,
   onClose,
   showFileActions = false,
 }) {
+  const [downloadLink, setDownloadLink] = useState(null);
+  const [fileId, setFileId] = useState(null);
+
+  useEffect(() => {
+    console.log("AppointmentModal mounted with appointment:", appointment);
+    const fetchMedia = async () => {
+      if (!appointment?.mediaId) return;
+
+      try {
+        const res = await fetch(`/api/media/${appointment.mediaId}`);
+        const data = await res.json();
+
+        if (res.ok && data?.guid?.rendered) {
+          setDownloadLink(data?.guid?.rendered); // Store the media ID for potential future use
+          console.log("Media link fetched successfully:", data?.guid?.rendered);
+          
+        } else {
+          console.warn("Could not fetch media link");
+        }
+      } catch (err) {
+        console.error("Media fetch failed:", err);
+      }
+    };
+
+    fetchMedia();
+  }, [appointment]);
+
   if (!appointment) return null;
+
+  
+  const handleDownload = async () => {
+    if (!downloadLink) return;
+
+    try {
+      const res = await fetch(downloadLink);
+      const blob = await res.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "appointment-file"; // You can customize this
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Download failed:", err);
+      alert("Failed to download file.");
+    }
+  };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/media", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+      
+        if (data.id) {
+          setDownloadLink(data.guid.rendered);
+          setFileId(data.id);
+
+          await fetch(`/api/patient-history/${appointment?.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            acf: {
+              file: data.id,
+            },
+          }),
+        });
+
+        }
+      } else {
+        console.error("Upload error:", data);
+        alert("Upload failed.");
+      }
+    } catch (err) {
+      console.error("Upload failed:", err);
+      alert("Error uploading file.");
+    }
+  };
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 p-4">
@@ -71,7 +163,8 @@ export default function AppointmentModal({
                 Download File :
               </span>
               <a
-                href={appointment.downloadLink || "#"}
+                href={downloadLink}
+                download
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit"
@@ -81,15 +174,12 @@ export default function AppointmentModal({
             </div>
             {/* Upload File Row */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <span className="font-semibold text-sm sm:text-base">
-                Upload File :
-              </span>
-              <button
+              <span className="font-semibold text-sm sm:text-base">Upload File :</span>
+              <input
+                type="file"
+                onChange={handleFileUpload}
                 className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit"
-                onClick={() => alert("Upload functionality goes here!")}
-              >
-                Click Here
-              </button>
+              />
             </div>
           </div>
         )}

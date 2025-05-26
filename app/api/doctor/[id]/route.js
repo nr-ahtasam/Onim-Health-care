@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(_, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json({ message: "Missing doctor ID" }, { status: 400 });
