@@ -27,21 +27,6 @@ export default function AppointmentForm() {
     date: "",
   });
 
-  // 1) fetch services
-  // const {
-  //   data: servicesData,
-  //   loading: servicesLoading,
-  //   error: servicesError,
-  // } = useQuery(FEATURED_SERVICES_QUERY);
-
-  // const serviceOptions = (servicesData?.page?.homeSections
-  //   ?.featuredServices?.nodes || []
-  // ).map((svc) => ({
-  //   value: svc.serviceId.toString(),
-  //   label: svc.serviceFields.catName,
-  // }));
-
-  // 2) build options once data arrives
   const { data, loading, error } = useQuery(getAllServices);
   const serviceOptions = data?.services?.nodes.map((d) => ({
     value: d.databaseId.toString(),

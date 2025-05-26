@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import AppointmentModal from "./AppoinmentModal";
-import Header from "./Header";
-import { useFetchBookings } from "@/hooks/useFetchBookings";
-import { LOCATIONS } from "@/constants/locations";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { LOCATIONS } from "@/constants/locations";
+import { useFetchBookings } from "@/hooks/useFetchBookings";
+import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
+import { useEffect, useState } from "react";
+import AppointmentModal from "./AppoinmentModal";
+import Header from "./Header";
 
 export default function AppointmentsTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,61 +20,79 @@ export default function AppointmentsTable() {
   const [totalPages, setTotalPages] = useState(100);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [appointments, setAppointments] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { bookings, loading, error } = useFetchBookings({
     page: currentPage,
     perPage: perPage,
   });
-const capitalize = str => str[0]?.toUpperCase() + str.slice(1).toLowerCase();
+  const capitalize = (str) =>
+    str[0]?.toUpperCase() + str.slice(1).toLowerCase();
   const getLocationNameById = (id) =>
     LOCATIONS.find((loc) => loc.id === id)?.name;
   useEffect(() => {
     if (!bookings || bookings.length === 0) return;
 
     const prepareAppointments = async () => {
-      const results = await Promise.all(
-        bookings.map(async (booking) => {
-          const doctorId = booking.acf?.doctor?.[0];
+      setIsProcessing(true);
+      try {
+        const results = await Promise.all(
+          bookings.map(async (booking) => {
+            const doctorId = booking.acf?.doctor?.[0];
 
-          let doctorName = "N/A";
+            let doctorName = "N/A";
 
-          if (doctorId) {
-            try {
-              const res = await fetch(`/api/doctor/${doctorId}`);
-              const doctorData = await res.json();
-              doctorName = doctorData?.title?.rendered || doctorName;
-            } catch (err) {
-              console.error(`Failed to fetch doctor ${doctorId}`, err);
+            if (doctorId) {
+              try {
+                const res = await fetch(`/api/doctor/${doctorId}`);
+                const doctorData = await res.json();
+                doctorName = doctorData?.title?.rendered || doctorName;
+              } catch (err) {
+                console.error(`Failed to fetch doctor ${doctorId}`, err);
+              }
             }
-          }
 
-          // Format date and time
-          const fullDate = booking.acf?.["date_&_time"] || "";
-          const appointmentType = String(booking.acf?.appointment_type || "").split(":")?.[1] || "N/A";
-          const [date, time] = fullDate.split(" ");
+            // Format date and time
+            const fullDate = booking.acf?.["date_&_time"] || "";
+            const appointmentType =
+              String(booking.acf?.appointment_type || "").split(":")?.[1] ||
+              "N/A";
+            const [date, time] = fullDate.split(" ");
 
-          return {
-            type: appointmentType,
-            date: date || "N/A",
-            time: time || "N/A",
-            location: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-            city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-            doctor: doctorName,
-            status: capitalize(booking.acf?.status) || "Pending",
-          };
-        })
-      );
+            return {
+              type: appointmentType,
+              date: date || "N/A",
+              time: time || "N/A",
+              location:
+                getLocationNameById(booking.acf?.location?.[0]) || "N/A",
+              city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
+              doctor: doctorName,
+              status: capitalize(booking.acf?.status) || "Pending",
+            };
+          })
+        );
 
-      setAppointments(results);
+        setAppointments(results);
+      } finally {
+        setIsProcessing(false);
+      }
     };
 
     prepareAppointments();
   }, [bookings]);
-  
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
   };
+
+  if (loading || isProcessing) return <AppointmentsTableSkeleton />;
+  if (error)
+    return (
+      <div className="p-4 text-red-600">
+        Error loading services: {error.message}
+      </div>
+    );
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
