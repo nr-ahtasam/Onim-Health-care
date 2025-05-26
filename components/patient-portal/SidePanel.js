@@ -1,5 +1,4 @@
 "use client";
-import Overview from "@/components/patient-portal/Overview";
 import { removeStoredPatient } from "@/lib/storage";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,6 +13,7 @@ import {
   FiSettings,
   FiUser,
 } from "react-icons/fi";
+import Overview from "./Overview";
 import PatientHistory from "./PatientHistory";
 import Ratings from "./Ratings";
 import Schedule from "./Schedule";
@@ -26,8 +26,8 @@ export default function SidePanel() {
   const mainMenu = [
     { name: "Overview", path: "/Overview", icon: <FiGrid /> },
     { name: "Profile", path: "/Profile", icon: <FiUser /> },
-    { name: "History", path: "/PatientHistory", icon: <FiClock /> },
     { name: "Schedule", path: "/Schedule", icon: <FiCalendar /> },
+    { name: "History", path: "/PatientHistory", icon: <FiClock /> },
     { name: "Ratings", path: "/Ratings", icon: <FiMessageSquare /> },
   ];
 

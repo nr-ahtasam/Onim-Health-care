@@ -1,33 +1,65 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
+import { useFetchBookings } from "@/hooks/useFetchBookings";
+import { LOCATIONS } from "@/constants/locations";
+
 
 export default function AppointmentsTable() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [appointments, setAppointments] = useState([]);
+  const { bookings, loading, error } = useFetchBookings({
+    page: 1,
+    perPage: 10,
+  });
 
-  // Example data
-  const appointments = [
-    {
-      type: "Offline",
-      date: "13/05/2025",
-      time: "7:00 pm",
-      location: "York Hospital",
-      city: "Dhaka",
-      doctor: "Ataur Rahman",
-      status: "Confirmed",
-    },
-    {
-      type: "Offline",
-      date: "13/05/2025",
-      time: "7:00 pm",
-      location: "York Hospital",
-      city: "Dhaka",
-      doctor: "Ataur Rahman",
-      status: "Confirmed",
-    },
-  ];
+  const getLocationNameById = (id) =>
+    LOCATIONS.find((loc) => loc.id === id)?.name;
+  useEffect(() => {
+    if (!bookings || bookings.length === 0) return;
+
+    const prepareAppointments = async () => {
+      const results = await Promise.all(
+        bookings.map(async (booking) => {
+          const doctorId = booking.acf?.doctor?.[0];
+
+          let doctorName = "N/A";
+
+          if (doctorId) {
+            try {
+              const res = await fetch(`/api/doctor/${doctorId}`);
+              const doctorData = await res.json();
+              doctorName = doctorData?.title?.rendered || doctorName;
+            } catch (err) {
+              console.error(`Failed to fetch doctor ${doctorId}`, err);
+            }
+          }
+
+          // Format date and time
+          const fullDate = booking.acf?.["date_&_time"] || "";
+          const appointmentType = String(booking.acf?.appointment_type || "").split(":")?.[1] || "N/A";
+          const [date, time] = fullDate.split(" ");
+
+          return {
+            type: appointmentType,
+            date: date || "N/A",
+            time: time || "N/A",
+            location: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
+            city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
+            doctor: doctorName,
+            status: booking.acf?.status?.toUpperCase() || "Pending",
+          };
+        })
+      );
+
+      setAppointments(results);
+    };
+
+    prepareAppointments();
+  }, [bookings]);
+  
 
   return (
     <div className="min-h-screen bg-gray-50">

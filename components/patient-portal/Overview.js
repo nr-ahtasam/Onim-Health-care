@@ -4,8 +4,12 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // Import default styles
 import { FiUser } from "react-icons/fi";
 import Header from "./Header";
+import { getStoredPatient } from "@/lib/storage";
 
 export default function Overview() {
+  const patient = getStoredPatient();
+  const {display_name, email, user_id, acf_fields} = patient || {};
+  const {age, blood_group, height_m, weight_kg, profile_picture_url} = acf_fields || {};
   const [date, setDate] = useState(new Date());
   return (
     <div className="lg:p-4 w-full   sm:p-6 bg-white min-h-screen  overflow-x-hidden">
@@ -17,29 +21,33 @@ export default function Overview() {
         {/* Profile Card */}
         <div className="w-full lg:w-[60%] bg-white rounded-xl shadow p-4 lg:p-8 flex flex-col items-center">
           <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-200 rounded-full mb-4 flex items-center justify-center">
-            <FiUser className="text-4xl lg:text-5xl text-gray-400" />
+            <img
+            src={profile_picture_url || "/images/avatar_m.png"}
+            alt="User"
+            className="rounded-full object-cover"
+          />
           </div>
           <div className="font-semibold text-base lg:text-lg mb-1">
-            Lurch Schpellchek
+            {display_name}
           </div>
           <div className="text-gray-400 text-xs lg:text-sm mb-4 lg:mb-6">
-            reply@email.com
+            {email}
           </div>
           <div className="bg-[#F3F8FB] rounded-lg w-full py-3 lg:py-4 px-2 grid grid-cols-2 gap-y-3 lg:gap-y-4 text-center">
             <div>
-              <div className="font-bold text-base lg:text-lg">26 Years</div>
+              <div className="font-bold text-base lg:text-lg">{age ? `${age} Years`: 'N/A'}</div>
               <div className="text-xs text-gray-400">Age</div>
             </div>
             <div>
-              <div className="font-bold text-base lg:text-lg">0 +</div>
+              <div className="font-bold text-base lg:text-lg">{blood_group || 'N/A'}</div>
               <div className="text-xs text-gray-400">Blood Group</div>
             </div>
             <div>
-              <div className="font-bold text-base lg:text-lg">1.56</div>
+              <div className="font-bold text-base lg:text-lg">{height_m || 'N/A'}</div>
               <div className="text-xs text-gray-400">Height (m)</div>
             </div>
             <div>
-              <div className="font-bold text-base lg:text-lg">58</div>
+              <div className="font-bold text-base lg:text-lg">{weight_kg || 'N/A'}</div>
               <div className="text-xs text-gray-400">Weight (kg)</div>
             </div>
           </div>
