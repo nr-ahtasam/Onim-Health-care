@@ -66,7 +66,8 @@ export default function Ratings() {
               String(booking.acf?.appointment_type || "").split(":")?.[1] ||
               "N/A";
             const [date, time] = fullDate.split(" ");
-
+            console.log("doctorId", doctorId);
+            
             return {
               type: appointmentType,
               date: date || "N/A",
@@ -75,6 +76,7 @@ export default function Ratings() {
                 getLocationNameById(booking.acf?.location?.[0]) || "N/A",
               city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
               doctor: doctorName,
+              doctorId: doctorId || null,
               status: capitalize(booking.acf?.status || "") || "Pending",
             };
           })
@@ -201,7 +203,7 @@ export default function Ratings() {
                       </span>
                     </td>
                     <td className="py-4 px-4">
-                      {a.status === "Confirmed" ? (
+                      {a.status === "Pending" ? (
                         <button
                           className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition"
                           onClick={() => setSelectedAppointmentToRate(a)}

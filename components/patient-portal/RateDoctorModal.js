@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { getStoredPatient } from "@/lib/storage";
 
 export default function RateDoctorModal({ appointment, onClose }) {
+  const patient = getStoredPatient();
+
   const [rating, setRating] = useState(0);
   const [description, setDescription] = useState("");
 
@@ -20,7 +23,7 @@ export default function RateDoctorModal({ appointment, onClose }) {
     setRating(starIndex + 1);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(
       "Submitting Rating:",
       rating,
@@ -29,7 +32,21 @@ export default function RateDoctorModal({ appointment, onClose }) {
       "for Appointment:",
       appointment
     );
-    // TODO: Add actual submission logic here
+    
+    
+    await fetch("/api/rating", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        status: "publish",
+        acf: {
+          rating: rating,
+          description: description,
+          patient: patient?.user_id,
+          doctor: appointment?.doctorId,
+        },
+      }),
+    });
     onClose();
   };
 
