@@ -1,26 +1,25 @@
-// hooks/useCreateAppointment.js
 import { useState, useCallback } from 'react';
 import { toast } from 'sonner';
 
-export function useCreateAppointment() {
+export function useCreateBooking() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const createAppointment = useCallback(
+  const createBooking = useCallback(
     async ({ name, email, phone, service, doctor, description, date }) => {
       setLoading(true);
       setError(null);
 
       try {
-        // Build your WP REST API payload
         const payload = {
-          title: `Appointment - ${name}`,
+          title: `${name}'s Appointment`,
           status: 'publish', 
           acf: {
-            patient_name: name,
-            patient_email: email,
-            patient_phone: phone,
-            // ACF expects arrays of IDs for these repeater/relationship fields:
+            status: 'pending',
+            appointment_type: 'online: Online',
+            name: name,
+            email: email,
+            phone: phone,
             service: service
               ? Array.isArray(service)
                 ? service.map((v) => Number(v))
@@ -32,20 +31,16 @@ export function useCreateAppointment() {
                 : [Number(doctor)]
               : [],
             description: description || '',
-            date: date || '',
+            "date_&_time": date || '',
           },
         };
 
-        const res = await fetch('/api/appointment', {
+        const res = await fetch('/api/booking', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
           body: JSON.stringify(payload),
         });
 
         if (!res.ok) {
-          // grab WP’s error message if there is one
           const errData = await res.json().catch(() => null);
           console.error('WP error:', errData);
           throw new Error(errData?.message || 'Failed to create appointment');
@@ -60,7 +55,7 @@ export function useCreateAppointment() {
 
         return data;
       } catch (err) {
-        console.error('createAppointment error:', err);
+        console.error('createBooking error:', err);
         setError(err);
         toast.error('Something went wrong. Please try again.');
         throw err;
@@ -71,5 +66,5 @@ export function useCreateAppointment() {
     []
   );
 
-  return { createAppointment, loading, error };
+  return { createBooking, loading, error };
 }

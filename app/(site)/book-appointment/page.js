@@ -15,7 +15,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { useCreateAppointment } from "@/hooks/useCreateAppointment";
+import { useCreateBooking } from "@/hooks/useCreateBooking";
 import Loader from "@/lib/Loader";
 import { getAllDoctors, getAllServices } from "@/lib/graphql";
 import { useQuery } from "@apollo/client";
@@ -37,10 +37,10 @@ export default function BookAppointment() {
   const doctors = doctorsData?.doctors?.nodes || [];
 
   const {
-    createAppointment,
+    createBooking,
     loading: creating,
     error: createError,
-  } = useCreateAppointment();
+  } = useCreateBooking();
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -79,7 +79,7 @@ export default function BookAppointment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createAppointment({
+      await createBooking({
         name,
         email,
         phone,
