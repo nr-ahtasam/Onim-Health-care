@@ -5,16 +5,26 @@ import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
 import { useFetchBookings } from "@/hooks/useFetchBookings";
 import { LOCATIONS } from "@/constants/locations";
-
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export default function AppointmentsTable() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(100);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [appointments, setAppointments] = useState([]);
   const { bookings, loading, error } = useFetchBookings({
-    page: 1,
-    perPage: 10,
+    page: currentPage,
+    perPage: perPage,
   });
-
+const capitalize = str => str[0]?.toUpperCase() + str.slice(1).toLowerCase();
   const getLocationNameById = (id) =>
     LOCATIONS.find((loc) => loc.id === id)?.name;
   useEffect(() => {
@@ -49,7 +59,7 @@ export default function AppointmentsTable() {
             location: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
             city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
             doctor: doctorName,
-            status: booking.acf?.status?.toUpperCase() || "Pending",
+            status: capitalize(booking.acf?.status) || "Pending",
           };
         })
       );
@@ -60,7 +70,11 @@ export default function AppointmentsTable() {
     prepareAppointments();
   }, [bookings]);
   
-
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -195,34 +209,32 @@ export default function AppointmentsTable() {
             </div>
 
             {/* Pagination */}
-            <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-sm text-gray-500">
-                Viewing {appointments.length} of {appointments.length}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 disabled:opacity-50"
-                  disabled
-                >
-                  Previous
-                </button>
-                <button className="px-3 py-1.5 text-sm bg-gray-900 text-white rounded-lg">
-                  1
-                </button>
-                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
-                  2
-                </button>
-                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
-                  3
-                </button>
-                <span className="text-gray-500">...</span>
-                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
-                  67
-                </button>
-                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
-                  Next
-                </button>
-              </div>
+            <div className="mt-12 flex justify-center">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
             </div>
           </div>
         </div>

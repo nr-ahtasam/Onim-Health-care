@@ -7,7 +7,6 @@ export async function GET(req) {
     const location = searchParams.get("location");
     const disease = searchParams.get("disease");
     const search = searchParams.get("search");
-    // const page = searchParams.get("page") || 1;
     const page = searchParams.get("page");
     const perPage = searchParams.get("per_page");
     const user = process.env.WP_API_USER;

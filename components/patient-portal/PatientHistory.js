@@ -1,51 +1,87 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
+import { useFetchHistory } from "@/hooks/useFetchHistory";
+import { LOCATIONS } from "@/constants/locations";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export default function PatientHistory() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(100);
 
-  const appointments = [
-    {
-      type: "Offline",
-      date: "13/05/2025",
-      time: "7:00 pm",
-      location: "York Hospital",
-      city: "Dhaka",
-      doctor: "Ataur Rahman",
-      status: "Confirmed",
-    },
-    {
-      type: "Offline",
-      date: "13/05/2025",
-      time: "7:00 pm",
-      location: "York Hospital",
-      city: "Dhaka",
-      doctor: "Ataur Rahman",
-      status: "Confirmed",
-    },
-    {
-      type: "Offline",
-      date: "13/05/2025",
-      time: "7:00 pm",
-      location: "York Hospital",
-      city: "Dhaka",
-      doctor: "Ataur Rahman",
-      status: "Confirmed",
-    },
-    {
-      type: "Offline",
-      date: "13/05/2025",
-      time: "7:00 pm",
-      location: "York Hospital",
-      city: "Dhaka",
-      doctor: "Ataur Rahman",
-      status: "Confirmed",
-    },
-  ];
+  const [appointments, setAppointments] = useState([]);
+  const { history, loading: historyL, error: historyE } = useFetchHistory({
+    page: currentPage,
+    perPage: perPage,
+  });
+  console.log("History Data:", history);
+  
+    // const { bookings, loading, error } = useFetchBookings({
+    //   page: 1,
+    //   perPage: 10,
+    // });
+const capitalize = str => str[0]?.toUpperCase() + str.slice(1).toLowerCase();
 
+    const getLocationNameById = (id) =>
+      LOCATIONS.find((loc) => loc.id === id)?.name;
+    useEffect(() => {
+      if (!history || history.length === 0) return;
+  
+      const prepareAppointments = async () => {
+        const results = await Promise.all(
+          history.map(async (booking) => {
+            const doctorId = booking.acf?.doctor?.[0];
+  
+            let doctorName = "N/A";
+  
+            if (doctorId) {
+              try {
+                const res = await fetch(`/api/doctor/${doctorId}`);
+                const doctorData = await res.json();
+                doctorName = doctorData?.title?.rendered || doctorName;
+              } catch (err) {
+              console.error(`Failed to fetch doctor ${doctorId}`, err);
+            }
+          }
+
+          // Format date and time
+          const fullDate = booking.acf?.["date_time"] || "";
+          const appointmentType = String(booking.acf?.appointment_type || "").split(":")?.[1] || "N/A";
+          const [date, time] = fullDate.split(" ");
+
+          return {
+            type: appointmentType,
+            date: date || "N/A",
+            time: time || "N/A",
+            location: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
+            city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
+            doctor: doctorName,
+            status: capitalize(booking.acf?.status || "") || "Pending",
+          };
+        })
+      );
+
+      setAppointments(results);
+    };
+
+    prepareAppointments();
+  }, [history]);
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -198,34 +234,32 @@ export default function PatientHistory() {
             </div>
 
             {/* Pagination */}
-            <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-sm text-gray-500">
-                Viewing {appointments.length} of {appointments.length}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 disabled:opacity-50"
-                  disabled
-                >
-                  Previous
-                </button>
-                <button className="px-3 py-1.5 text-sm bg-gray-900 text-white rounded-lg">
-                  1
-                </button>
-                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
-                  2
-                </button>
-                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
-                  3
-                </button>
-                <span className="text-gray-500">...</span>
-                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
-                  67
-                </button>
-                <button className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">
-                  Next
-                </button>
-              </div>
+            <div className="mt-12 flex justify-center">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
             </div>
           </div>
         </div>
