@@ -1,6 +1,11 @@
+import { getStoredPatient } from "@/lib/storage";
 import { FiBell } from "react-icons/fi";
 
 const Header = () => {
+  const patient = getStoredPatient();
+  const {display_name, email, acf_fields} = patient || {};
+  const {profile_picture_url} = acf_fields || {};
+  
   return (
     <div>
       <div className="flex justify-center lg:justify-between items-center mb-8">
@@ -27,9 +32,9 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-4">
           <FiBell className="text-gray-400 text-xl hidden lg:visible" />
-          <span className="text-gray-500 text-sm">Fletch Skinner</span>
+          <span className="text-gray-500 text-sm">{display_name || email}</span>
           <img
-            src="https://randomuser.me/api/portraits/men/32.jpg"
+            src={profile_picture_url || "/images/avatar_m.png"}
             alt="User"
             className="w-6 h-6 rounded-full object-cover"
           />
