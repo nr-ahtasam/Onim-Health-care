@@ -1,7 +1,9 @@
+import { getAuthHeaders } from "@/lib/wpAuth";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
   try {
+    const { headers } = getAuthHeaders();
     const { searchParams } = new URL(req.url);
 
     const location = searchParams.get("location");
@@ -9,10 +11,6 @@ export async function GET(req) {
     const search = searchParams.get("search");
     const page = searchParams.get("page");
     const perPage = searchParams.get("per_page");
-    const user = process.env.WP_API_USER;
-    const pass = process.env.WP_API_PASS;
-    const basicAuth = Buffer.from(`${user}:${pass}`).toString("base64");
-
     const params = new URLSearchParams();
     if (location) params.append("location", location);
     if (disease) params.append("disease", disease);
@@ -24,10 +22,7 @@ export async function GET(req) {
 
     const wpResponse = await fetch(url, {
       method: "GET",
-      headers: {
-        Authorization: `Basic ${basicAuth}`,
-        "Content-Type": "application/json",
-      },
+      headers,
     });
 
     const data = await wpResponse.json();

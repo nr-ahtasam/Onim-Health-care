@@ -14,6 +14,9 @@ import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
 import RateDoctorModal from "./RateDoctorModal";
+import { useFetchRatings } from "@/hooks/useFetchRatings";
+import { fetchBookingById } from "@/lib/fetchers";
+import { formatBooking } from "@/lib/formatBooking";
 
 export default function Ratings() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -23,73 +26,56 @@ export default function Ratings() {
   const [perPage, setPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(100);
   const [isProcessing, setIsProcessing] = useState(false);
-
+  const [refreshKey, setRefreshKey] = useState(0);
   const [appointments, setAppointments] = useState([]);
   const {
-    bookings,
-    loading: bookingsL,
-    error: bookingsE,
-  } = useFetchBookings({
+    ratings,
+    loading: ratingsL,
+    error: ratingsE,
+  } = useFetchRatings({
     page: currentPage,
     perPage: perPage,
+    key: refreshKey,
   });
-  const capitalize = (str) =>
-    str[0]?.toUpperCase() + str.slice(1).toLowerCase();
 
-  const getLocationNameById = (id) =>
-    LOCATIONS.find((loc) => loc.id === id)?.name;
   useEffect(() => {
-    if (!bookings || bookings.length === 0) return;
-
     const prepareAppointments = async () => {
       setIsProcessing(true);
       try {
+        if (!ratings || ratings.length === 0) return;
+
         const results = await Promise.all(
-          bookings.map(async (booking) => {
-            const doctorId = booking.acf?.doctor?.[0];
+          ratings.map(async (rating) => {
+            const bookingId = rating.acf?.appointment?.[0];
 
-            let doctorName = "N/A";
-
-            if (doctorId) {
-              try {
-                const res = await fetch(`/api/doctor/${doctorId}`);
-                const doctorData = await res.json();
-                doctorName = doctorData?.title?.rendered || doctorName;
-              } catch (err) {
-                console.error(`Failed to fetch doctor ${doctorId}`, err);
-              }
+            if (!bookingId) {
+              console.warn(`No booking ID in rating ${rating.id}`);
+              return null;
             }
 
-            // Format date and time
-            const fullDate = booking.acf?.["date_&_time"] || "";
-            const appointmentType =
-              String(booking.acf?.appointment_type || "").split(":")?.[1] ||
-              "N/A";
-            const [date, time] = fullDate.split(" ");
-            console.log("doctorId", doctorId);
-            
-            return {
-              type: appointmentType,
-              date: date || "N/A",
-              time: time || "N/A",
-              location:
-                getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-              city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-              doctor: doctorName,
-              doctorId: doctorId || null,
-              status: capitalize(booking.acf?.status || "") || "Pending",
-            };
+            try {
+              const booking = await fetchBookingById(bookingId);
+              return await formatBooking(booking);
+            } catch (err) {
+              console.error(`Failed to process rating ${rating.id}`, err);
+              return null;
+            }
           })
         );
 
-        setAppointments(results);
+        // Filter out nulls (failed entries)
+        setAppointments(results.filter(Boolean));
+        console.log("Prepared appointments:", results);
+        
+      } catch (err) {
+        console.error("Failed to prepare appointments:", err);
       } finally {
         setIsProcessing(false);
       }
     };
 
     prepareAppointments();
-  }, [bookings]);
+  }, [ratings]);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -97,11 +83,16 @@ export default function Ratings() {
     }
   };
 
-  if (bookingsL || isProcessing) return <AppointmentsTableSkeleton />;
-  if (bookingsE)
+  const handleRatingSubmit = () => {
+    setSelectedAppointmentToRate(null);
+    setRefreshKey((prev) => prev + 1); // trigger re-fetch
+  };
+
+  if (ratingsL || isProcessing) return <AppointmentsTableSkeleton />;
+  if (ratingsE)
     return (
       <div className="p-4 text-red-600">
-        Error loading ratings: {bookingsE.message}
+        Error loading ratings: {ratingsE.message}
       </div>
     );
   return (
@@ -150,7 +141,7 @@ export default function Ratings() {
               </div>
 
               <div className="pt-2">
-                {a.status === "Confirmed" ? (
+                {a.status === "Completed" ? (
                   <button
                     className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
                     onClick={() => setSelectedAppointmentToRate(a)}
@@ -263,6 +254,7 @@ export default function Ratings() {
         <RateDoctorModal
           appointment={selectedAppointmentToRate}
           onClose={() => setSelectedAppointmentToRate(null)}
+          onSubmit={handleRatingSubmit}
         />
       </div>
 

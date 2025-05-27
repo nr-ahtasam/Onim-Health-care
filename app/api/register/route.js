@@ -1,9 +1,12 @@
+import { getAuthHeaders } from "@/lib/wpAuth";
+
 export async function POST(req) {
   const body = await req.json();
+  const { baseUrl, headers } = getAuthHeaders();
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_REST_URL}/custom-auth/v1/register`, {
+  const response = await fetch(`${baseUrl}/custom-auth/v1/register`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(body),
   });
 

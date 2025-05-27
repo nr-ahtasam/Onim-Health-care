@@ -7,12 +7,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { LOCATIONS } from "@/constants/locations";
 import { useFetchHistory } from "@/hooks/useFetchHistory";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
 import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
+import { fetchBookingById } from "@/lib/fetchers";
+import { formatBooking } from "@/lib/formatBooking";
 
 export default function PatientHistory() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -30,57 +31,42 @@ export default function PatientHistory() {
     page: currentPage,
     perPage: perPage,
   });
-  console.log("History Data:", history);
 
-  const capitalize = (str) =>
-    str[0]?.toUpperCase() + str.slice(1).toLowerCase();
-
-  const getLocationNameById = (id) =>
-    LOCATIONS.find((loc) => loc.id === id)?.name;
   useEffect(() => {
-    if (!history || history.length === 0) return;
-
     const prepareAppointments = async () => {
       setIsProcessing(true);
       try {
+        if (!history || history.length === 0) return;
+
         const results = await Promise.all(
-          history.map(async (booking) => {
-            const doctorId = booking.acf?.doctor?.[0];
+          history.map(async (his) => {
+            const bookingId = his.acf?.appointment?.[0];
 
-            let doctorName = "N/A";
-
-            if (doctorId) {
-              try {
-                const res = await fetch(`/api/doctor/${doctorId}`);
-                const doctorData = await res.json();
-                doctorName = doctorData?.title?.rendered || doctorName;
-              } catch (err) {
-                console.error(`Failed to fetch doctor ${doctorId}`, err);
-              }
+            if (!bookingId) {
+              console.warn(`No booking ID in history ${his.id}`);
+              return null;
             }
 
-            // Format date and time
-            const fullDate = booking.acf?.["date_time"] || "";
-            const appointmentType =
-              String(booking.acf?.appointment_type || "").split(":")?.[1] ||
-              "N/A";
-            const [date, time] = fullDate.split(" ");
+            try {
+              const booking = await fetchBookingById(bookingId);
+              const formatted = await formatBooking(booking);
 
-          return {
-            id: booking.id,
-            type: appointmentType,
-            date: date || "N/A",
-            time: time || "N/A",
-            location: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-            city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-            doctor: doctorName,
-            status: capitalize(booking.acf?.status || "") || "Pending",
-            mediaId: booking.acf?.file || null,
-          };
-        })
-      );
+              return {
+                ...formatted,
+                historyId: his.id,
+                mediaId: his.acf?.file || null,
+              };
+            } catch (err) {
+              console.error(`Failed to process history ${his.id}`, err);
+              return null;
+            }
+          })
+        );
 
-        setAppointments(results);
+        // Filter out nulls (failed entries)
+        setAppointments(results.filter(Boolean));
+      } catch (err) {
+        console.error("Failed to prepare appointments:", err);
       } finally {
         setIsProcessing(false);
       }
