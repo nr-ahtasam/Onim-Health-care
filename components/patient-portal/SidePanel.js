@@ -15,6 +15,7 @@ import {
 } from "react-icons/fi";
 import Overview from "./Overview";
 import PatientHistory from "./PatientHistory";
+import Profile from "./Profile/Profile";
 import Ratings from "./Ratings";
 import Schedule from "./Schedule";
 
@@ -153,6 +154,7 @@ export default function SidePanel() {
         {selectedMenu === "Schedule" && <Schedule />}
         {selectedMenu === "History" && <PatientHistory />}
         {selectedMenu === "Ratings" && <Ratings />}
+        {selectedMenu === "Profile" && <Profile />}
       </div>
     </>
   );
