@@ -3,7 +3,7 @@ import { getAuthHeaders } from '@/lib/wpAuth';
 
 export async function GET(_, { params }) {
   try {
-    const id = params.id;
+    const { id } = await params;
     const { baseUrl, headers } = getAuthHeaders();
     const res = await fetch(
       `${baseUrl}/wp/v2/patient-history/${id}`,
@@ -24,25 +24,19 @@ export async function GET(_, { params }) {
 
 export async function PATCH(req, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const payload = await req.json();
 
     if (!id) {
       return NextResponse.json({ message: "Missing patient history ID" }, { status: 400 });
     }
 
-    const USER = process.env.WP_API_USER;
-    const PASS = process.env.WP_API_PASS;
-    const AUTH = Buffer.from(`${USER}:${PASS}`).toString("base64");
-
+    const {baseUrl, headers} = getAuthHeaders();
     const res = await fetch(
-      `https://omni.fmmethod.online/wp-json/wp/v2/patient-history/${id}`,
+      `${baseUrl}/wp/v2/patient-history/${id}`,
       {
         method: "PATCH",
-        headers: {
-          Authorization: `Basic ${AUTH}`,
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(payload),
       }
     );

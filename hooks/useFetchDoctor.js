@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { fetchDoctorById } from "@/lib/fetchers";
 
 export function useFetchDoctor(doctorId) {
   const [doctor, setDoctor] = useState(null);
@@ -8,24 +9,16 @@ export function useFetchDoctor(doctorId) {
   useEffect(() => {
     if (!doctorId) return;
 
-    const fetchDoctor = async () => {
-      setLoading(true);
-      setError(null);
+    setLoading(true);
+    setError(null);
 
-      try {
-        const res = await fetch(`/api/doctor/${doctorId}`);
-        if (!res.ok) throw new Error("Failed to fetch doctor");
-        const data = await res.json();
-        setDoctor(data);
-      } catch (err) {
+    fetchDoctorById(doctorId)
+      .then(setDoctor)
+      .catch((err) => {
         console.error("Doctor fetch error:", err);
         setError(err.message || "Unknown error");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDoctor();
+      })
+      .finally(() => setLoading(false));
   }, [doctorId]);
 
   return { doctor, loading, error };

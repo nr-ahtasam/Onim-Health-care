@@ -9,7 +9,6 @@ export default function AppointmentModal({
   const [fileId, setFileId] = useState(null);
 
   useEffect(() => {
-    console.log("AppointmentModal mounted with appointment:", appointment);
     const fetchMedia = async () => {
       if (!appointment?.mediaId) return;
 
@@ -19,7 +18,6 @@ export default function AppointmentModal({
 
         if (res.ok && data?.guid?.rendered) {
           setDownloadLink(data?.guid?.rendered); // Store the media ID for potential future use
-          console.log("Media link fetched successfully:", data?.guid?.rendered);
           
         } else {
           console.warn("Could not fetch media link");
@@ -77,10 +75,11 @@ export default function AppointmentModal({
           setDownloadLink(data.guid.rendered);
           setFileId(data.id);
 
-          await fetch(`/api/patient-history/${appointment?.id}`, {
+          await fetch(`/api/patient-history/${appointment?.historyId}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            status: "publish",
             acf: {
               file: data.id,
             },
@@ -106,7 +105,7 @@ export default function AppointmentModal({
         style={{ boxShadow: "0 4px 24px 0 rgba(0,0,0,0.04)" }}
       >
         <div className="font-bold text-lg sm:text-xl mb-2">
-          Appointment Number #00{appointment.id || "1"}
+          Appointment Number # {appointment.bookingId}
         </div>
 
         <div className="space-y-2 sm:space-y-3">

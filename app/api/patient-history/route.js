@@ -27,7 +27,7 @@ export async function GET(req) {
 export async function PATCH(req) {
   try {
     const payload = await req.json();
-
+    const { baseUrl, headers } = getAuthHeaders();
     const res = await fetch(`${baseUrl}/wp/v2/patient-history`, {
       method: "PATCH",
       headers,

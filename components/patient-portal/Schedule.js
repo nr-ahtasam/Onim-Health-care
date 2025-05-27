@@ -7,12 +7,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { LOCATIONS } from "@/constants/locations";
 import { useFetchBookings } from "@/hooks/useFetchBookings";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
 import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
+import { formatBooking } from "@/lib/formatBooking";
 
 export default function AppointmentsTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,52 +25,14 @@ export default function AppointmentsTable() {
     page: currentPage,
     perPage: perPage,
   });
-  const capitalize = (str) =>
-    str[0]?.toUpperCase() + str.slice(1).toLowerCase();
-  const getLocationNameById = (id) =>
-    LOCATIONS.find((loc) => loc.id === id)?.name;
+
   useEffect(() => {
     if (!bookings || bookings.length === 0) return;
 
     const prepareAppointments = async () => {
       setIsProcessing(true);
       try {
-        const results = await Promise.all(
-          bookings.map(async (booking) => {
-            const doctorId = booking.acf?.doctor?.[0];
-
-            let doctorName = "N/A";
-
-            if (doctorId) {
-              try {
-                const res = await fetch(`/api/doctor/${doctorId}`);
-                const doctorData = await res.json();
-                doctorName = doctorData?.title?.rendered || doctorName;
-              } catch (err) {
-                console.error(`Failed to fetch doctor ${doctorId}`, err);
-              }
-            }
-
-            // Format date and time
-            const fullDate = booking.acf?.["date_&_time"] || "";
-            const appointmentType =
-              String(booking.acf?.appointment_type || "").split(":")?.[1] ||
-              "N/A";
-            const [date, time] = fullDate.split(" ");
-
-            return {
-              type: appointmentType,
-              date: date || "N/A",
-              time: time || "N/A",
-              location:
-                getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-              city: getLocationNameById(booking.acf?.location?.[0]) || "N/A",
-              doctor: doctorName,
-              status: capitalize(booking.acf?.status) || "Pending",
-            };
-          })
-        );
-
+        const results = await Promise.all(bookings.map(formatBooking));
         setAppointments(results);
       } finally {
         setIsProcessing(false);

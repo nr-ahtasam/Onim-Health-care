@@ -255,3 +255,14 @@ body > .skiptranslate {
   bottom: 0 !important;
   right: 0 !important;
 }
+
+.custom-calendar .react-calendar__tile.bg-blue-500 {
+  background-color: #639fff !important; /* Tailwind's bg-blue-500 */
+  color: #000000 !important; /* Tailwind's text-black */
+}
+
+.custom-calendar .react-calendar__tile.bg-green-200 {
+  background-color: #61ff98 !important; /* Tailwind's bg-green-200 */
+  color: #000000 !important; /* Tailwind's text-black */
+  font-weight: 600 !important; /* Tailwind's font-semibold */
+}
