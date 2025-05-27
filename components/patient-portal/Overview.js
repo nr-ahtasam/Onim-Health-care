@@ -1,9 +1,10 @@
 "use client";
 import { getStoredPatient } from "@/lib/storage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // Import default styles
 import Header from "./Header";
+import UserInfo from "./Overview/UserInfo";
 
 export default function Overview() {
   const patient = getStoredPatient();
@@ -11,6 +12,27 @@ export default function Overview() {
   const { age, blood_group, height_m, weight_kg, profile_picture_url } =
     acf_fields || {};
   const [date, setDate] = useState(new Date());
+  const [earliestDate, setEarliestDate] = useState(null);
+  const [futureDates, setFutureDates] = useState([]);
+
+  // Mock data for appointments - replace with actual data from your API
+  const mockAppointments = [
+    { date: new Date(2024, 3, 15) }, // April 15, 2024
+    { date: new Date(2024, 3, 20) }, // April 20, 2024
+    { date: new Date(2024, 3, 25) }, // April 25, 2024
+  ];
+
+  // Set the earliest date and future dates when component mounts
+  useEffect(() => {
+    if (mockAppointments.length > 0) {
+      const sortedDates = [...mockAppointments].sort((a, b) => a.date - b.date);
+      setEarliestDate(sortedDates[0].date);
+      setFutureDates(
+        sortedDates.slice(1).map((appointment) => appointment.date)
+      );
+    }
+  }, []);
+
   return (
     <div className="lg:p-4 w-full   sm:p-6 bg-white min-h-screen  overflow-x-hidden">
       {/* Top bar */}
