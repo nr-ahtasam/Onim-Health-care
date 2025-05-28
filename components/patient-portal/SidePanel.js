@@ -17,11 +17,12 @@ import PatientHistory from "./PatientHistory";
 import Profile from "./Profile/Profile";
 import Ratings from "./Ratings";
 import Schedule from "./Schedule";
+import { usePatientPanel } from "@/context/PatientPanelContext";
 
 export default function SidePanel() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const [selectedMenu, setSelectedMenu] = useState("Overview");
+  const { selectedMenu, setSelectedMenu } = usePatientPanel();
 
   const mainMenu = [
     { name: "Overview", path: "/Overview", icon: <FiGrid /> },
@@ -150,10 +151,10 @@ export default function SidePanel() {
       // `}
       >
         {selectedMenu === "Overview" && <Overview />}
+        {selectedMenu === "Profile" && <Profile />}
         {selectedMenu === "Schedule" && <Schedule />}
         {selectedMenu === "History" && <PatientHistory />}
         {selectedMenu === "Ratings" && <Ratings />}
-        {selectedMenu === "Profile" && <Profile />}
       </div>
     </>
   );

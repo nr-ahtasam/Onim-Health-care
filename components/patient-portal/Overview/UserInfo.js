@@ -2,6 +2,7 @@
 import { getStoredPatient } from "@/lib/storage";
 import Link from "next/link";
 import { FiCalendar, FiClock, FiGrid, FiMessageSquare } from "react-icons/fi";
+import { usePatientPanel } from "@/context/PatientPanelContext";
 
 const UserInfo = () => {
   const patient = getStoredPatient();
@@ -57,40 +58,44 @@ const UserInfo = () => {
         {/* Right side cards */}
         <div className="w-full lg:w-[40%] flex flex-col gap-3 lg:gap-4">
           <div className="flex flex-col grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
-            <Link href="/patient-portal/overview">
+            <Link href="#">
               <ActionCard
                 color="bg-[#4DC6F6]"
                 title="Appointments"
                 subtitle="Dr. Hans Down"
                 time="10:00 - 11:00AM"
                 icon={<FiGrid />}
+                menu="Schedule"
               />
             </Link>
-            <Link href="/patient-portal/ratings">
+            <Link href="#">
               <ActionCard
                 color="bg-[#5DD1C6]"
                 title="View History"
                 subtitle="Penny Tool"
                 time="Patient Files"
                 icon={<FiCalendar />}
+                menu="History"
               />
             </Link>
-            <Link href="/patient-portal/schedule">
+            <Link href="#">
               <ActionCard
                 color="bg-[#2B7BDB]"
                 title="Rate Doctors"
                 subtitle="Eric Widget"
                 time="Completed Appointments"
                 icon={<FiClock />}
+                menu="Ratings"
               />
             </Link>
-            <Link href="/patient-portal/history">
+            <Link href="#">
               <ActionCard
                 color="bg-[#1CB5C9]"
                 title="Request Update"
                 subtitle="Justin Case"
                 time="Profile Update"
                 icon={<FiMessageSquare />}
+                menu="Profile"
               />
             </Link>
           </div>
@@ -100,9 +105,11 @@ const UserInfo = () => {
   );
 };
 // ActionCard component
-function ActionCard({ color, title, subtitle, time, icon }) {
+function ActionCard({ color, title, subtitle, time, icon, menu }) {
+  const { setSelectedMenu } = usePatientPanel();
   return (
     <div
+      onClick={() => setSelectedMenu(menu)}
       className={`rounded-lg ${color} p-3 lg:p-4 flex items-center gap-3 lg:gap-4 shadow hover:shadow-lg transition-shadow duration-200`}
     >
       <div className="bg-white bg-opacity-30 rounded-full p-2 text-red text-xl lg:text-2xl flex-shrink-0">
