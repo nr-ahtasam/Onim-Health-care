@@ -20,6 +20,7 @@ import Loader from "@/lib/Loader";
 import { getAllDoctors, getAllServices } from "@/lib/graphql";
 import { useQuery } from "@apollo/client";
 import AppointmentPaymentModal from "@/components/book-appointment/AppointmentPaymentModal";
+import { fetchDoctorById } from "@/lib/fetchers";
 
 export default function BookAppointment() {
   // ── 1) All hooks at the top ────────────────────────────────────────────
@@ -51,6 +52,7 @@ export default function BookAppointment() {
   const [phone, setPhone] = useState("");
   const [service, setService] = useState("");
   const [doctor, setDoctor] = useState("");
+  const [selectedDoctor, setSelectedDoctor] = useState({});
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [showModal, setShowModal] = useState(true);
@@ -64,6 +66,22 @@ export default function BookAppointment() {
     setDate(searchParams.get("date") || "");
     router.replace("/book-appointment");
   }, []);
+
+  useEffect(() => {
+    const getDoctor = async () => {
+      if (doctor) {
+        try {
+          const doctorData = await fetchDoctorById(doctor);
+          setSelectedDoctor(doctorData);
+        } catch (err) {
+          console.error(`Failed to fetch doctor ${doctor}`, err);
+          setSelectedDoctor({});
+        }
+      }
+    };
+
+    getDoctor();
+  }, [doctor]);
 
   // ── 3) Early returns after hooks ────────────────────────────────────
   if (servicesLoading || doctorsLoading) {
@@ -107,11 +125,6 @@ export default function BookAppointment() {
       // toast.error already called by hook
     }
   };
-
-  const handlePayment = () => {
-    console.log("Payment button clicked");
-    // handleConfirmBooking()
-  }
 
   return (
     <div>
@@ -348,15 +361,13 @@ export default function BookAppointment() {
           name={name}
           phone={phone}
           service={service}
-          doctor={doctor}
+          doctor={selectedDoctor}
           date={date}
           creating={creating}
           show={showModal}
           onCancel={() => setShowModal(false)}
           onConfirm={handleConfirmBooking}
-          onPay={handlePayment}
           services={services}
-          doctors={doctors}
         />
       )}
 
