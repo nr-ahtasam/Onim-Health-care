@@ -7,15 +7,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { LOCATIONS } from "@/constants/locations";
 import { useFetchBookings } from "@/hooks/useFetchBookings";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
 import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
 import RateDoctorModal from "./RateDoctorModal";
-import { useFetchRatings } from "@/hooks/useFetchRatings";
-import { fetchBookingById } from "@/lib/fetchers";
 import { formatBooking } from "@/lib/formatBooking";
 
 export default function Ratings() {
@@ -28,71 +25,36 @@ export default function Ratings() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [appointments, setAppointments] = useState([]);
-  const {
-    ratings,
-    loading: ratingsL,
-    error: ratingsE,
-  } = useFetchRatings({
+  const { bookings, loading, error } = useFetchBookings({
     page: currentPage,
     perPage: perPage,
-    key: refreshKey,
   });
 
   useEffect(() => {
+    if (!bookings || bookings.length === 0) return;
+
     const prepareAppointments = async () => {
       setIsProcessing(true);
       try {
-        if (!ratings || ratings.length === 0) return;
-
-        const results = await Promise.all(
-          ratings.map(async (rating) => {
-            const bookingId = rating.acf?.appointment?.[0];
-
-            if (!bookingId) {
-              console.warn(`No booking ID in rating ${rating.id}`);
-              return null;
-            }
-
-            try {
-              const booking = await fetchBookingById(bookingId);
-              return await formatBooking(booking);
-            } catch (err) {
-              console.error(`Failed to process rating ${rating.id}`, err);
-              return null;
-            }
-          })
-        );
-
-        // Filter out nulls (failed entries)
-        setAppointments(results.filter(Boolean));
-        console.log("Prepared appointments:", results);
-        
-      } catch (err) {
-        console.error("Failed to prepare appointments:", err);
+        const results = await Promise.all(bookings.map(formatBooking));
+        setAppointments(results);
       } finally {
         setIsProcessing(false);
       }
     };
 
     prepareAppointments();
-  }, [ratings]);
-
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-    }
-  };
-
+  }, [bookings]);
   const handleRatingSubmit = () => {
     setSelectedAppointmentToRate(null);
     setRefreshKey((prev) => prev + 1); // trigger re-fetch
   };
 
-  if (ratingsL || isProcessing) return <AppointmentsTableSkeleton />;
-  if (ratingsE)
+  if (loading || isProcessing) return <AppointmentsTableSkeleton />;
+  if (error)
     return (
       <div className="p-4 text-red-600">
-        Error loading ratings: {ratingsE.message}
+        Error loading ratings: {error.message}
       </div>
     );
   return (

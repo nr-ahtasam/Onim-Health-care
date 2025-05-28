@@ -5,33 +5,31 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // Import default styles
 import Header from "./Header";
 import UserInfo from "./Overview/UserInfo";
+import { getFutureAppointmentDates } from "@/lib/getFutureBooking";
+import { useFetchBookings } from "@/hooks/useFetchBookings";
+import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
 
 export default function Overview() {
-  const patient = getStoredPatient();
-  const { display_name, email, user_id, acf_fields } = patient || {};
-  const { age, blood_group, height_m, weight_kg, profile_picture_url } =
-    acf_fields || {};
-  const [date, setDate] = useState(new Date());
-  const [earliestDate, setEarliestDate] = useState(null);
+  const { bookings, loading, error } = useFetchBookings();
   const [futureDates, setFutureDates] = useState([]);
+  const [earliestDate, setEarliestDate] = useState(null);
 
-  // Mock data for appointments - replace with actual data from your API
-  const mockAppointments = [
-    { date: new Date(2024, 3, 15) }, // April 15, 2024
-    { date: new Date(2024, 3, 20) }, // April 20, 2024
-    { date: new Date(2024, 3, 25) }, // April 25, 2024
-  ];
-
-  // Set the earliest date and future dates when component mounts
   useEffect(() => {
-    if (mockAppointments.length > 0) {
-      const sortedDates = [...mockAppointments].sort((a, b) => a.date - b.date);
-      setEarliestDate(sortedDates[0].date);
-      setFutureDates(
-        sortedDates.slice(1).map((appointment) => appointment.date)
-      );
+    if (!loading && bookings?.length) {
+      const future = getFutureAppointmentDates(bookings);
+      setFutureDates(future);
+      setEarliestDate(future[0] || null);
     }
-  }, []);
+  }, [bookings, loading]);
+  
+
+  if (loading) return <AppointmentsTableSkeleton />;
+  if (error)
+    return (
+      <div className="p-4 text-red-600">
+        Error loading services: {error.message}
+      </div>
+    );
 
   return (
     <div className="lg:p-4 w-full   sm:p-6 bg-white min-h-screen  overflow-x-hidden">
@@ -56,7 +54,7 @@ export default function Overview() {
               );
 
               if (isEarliest)
-                return "bg-blue-500 text-white rounded-full !important";
+                return "bg-blue-500 text-white rounded-full";
               if (isFuture)
                 return "bg-green-200 text-black font-semibold rounded-full";
               return "";

@@ -7,13 +7,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useFetchHistory } from "@/hooks/useFetchHistory";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
 import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
-import { fetchBookingById } from "@/lib/fetchers";
 import { formatBooking } from "@/lib/formatBooking";
+import { useFetchBookings } from "@/hooks/useFetchBookings";
 
 export default function PatientHistory() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -23,57 +22,26 @@ export default function PatientHistory() {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const [appointments, setAppointments] = useState([]);
-  const {
-    history,
-    loading: historyL,
-    error: historyE,
-  } = useFetchHistory({
+  const { bookings, loading, error } = useFetchBookings({
     page: currentPage,
     perPage: perPage,
   });
 
-  useEffect(() => {
+    useEffect(() => {
+    if (!bookings || bookings.length === 0) return;
+
     const prepareAppointments = async () => {
       setIsProcessing(true);
       try {
-        if (!history || history.length === 0) return;
-
-        const results = await Promise.all(
-          history.map(async (his) => {
-            const bookingId = his.acf?.appointment?.[0];
-
-            if (!bookingId) {
-              console.warn(`No booking ID in history ${his.id}`);
-              return null;
-            }
-
-            try {
-              const booking = await fetchBookingById(bookingId);
-              const formatted = await formatBooking(booking);
-
-              return {
-                ...formatted,
-                historyId: his.id,
-                mediaId: his.acf?.file || null,
-              };
-            } catch (err) {
-              console.error(`Failed to process history ${his.id}`, err);
-              return null;
-            }
-          })
-        );
-
-        // Filter out nulls (failed entries)
-        setAppointments(results.filter(Boolean));
-      } catch (err) {
-        console.error("Failed to prepare appointments:", err);
+        const results = await Promise.all(bookings.map(formatBooking));
+        setAppointments(results);
       } finally {
         setIsProcessing(false);
       }
     };
 
     prepareAppointments();
-  }, [history]);
+  }, [bookings]);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -81,11 +49,11 @@ export default function PatientHistory() {
     }
   };
 
-  if (historyL || isProcessing) return <AppointmentsTableSkeleton />;
-  if (historyE)
+  if (loading || isProcessing) return <AppointmentsTableSkeleton />;
+  if (error)
     return (
       <div className="p-4 text-red-600">
-        Error loading history: {historyE.message}
+        Error loading history: {error.message}
       </div>
     );
   return (
