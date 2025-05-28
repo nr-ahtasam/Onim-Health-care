@@ -121,7 +121,23 @@ export default function AppointmentModal({
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-1">
             <span className="font-semibold text-sm sm:text-base">Status :</span>{" "}
-            <span className="text-sm sm:text-base text-green-600">
+            {/* <span className="text-sm sm:text-base text-green-600">
+              {appointment.status}
+            </span> */}
+
+            <span
+              className={`px-2 py-1 text-sm sm:text-base font-medium rounded-full
+                ${
+                  appointment.status === "Pending"
+                    ? "text-yellow-700 bg-yellow-100"
+                    : appointment.status === "Confirmed"
+                    ? "text-blue-700 bg-blue-100"
+                    : appointment.status === "Completed"
+                    ? "text-green-700 bg-green-100"
+                    : "text-gray-600 bg-gray-100"
+                }
+              `}
+            >
               {appointment.status}
             </span>
           </div>
@@ -136,7 +152,7 @@ export default function AppointmentModal({
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#00897B] hover:bg-[#00796B] text-white text-sm font-medium rounded-lg px-4 py-2 transition"
+                className="inline-flex items-center gap-2 bg-[#00897B] hover:bg-[#00796B] text-white text-sm font-medium rounded-lg px-4 py-2 transition cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +186,7 @@ export default function AppointmentModal({
                 download
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit"
+                className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit cursor-pointer"
               >
                 Click Here
               </a>
@@ -183,14 +199,14 @@ export default function AppointmentModal({
               <input
                 type="file"
                 onChange={handleFileUpload}
-                className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit"
+                className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit cursor-pointer"
               />
             </div>
           </div>
         )}
 
         <button
-          className="mt-6 bg-red-500 text-white px-4 sm:px-6 py-2 rounded-lg text-sm sm:text-base font-medium hover:bg-red-600 transition w-full sm:w-auto"
+          className="mt-6 bg-red-500 text-white px-4 sm:px-6 py-2 rounded-lg text-sm sm:text-base font-medium hover:bg-red-600 transition w-full sm:w-auto cursor-pointer"
           onClick={onClose}
         >
           Close

@@ -55,7 +55,7 @@ export default function BookAppointment() {
   const [selectedDoctor, setSelectedDoctor] = useState({});
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   // ── 2) Prefill from URL once ────────────────────────────────────
   useEffect(() => {

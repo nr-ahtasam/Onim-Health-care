@@ -10,7 +10,6 @@ import {
   FiLogOut,
   FiMenu,
   FiMessageSquare,
-  FiSettings,
   FiUser,
 } from "react-icons/fi";
 import Overview from "./Overview";
@@ -33,12 +32,12 @@ export default function SidePanel() {
   ];
 
   const bottomMenu = [
-    {
-      name: "Settings",
-      action: "action",
-      path: "/settings",
-      icon: <FiSettings />,
-    },
+    // {
+    //   name: "Settings",
+    //   action: "action",
+    //   path: "/settings",
+    //   icon: <FiSettings />,
+    // },
     { name: "Log Out", action: "logout", path: "/logout", icon: <FiLogOut /> },
   ];
 
@@ -47,7 +46,7 @@ export default function SidePanel() {
       {/* Mobile Burger Menu Button - Only visible on mobile */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-6 left-4 z-[60] p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 md:hidden"
+        className="fixed top-6 left-4 z-[60] p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 md:hidden cursor-pointer"
         aria-label="Toggle Sidebar"
       >
         <FiMenu className="w-6 h-6 text-gray-600" />
@@ -97,7 +96,7 @@ export default function SidePanel() {
                     }}
                     className={`
                       flex items-center gap-3 px-4 py-3 rounded-lg w-full text-left
-                      transition-colors duration-200
+                      transition-colors duration-200 cursor-pointer
                       ${
                         selectedMenu === item.name
                           ? "bg-red-50 text-red-600 font-medium"
@@ -122,7 +121,7 @@ export default function SidePanel() {
                   {item.action === "logout" ? (
                     <button
                       onClick={() => removeStoredPatient()}
-                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 w-full text-left"
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 w-full text-left cursor-pointer"
                     >
                       <span className="text-xl">{item.icon}</span>
                       <span>{item.name}</span>

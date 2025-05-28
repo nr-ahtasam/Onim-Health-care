@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
 import { getStoredPatient } from "@/lib/storage";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function RateDoctorModal({ appointment, onClose, onSubmit }) {
@@ -53,7 +53,7 @@ export default function RateDoctorModal({ appointment, onClose, onSubmit }) {
         });
 
         onSubmit?.(); // ✅ trigger refetch on parent
-        onClose?.();  // ✅ close the modal
+        onClose?.(); // ✅ close the modal
       } else {
         toast.error("Failed to submit rating", {
           description: data?.message || "Something went wrong.",
@@ -66,7 +66,7 @@ export default function RateDoctorModal({ appointment, onClose, onSubmit }) {
       setSubmitting(false);
     }
   }, [appointment, patient, rating, description, onClose, onSubmit]);
-  
+
   if (!appointment) return null;
 
   return (
@@ -78,7 +78,7 @@ export default function RateDoctorModal({ appointment, onClose, onSubmit }) {
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-2xl font-semibold"
+            className="text-gray-400 hover:text-gray-600 text-2xl font-semibold cursor-pointer"
           >
             &times;
           </button>
@@ -138,7 +138,7 @@ export default function RateDoctorModal({ appointment, onClose, onSubmit }) {
 
         <div className="flex justify-end">
           <button
-            className={`px-6 py-2 rounded-lg font-medium transition ${
+            className={`px-6 py-2 rounded-lg font-medium transition cursor-pointer ${
               submitting
                 ? "bg-gray-300 text-gray-600 cursor-not-allowed"
                 : "bg-green-500 text-white hover:bg-green-600"

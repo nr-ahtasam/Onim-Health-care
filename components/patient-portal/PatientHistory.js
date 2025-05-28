@@ -8,10 +8,10 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
+import { formatBooking } from "@/lib/formatBooking";
 import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
-import { formatBooking } from "@/lib/formatBooking";
 import { useFetchBookings } from "@/hooks/useFetchBookings";
 
 export default function PatientHistory() {
@@ -86,7 +86,23 @@ export default function PatientHistory() {
                         {appointment.date} at {appointment.time}
                       </div>
                     </div>
-                    <span className="px-2 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full">
+                    {/* <span className="px-2 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full">
+                      {appointment.status}
+                    </span> */}
+
+                    <span
+                      className={`px-2 py-1 text-xs font-medium rounded-full
+                        ${
+                          appointment.status === "Pending"
+                            ? "text-yellow-700 bg-yellow-100"
+                            : appointment.status === "Confirmed"
+                            ? "text-blue-700 bg-blue-100"
+                            : appointment.status === "Completed"
+                            ? "text-green-700 bg-green-100"
+                            : "text-gray-600 bg-gray-100"
+                        }
+                      `}
+                    >
                       {appointment.status}
                     </span>
                   </div>
@@ -108,13 +124,13 @@ export default function PatientHistory() {
 
                   <div className="flex gap-2 pt-2">
                     <button
-                      className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                      className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                       onClick={() => setSelectedAppointment(appointment)}
                     >
                       Upload
                     </button>
                     <button
-                      className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                      className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                       onClick={() => setSelectedAppointment(appointment)}
                     >
                       View
@@ -176,14 +192,31 @@ export default function PatientHistory() {
                           {appointment.doctor}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">
-                          <span className="px-2 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full">
+                          {/* <span className="px-2 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full">
+                            {appointment.status}
+                          </span> */}
+
+
+                          <span
+                            className={`px-2 py-1 text-xs font-medium rounded-full
+                              ${
+                                appointment.status === "Pending"
+                                  ? "text-yellow-700 bg-yellow-100"
+                                  : appointment.status === "Confirmed"
+                                  ? "text-blue-700 bg-blue-100"
+                                  : appointment.status === "Completed"
+                                  ? "text-green-700 bg-green-100"
+                                  : "text-gray-600 bg-gray-100"
+                              }
+                            `}
+                          >
                             {appointment.status}
                           </span>
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm">
                           <div className="flex gap-2">
                             <button
-                              className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                              className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                               onClick={() =>
                                 setSelectedAppointment(appointment)
                               }
@@ -191,7 +224,7 @@ export default function PatientHistory() {
                               Upload
                             </button>
                             <button
-                              className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                              className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                               onClick={() =>
                                 setSelectedAppointment(appointment)
                               }

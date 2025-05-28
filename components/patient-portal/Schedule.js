@@ -9,10 +9,10 @@ import {
 } from "@/components/ui/pagination";
 import { useFetchBookings } from "@/hooks/useFetchBookings";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
+import { formatBooking } from "@/lib/formatBooking";
 import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
-import { formatBooking } from "@/lib/formatBooking";
 
 export default function AppointmentsTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,7 +85,23 @@ export default function AppointmentsTable() {
                         {appointment.date} at {appointment.time}
                       </div>
                     </div>
-                    <span className="px-2 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full">
+                    {/* <span className="px-2 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full">
+                      {appointment.status}
+                    </span> */}
+
+                    <span
+                      className={`px-2 py-1 text-xs font-medium rounded-full
+                        ${
+                          appointment.status === "Pending"
+                            ? "text-yellow-700 bg-yellow-100"
+                            : appointment.status === "Confirmed"
+                            ? "text-blue-700 bg-blue-100"
+                            : appointment.status === "Completed"
+                            ? "text-green-700 bg-green-100"
+                            : "text-gray-600 bg-gray-100"
+                        }
+                      `}
+                    >
                       {appointment.status}
                     </span>
                   </div>
@@ -107,7 +123,7 @@ export default function AppointmentsTable() {
 
                   <div className="pt-2">
                     <button
-                      className="w-full bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                      className="w-full bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                       onClick={() => setSelectedAppointment(appointment)}
                     >
                       View Details
@@ -169,13 +185,29 @@ export default function AppointmentsTable() {
                           {appointment.doctor}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">
-                          <span className="px-2 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full">
+                          {/* <span className="px-2 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full">
+                            {appointment.status}
+                          </span> */}
+
+                          <span
+                            className={`px-2 py-1 text-xs font-medium rounded-full
+                              ${
+                                appointment.status === "Pending"
+                                  ? "text-yellow-700 bg-yellow-100"
+                                  : appointment.status === "Confirmed"
+                                  ? "text-blue-700 bg-blue-100"
+                                  : appointment.status === "Completed"
+                                  ? "text-green-700 bg-green-100"
+                                  : "text-gray-600 bg-gray-100"
+                              }
+                            `}
+                          >
                             {appointment.status}
                           </span>
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm">
                           <button
-                            className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                            className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                             onClick={() => setSelectedAppointment(appointment)}
                           >
                             View

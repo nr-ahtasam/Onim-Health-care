@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/pagination";
 import { useFetchBookings } from "@/hooks/useFetchBookings";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
+import { formatBooking } from "@/lib/formatBooking";
 import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
 import RateDoctorModal from "./RateDoctorModal";
-import { formatBooking } from "@/lib/formatBooking";
 
 export default function Ratings() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -84,7 +84,23 @@ export default function Ratings() {
                     {a.date} at {a.time}
                   </div>
                 </div>
-                <span className="text-green-500 font-medium text-sm">
+                {/* <span className="text-green-500 font-medium text-sm">
+                  {a.status}
+                </span> */}
+
+                <span
+                  className={`px-2 py-1 text-xs font-medium rounded-full
+                    ${
+                      a.status === "Pending"
+                        ? "text-yellow-700 bg-yellow-100"
+                        : a.status === "Confirmed"
+                        ? "text-blue-700 bg-blue-100"
+                        : a.status === "Completed"
+                        ? "text-green-700 bg-green-100"
+                        : "text-gray-600 bg-gray-100"
+                    }
+                  `}
+                >
                   {a.status}
                 </span>
               </div>
@@ -105,14 +121,14 @@ export default function Ratings() {
               <div className="pt-2">
                 {a.status === "Completed" ? (
                   <button
-                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                     onClick={() => setSelectedAppointmentToRate(a)}
                   >
                     Rate Doctor
                   </button>
                 ) : a.status === "Pending" ? (
                   <button
-                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                     onClick={() => setSelectedAppointment(a)}
                   >
                     View
@@ -151,21 +167,37 @@ export default function Ratings() {
                     </td>
                     <td className="py-4 px-4">{a.doctor}</td>
                     <td className="py-4 px-4">
-                      <span className="text-green-500 font-medium">
+                      {/* <span className="text-green-500 font-medium">
+                        {a.status}
+                      </span> */}
+
+                      <span
+                        className={`px-2 py-1 text-xs font-medium rounded-full
+                          ${
+                            a.status === "Pending"
+                              ? "text-yellow-700 bg-yellow-100"
+                              : a.status === "Confirmed"
+                              ? "text-blue-700 bg-blue-100"
+                              : a.status === "Completed"
+                              ? "text-green-700 bg-green-100"
+                              : "text-gray-600 bg-gray-100"
+                          }
+                        `}
+                      >
                         {a.status}
                       </span>
                     </td>
                     <td className="py-4 px-4">
-                      {a.status === "Pending" ? (
+                      {a.status === "Completed" ? (
                         <button
-                          className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition"
+                          className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer"
                           onClick={() => setSelectedAppointmentToRate(a)}
                         >
                           Rate Doctor
                         </button>
                       ) : a.status === "Pending" ? (
                         <button
-                          className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition"
+                          className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer"
                           onClick={() => setSelectedAppointment(a)}
                         >
                           View

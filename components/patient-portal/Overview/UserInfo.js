@@ -1,7 +1,7 @@
 "use client";
 import { getStoredPatient } from "@/lib/storage";
 import Link from "next/link";
-import { FiUser } from "react-icons/fi";
+import { FiCalendar, FiClock, FiGrid, FiMessageSquare } from "react-icons/fi";
 
 const UserInfo = () => {
   const patient = getStoredPatient();
@@ -63,7 +63,7 @@ const UserInfo = () => {
                 title="Appointments"
                 subtitle="Dr. Hans Down"
                 time="10:00 - 11:00AM"
-                icon={<FiUser />}
+                icon={<FiGrid />}
               />
             </Link>
             <Link href="/patient-portal/ratings">
@@ -72,7 +72,7 @@ const UserInfo = () => {
                 title="View History"
                 subtitle="Penny Tool"
                 time="Patient Files"
-                icon={<FiUser />}
+                icon={<FiCalendar />}
               />
             </Link>
             <Link href="/patient-portal/schedule">
@@ -81,7 +81,7 @@ const UserInfo = () => {
                 title="Rate Doctors"
                 subtitle="Eric Widget"
                 time="Completed Appointments"
-                icon={<FiUser />}
+                icon={<FiClock />}
               />
             </Link>
             <Link href="/patient-portal/history">
@@ -90,7 +90,7 @@ const UserInfo = () => {
                 title="Request Update"
                 subtitle="Justin Case"
                 time="Profile Update"
-                icon={<FiUser />}
+                icon={<FiMessageSquare />}
               />
             </Link>
           </div>
@@ -105,7 +105,7 @@ function ActionCard({ color, title, subtitle, time, icon }) {
     <div
       className={`rounded-lg ${color} p-3 lg:p-4 flex items-center gap-3 lg:gap-4 shadow hover:shadow-lg transition-shadow duration-200`}
     >
-      <div className="bg-white bg-opacity-30 rounded-full p-2 text-white text-xl lg:text-2xl flex-shrink-0">
+      <div className="bg-white bg-opacity-30 rounded-full p-2 text-red text-xl lg:text-2xl flex-shrink-0">
         {icon}
       </div>
       <div className="flex-1 min-w-0">
