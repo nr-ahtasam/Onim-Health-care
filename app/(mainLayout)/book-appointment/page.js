@@ -52,6 +52,7 @@ export default function BookAppointment() {
   const [doctor, setDoctor] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   // ── 2) Prefill from URL once ────────────────────────────────────
   useEffect(() => {
@@ -78,6 +79,10 @@ export default function BookAppointment() {
   // ── 4) Submit handler ───────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setShowModal(true);
+  };
+
+  const handleConfirmBooking = async () => {
     try {
       await createBooking({
         name,
@@ -96,6 +101,7 @@ export default function BookAppointment() {
       setDoctor("");
       setDate("");
       setDescription("");
+      setShowModal(false);
     } catch {
       // toast.error already called by hook
     }
@@ -105,7 +111,7 @@ export default function BookAppointment() {
     <div>
       <BreadCrumbs title="Book an Appointment" subtitle="In Omni Health Care" />
 
-      {/* ── Gradient & “How Omni Works?” ──────────────────────────────── */}
+      {/* ── Gradient & "How Omni Works?" ──────────────────────────────── */}
       <section className="relative overflow-hidden">
         {/* Gradient background */}
         <div>
@@ -329,6 +335,61 @@ export default function BookAppointment() {
           </form>
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full">
+            <h3 className="text-xl font-semibold mb-4">Confirm Appointment</h3>
+            <div className="space-y-3 mb-6">
+              <p className="text-gray-600">
+                Please confirm your appointment details:
+              </p>
+              <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+                <p>
+                  <span className="font-medium">Patient Name:</span> {name}
+                </p>
+                <p>
+                  <span className="font-medium">Patient Phone No:</span> {phone}
+                </p>
+                <p>
+                  <span className="font-medium">Service:</span>{" "}
+                  {
+                    services.find((s) => s.databaseId.toString() === service)
+                      ?.title
+                  }
+                </p>
+                <p>
+                  <span className="font-medium">Doctor Name:</span>{" "}
+                  {
+                    doctors.find((d) => d.databaseId.toString() === doctor)
+                      ?.title
+                  }
+                </p>
+                <p>
+                  <span className="font-medium">Appointment Date:</span> {date}
+                </p>
+              </div>
+            </div>
+            <div className="flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowModal(false)}
+                className="px-4"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleConfirmBooking}
+                disabled={creating}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4"
+              >
+                {creating ? "Booking..." : "Confirm Booking"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

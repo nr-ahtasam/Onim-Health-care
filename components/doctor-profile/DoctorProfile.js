@@ -149,7 +149,7 @@ export default function DoctorProfile({ singleDoctor }) {
                         strokeLinecap="round"
                       />
                     </svg>
-                    <span className="font-medium">
+                    <span className="font-medium w-[200px]">
                       {doctor.doctorField.experience}{" "}
                       {doctor.doctorField.experience === 1 ? "Year" : "Years"}{" "}
                       Experience

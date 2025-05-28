@@ -1,5 +1,6 @@
 "use client";
 import { getStoredPatient } from "@/lib/storage";
+import Link from "next/link";
 import { FiUser } from "react-icons/fi";
 
 const UserInfo = () => {
@@ -56,34 +57,42 @@ const UserInfo = () => {
         {/* Right side cards */}
         <div className="w-full lg:w-[40%] flex flex-col gap-3 lg:gap-4">
           <div className="flex flex-col grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
-            <ActionCard
-              color="bg-[#4DC6F6]"
-              title="Appointments"
-              subtitle="Dr. Hans Down"
-              time="10:00 - 11:00AM"
-              icon={<FiUser />}
-            />
-            <ActionCard
-              color="bg-[#5DD1C6]"
-              title="View History"
-              subtitle="Penny Tool"
-              time="Patient Files"
-              icon={<FiUser />}
-            />
-            <ActionCard
-              color="bg-[#2B7BDB]"
-              title="Rate Doctors"
-              subtitle="Eric Widget"
-              time="Completed Appointments"
-              icon={<FiUser />}
-            />
-            <ActionCard
-              color="bg-[#1CB5C9]"
-              title="Request Update"
-              subtitle="Justin Case"
-              time="Profile Update"
-              icon={<FiUser />}
-            />
+            <Link href="/patient-portal/overview">
+              <ActionCard
+                color="bg-[#4DC6F6]"
+                title="Appointments"
+                subtitle="Dr. Hans Down"
+                time="10:00 - 11:00AM"
+                icon={<FiUser />}
+              />
+            </Link>
+            <Link href="/patient-portal/ratings">
+              <ActionCard
+                color="bg-[#5DD1C6]"
+                title="View History"
+                subtitle="Penny Tool"
+                time="Patient Files"
+                icon={<FiUser />}
+              />
+            </Link>
+            <Link href="/patient-portal/schedule">
+              <ActionCard
+                color="bg-[#2B7BDB]"
+                title="Rate Doctors"
+                subtitle="Eric Widget"
+                time="Completed Appointments"
+                icon={<FiUser />}
+              />
+            </Link>
+            <Link href="/patient-portal/history">
+              <ActionCard
+                color="bg-[#1CB5C9]"
+                title="Request Update"
+                subtitle="Justin Case"
+                time="Profile Update"
+                icon={<FiUser />}
+              />
+            </Link>
           </div>
         </div>
       </div>

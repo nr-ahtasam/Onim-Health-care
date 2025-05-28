@@ -3,14 +3,14 @@ import { FiBell } from "react-icons/fi";
 
 const Header = () => {
   const patient = getStoredPatient();
-  const {display_name, email, acf_fields} = patient || {};
-  const {profile_picture_url} = acf_fields || {};
-  
+  const { display_name, email, acf_fields } = patient || {};
+  const { profile_picture_url } = acf_fields || {};
+
   return (
     <div>
       <div className="flex justify-center lg:justify-between items-center mb-8">
         <div className="w-1/3">
-          <div className="relative">
+          {/* <div className="relative">
             <input
               type="text"
               placeholder="Search..."
@@ -28,7 +28,7 @@ const Header = () => {
               <circle cx="11" cy="11" r="8" />
               <path d="M21 21l-4.35-4.35" />
             </svg>
-          </div>
+          </div> */}
         </div>
         <div className="flex items-center gap-4">
           <FiBell className="text-gray-400 text-xl hidden lg:visible" />
