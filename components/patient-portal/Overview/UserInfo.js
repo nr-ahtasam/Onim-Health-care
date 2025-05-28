@@ -13,8 +13,8 @@ const UserInfo = () => {
     <div>
       <div className="flex flex-col lg:flex-row w-[100%] gap-4 lg:gap-8">
         {/* Profile Card */}
-        <div className="w-full lg:w-[60%] bg-white rounded-xl shadow p-4 lg:p-8 flex flex-col items-center">
-          <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-200 rounded-full mb-4 flex items-center justify-center">
+        <div className="ml-[5%] w-full lg:w-[40%] bg-white rounded-xl shadow-lg p-4 lg:p-8 flex flex-col items-center">
+          <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-200 rounded-full mb-4 flex items-center justify-center shadow-md">
             <img
               src={profile_picture_url || "/images/avatar_m.png"}
               alt="User"
@@ -27,7 +27,7 @@ const UserInfo = () => {
           <div className="text-gray-400 text-xs lg:text-sm mb-4 lg:mb-6">
             {email}
           </div>
-          <div className="bg-[#F3F8FB] rounded-lg w-full py-3 lg:py-4 px-2 grid grid-cols-2 gap-y-3 lg:gap-y-4 text-center">
+          <div className="bg-[#F3F8FB] rounded-lg w-full py-3 lg:py-4 px-2 grid grid-cols-2 gap-y-3 lg:gap-y-4 text-center shadow-md">
             <div>
               <div className="font-bold text-base lg:text-lg">
                 {age ? `${age} Years` : "N/A"}
@@ -56,7 +56,7 @@ const UserInfo = () => {
         </div>
 
         {/* Right side cards */}
-        <div className="w-full lg:w-[40%] flex flex-col gap-3 lg:gap-4">
+        <div className="w-full lg:w-[30%] lg:ml-auto lg:mr-[10%] flex flex-col gap-3 lg:gap-4">
           <div className="flex flex-col grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
             <Link href="#">
               <ActionCard
@@ -104,15 +104,16 @@ const UserInfo = () => {
     </div>
   );
 };
+
 // ActionCard component
 function ActionCard({ color, title, subtitle, time, icon, menu }) {
   const { setSelectedMenu } = usePatientPanel();
   return (
     <div
       onClick={() => setSelectedMenu(menu)}
-      className={`rounded-lg ${color} p-3 lg:p-4 flex items-center gap-3 lg:gap-4 shadow hover:shadow-lg transition-shadow duration-200`}
+      className={`rounded-lg ${color} p-3 lg:p-4 flex items-center gap-3 lg:gap-4 shadow-md hover:shadow-lg transition-shadow duration-200`}
     >
-      <div className="bg-white bg-opacity-30 rounded-full p-2 text-red text-xl lg:text-2xl flex-shrink-0">
+      <div className="bg-white bg-opacity-30 rounded-full p-2 text-red text-xl lg:text-2xl flex-shrink-0 shadow-sm">
         {icon}
       </div>
       <div className="flex-1 min-w-0">

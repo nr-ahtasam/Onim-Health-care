@@ -1,7 +1,6 @@
 "use client";
 import { removeStoredPatient } from "@/lib/storage";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
   FiCalendar,
@@ -21,7 +20,6 @@ import { usePatientPanel } from "@/context/PatientPanelContext";
 
 export default function SidePanel() {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
   const { selectedMenu, setSelectedMenu } = usePatientPanel();
 
   const mainMenu = [
@@ -33,12 +31,6 @@ export default function SidePanel() {
   ];
 
   const bottomMenu = [
-    // {
-    //   name: "Settings",
-    //   action: "action",
-    //   path: "/settings",
-    //   icon: <FiSettings />,
-    // },
     { name: "Log Out", action: "logout", path: "/logout", icon: <FiLogOut /> },
   ];
 
@@ -144,12 +136,7 @@ export default function SidePanel() {
       </aside>
 
       {/* Main Content */}
-      <div
-      // className={`
-      //   transition-all duration-300 ease-in-out
-      //   md:ml-[280px] lg:ml-0
-      // `}
-      >
+      <div>
         {selectedMenu === "Overview" && <Overview />}
         {selectedMenu === "Profile" && <Profile />}
         {selectedMenu === "Schedule" && <Schedule />}
