@@ -66,13 +66,7 @@ export default function ShowcaseSection() {
             </div>
 
             {/* 24/7 Badge */}
-            {/* <div className="hidden flex justify-center my-10 md:my-0 md:absolute top-1/2 right-1/2 transform md:translate-x-1/2 z-20">
-              <div className="bg-white rounded-full outline outline-offset-10 outline-[#051320] p-4 shadow-lg w-36 h-36 flex flex-col items-center justify-center text-center">
-                <p className="text-sm font-medium text-gray-900">
-                  We are available 24/7 round the clock
-                </p>
-              </div>
-            </div> */}
+
             <div className="hidden md:flex justify-center my-10 md:my-0 md:absolute top-1/2 right-1/2 transform md:translate-x-1/2 z-20">
               <div className="bg-white rounded-full outline outline-offset-10 outline-[#051320] p-4 shadow-lg w-36 h-36 flex flex-col items-center justify-center text-center">
                 <p className="text-sm font-medium text-gray-900">
@@ -85,8 +79,9 @@ export default function ShowcaseSection() {
               <div className="absolute bottom-0 left-0 right-0 h-54 md:h-86 rounded-tr-[75px]  z-0" />
 
               <div className="space-y-6 md:p-12 max-w-[600px] text-center md:text-start">
-                <h2 className="text-3xl md:text-[50px] font-bold text-gray-900 leading-tight ">
-                  Welcome to Omni Health Care
+                <h2 className="my-6 lg:m-0 text-3xl md:text-[50px] font-bold text-gray-900 leading-tight ">
+                  Welcome to <br />
+                  Omni Health Care
                 </h2>
 
                 <p className="text-gray-700 text-xl border-t border-black/40 py-4">

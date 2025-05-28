@@ -13,7 +13,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Menu } from "lucide-react";
 import Image from "next/image";
@@ -226,24 +231,36 @@ export default function Header() {
                         For Patients
                       </h3>
                       <div className="space-y-1">
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start"
-                        >
-                          Patient Information
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start"
-                        >
-                          Insurance
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start"
-                        >
-                          Patient Portal
-                        </Button>
+                        <SheetClose asChild>
+                          <Link href="/patient-portal">
+                            <Button
+                              variant="ghost"
+                              className="w-full justify-start"
+                            >
+                              Patient Information
+                            </Button>
+                          </Link>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Link href="/insurance-partners">
+                            <Button
+                              variant="ghost"
+                              className="w-full justify-start"
+                            >
+                              Insurance
+                            </Button>
+                          </Link>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Link href="/patient-portal">
+                            <Button
+                              variant="ghost"
+                              className="w-full justify-start"
+                            >
+                              Patient Portal
+                            </Button>
+                          </Link>
+                        </SheetClose>
                       </div>
                     </div>
 
@@ -263,14 +280,16 @@ export default function Header() {
                             <AccordionContent>
                               <div className="pl-4 space-y-1">
                                 {specialty.submenu?.map((item, i) => (
-                                  <Link key={i} href={item.href}>
-                                    <Button
-                                      variant="ghost"
-                                      className="w-full justify-start"
-                                    >
-                                      {item.label}
-                                    </Button>
-                                  </Link>
+                                  <SheetClose key={i} asChild>
+                                    <Link href={item.href}>
+                                      <Button
+                                        variant="ghost"
+                                        className="w-full justify-start"
+                                      >
+                                        {item.label}
+                                      </Button>
+                                    </Link>
+                                  </SheetClose>
                                 ))}
                               </div>
                             </AccordionContent>

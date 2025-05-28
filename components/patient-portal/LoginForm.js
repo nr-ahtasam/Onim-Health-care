@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
 export default function LoginForm({ switchToRegister }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +20,9 @@ export default function LoginForm({ switchToRegister }) {
   return (
     <form onSubmit={handleLogin}>
       <div className="mb-4">
-        <label className="mb-2 block text-sm font-medium text-gray-700">Email or Phone</label>
+        <label className="mb-2 block text-sm font-medium text-gray-700">
+          Email or Phone
+        </label>
         <input
           type="text"
           className="w-full rounded-lg border px-3 py-2"
@@ -30,9 +32,10 @@ export default function LoginForm({ switchToRegister }) {
           required
         />
       </div>
-
       <div className="mb-6">
-        <label className="mb-2 block text-sm font-medium text-gray-700">Password</label>
+        <label className="mb-2 block text-sm font-medium text-gray-700">
+          Password
+        </label>
         <input
           type="password"
           className="w-full rounded-lg border px-3 py-2"
@@ -42,17 +45,18 @@ export default function LoginForm({ switchToRegister }) {
           required
         />
       </div>
-
       <button
         type="submit"
         className="w-full rounded-lg bg-blue-500 py-2 text-white font-medium hover:bg-blue-600"
       >
         Login
       </button>
-
       <p className="mt-4 text-center text-sm text-gray-600">
         Don’t have an account?{" "}
-        <button onClick={switchToRegister} className="text-blue-500 hover:underline">
+        <button
+          onClick={switchToRegister}
+          className="text-blue-500 hover:underline"
+        >
           Register here
         </button>
       </p>

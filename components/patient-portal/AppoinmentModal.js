@@ -18,7 +18,6 @@ export default function AppointmentModal({
 
         if (res.ok && data?.guid?.rendered) {
           setDownloadLink(data?.guid?.rendered); // Store the media ID for potential future use
-          
         } else {
           console.warn("Could not fetch media link");
         }
@@ -32,7 +31,6 @@ export default function AppointmentModal({
 
   if (!appointment) return null;
 
-  
   const handleDownload = async () => {
     if (!downloadLink) return;
 
@@ -70,22 +68,20 @@ export default function AppointmentModal({
       const data = await res.json();
 
       if (res.ok) {
-      
         if (data.id) {
           setDownloadLink(data.guid.rendered);
           setFileId(data.id);
 
           await fetch(`/api/patient-history/${appointment?.historyId}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            status: "publish",
-            acf: {
-              file: data.id,
-            },
-          }),
-        });
-
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              status: "publish",
+              acf: {
+                file: data.id,
+              },
+            }),
+          });
         }
       } else {
         console.error("Upload error:", data);
@@ -96,7 +92,6 @@ export default function AppointmentModal({
       alert("Error uploading file.");
     }
   };
-
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 p-4">
@@ -151,6 +146,36 @@ export default function AppointmentModal({
               {appointment.status}
             </span>
           </div>
+
+          {/* Google Meet Link for Online Appointments */}
+          {appointment.type === "Online" && (
+            <div className="mt-4">
+              <a
+                href={
+                  appointment.virtualMeetLink ||
+                  "https://meet.google.com/mcn-rfpo-uyd"
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#00897B] hover:bg-[#00796B] text-white text-sm font-medium rounded-lg px-4 py-2 transition"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                Join Google Meet
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Only show these rows if showFileActions is true */}
@@ -173,7 +198,9 @@ export default function AppointmentModal({
             </div>
             {/* Upload File Row */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <span className="font-semibold text-sm sm:text-base">Upload File :</span>
+              <span className="font-semibold text-sm sm:text-base">
+                Upload File :
+              </span>
               <input
                 type="file"
                 onChange={handleFileUpload}
