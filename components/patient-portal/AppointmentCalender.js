@@ -5,6 +5,7 @@ import "react-calendar/dist/Calendar.css";
 import { getFutureAppointmentDates } from "@/lib/getFutureBooking";
 import { useFetchBookings } from "@/hooks/useFetchBookings";
 import { FiCalendar } from "react-icons/fi";
+import CalendarSkeleton from "@/lib/CalenderSkeleton";
 
 const AppointmentCalendar = () => {
   const { bookings, loading, error } = useFetchBookings();
@@ -19,7 +20,7 @@ const AppointmentCalendar = () => {
     }
   }, [bookings, loading]);
 
-  if (loading) return <div className="p-6 text-gray-500">Loading calendar...</div>;
+  if (loading) return <CalendarSkeleton />;
   if (error) return <div className="p-6 text-red-600">Error: {error.message}</div>;
 
   return (
