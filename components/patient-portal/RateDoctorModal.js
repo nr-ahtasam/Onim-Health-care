@@ -8,52 +8,7 @@ export default function RateDoctorModal({ appointment, onClose, onSubmit }) {
   const [rating, setRating] = useState(0);
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const submitRating = async () => {
-  try {
-
-    const payload = JSON.stringify({
-      status: "publish",
-      acf: {
-        appointment: [appointment?.bookingId],
-        rating: rating,
-        description: description,
-        patient: patient?.user_id,
-        doctor: appointment?.doctorId,
-      },
-    });
-
-    console.log("Submitting rating with payload:", payload);
-    
-    const res = await fetch("/api/rating", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: payload,
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      toast.success("Rating submitted", {
-        description: "Thank you for rating your doctor!",
-        className: "bg-green-500 text-white border-none shadow-lg",
-        action: { label: "X", onClick: () => toast.clear() },
-      });
-
-      // optional: reset form or close modal
-    } else {
-      toast.error("Failed to submit rating", {
-        description: data?.message || "Something went wrong.",
-      });
-    }
-  } catch (err) {
-    console.error("Submit rating error:", err);
-    toast.error("An error occurred", {
-      description: err.message,
-    });
-  }
-};
-
-  // Reset state when a new appointment is selected
+  
   useEffect(() => {
     if (appointment) {
       setRating(0);

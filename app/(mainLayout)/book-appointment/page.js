@@ -19,6 +19,7 @@ import { useCreateBooking } from "@/hooks/useCreateBooking";
 import Loader from "@/lib/Loader";
 import { getAllDoctors, getAllServices } from "@/lib/graphql";
 import { useQuery } from "@apollo/client";
+import AppointmentPaymentModal from "@/components/book-appointment/AppointmentPaymentModal";
 
 export default function BookAppointment() {
   // ── 1) All hooks at the top ────────────────────────────────────────────
@@ -52,7 +53,7 @@ export default function BookAppointment() {
   const [doctor, setDoctor] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
 
   // ── 2) Prefill from URL once ────────────────────────────────────
   useEffect(() => {
@@ -106,6 +107,11 @@ export default function BookAppointment() {
       // toast.error already called by hook
     }
   };
+
+  const handlePayment = () => {
+    console.log("Payment button clicked");
+    // handleConfirmBooking()
+  }
 
   return (
     <div>
@@ -305,7 +311,7 @@ export default function BookAppointment() {
               </Select>
 
               <Input
-                type="date"
+                type="datetime-local"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
@@ -338,58 +344,22 @@ export default function BookAppointment() {
 
       {/* Confirmation Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-semibold mb-4">Confirm Appointment</h3>
-            <div className="space-y-3 mb-6">
-              <p className="text-gray-600">
-                Please confirm your appointment details:
-              </p>
-              <div className="bg-gray-50 p-4 rounded-lg space-y-2">
-                <p>
-                  <span className="font-medium">Patient Name:</span> {name}
-                </p>
-                <p>
-                  <span className="font-medium">Patient Phone No:</span> {phone}
-                </p>
-                <p>
-                  <span className="font-medium">Service:</span>{" "}
-                  {
-                    services.find((s) => s.databaseId.toString() === service)
-                      ?.title
-                  }
-                </p>
-                <p>
-                  <span className="font-medium">Doctor Name:</span>{" "}
-                  {
-                    doctors.find((d) => d.databaseId.toString() === doctor)
-                      ?.title
-                  }
-                </p>
-                <p>
-                  <span className="font-medium">Appointment Date:</span> {date}
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-end gap-3">
-              <Button
-                variant="outline"
-                onClick={() => setShowModal(false)}
-                className="px-4"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleConfirmBooking}
-                disabled={creating}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4"
-              >
-                {creating ? "Booking..." : "Confirm Booking"}
-              </Button>
-            </div>
-          </div>
-        </div>
+        <AppointmentPaymentModal
+          name={name}
+          phone={phone}
+          service={service}
+          doctor={doctor}
+          date={date}
+          creating={creating}
+          show={showModal}
+          onCancel={() => setShowModal(false)}
+          onConfirm={handleConfirmBooking}
+          onPay={handlePayment}
+          services={services}
+          doctors={doctors}
+        />
       )}
+
     </div>
   );
 }

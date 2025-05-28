@@ -1,5 +1,4 @@
 "use client";
-import { getStoredPatient } from "@/lib/storage";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // Import default styles
@@ -43,7 +42,6 @@ export default function Overview() {
         <div className="bg-white rounded-xl shadow p-4 lg:p-6 w-full lg:max-w-[520px]">
           <div className="font-semibold mb-2">Upcoming Appointments</div>
           <Calendar
-            // Remove value/onChange to make it read-only
             className="border-2 w-full cursor-default custom-calendar"
             tileClassName={({ date: d }) => {
               const isEarliest =

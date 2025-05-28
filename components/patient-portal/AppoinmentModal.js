@@ -31,27 +31,6 @@ export default function AppointmentModal({
 
   if (!appointment) return null;
 
-  const handleDownload = async () => {
-    if (!downloadLink) return;
-
-    try {
-      const res = await fetch(downloadLink);
-      const blob = await res.blob();
-
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "appointment-file"; // You can customize this
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error("Download failed:", err);
-      alert("Failed to download file.");
-    }
-  };
-
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;

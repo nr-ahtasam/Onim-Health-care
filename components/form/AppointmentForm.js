@@ -123,7 +123,7 @@ export default function AppointmentForm() {
 
         <Input
           name="date"
-          type="date"
+          type="datetime-local"
           className={`
             block w-full 
             rounded-none 
