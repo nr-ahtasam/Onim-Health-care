@@ -195,14 +195,14 @@ export default function Ratings() {
                         >
                           Rate Doctor
                         </button>
-                      ) : a.status === "Pending" ? (
+                      ) : (
                         <button
                           className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer"
                           onClick={() => setSelectedAppointment(a)}
                         >
                           View
                         </button>
-                      ) : null}
+                      )}
                     </td>
                   </tr>
                 ))}

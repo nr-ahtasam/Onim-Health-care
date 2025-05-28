@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(_, { params }) {
   try {
-    const id = await params.id;
+    const { id } = await params;
 
     const {baseUrl, headers} = getAuthHeaders();
 

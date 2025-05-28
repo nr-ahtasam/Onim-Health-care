@@ -49,6 +49,7 @@ export default function AppointmentsTable() {
   };
 
   if (loading || isProcessing) return <AppointmentsTableSkeleton />;
+  
   if (error)
     return (
       <div className="p-4 text-red-600">

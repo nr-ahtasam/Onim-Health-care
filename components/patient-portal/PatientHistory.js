@@ -215,22 +215,21 @@ export default function PatientHistory() {
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm">
                           <div className="flex gap-2">
-                            <button
-                              className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
-                              onClick={() =>
-                                setSelectedAppointment(appointment)
-                              }
-                            >
-                              Upload
-                            </button>
-                            <button
-                              className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
-                              onClick={() =>
-                                setSelectedAppointment(appointment)
-                              }
-                            >
-                              View
-                            </button>
+                            {appointment.status === "Completed" ? (
+                              <button
+                                className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer"
+                                onClick={() => setSelectedAppointment(appointment)}
+                              >
+                                Upload
+                              </button>
+                            ) : (
+                              <button
+                                className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer"
+                                onClick={() => setSelectedAppointment(appointment)}
+                              >
+                                View
+                              </button>
+                            )}
                           </div>
                         </td>
                       </tr>

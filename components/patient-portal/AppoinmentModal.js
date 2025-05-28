@@ -10,10 +10,10 @@ export default function AppointmentModal({
 
   useEffect(() => {
     const fetchMedia = async () => {
-      if (!appointment?.mediaId) return;
+      if (!appointment?.fileId) return;
 
       try {
-        const res = await fetch(`/api/media/${appointment.mediaId}`);
+        const res = await fetch(`/api/media/${appointment?.fileId}`);
         const data = await res.json();
 
         if (res.ok && data?.guid?.rendered) {
@@ -51,11 +51,9 @@ export default function AppointmentModal({
           setDownloadLink(data.guid.rendered);
           setFileId(data.id);
 
-          await fetch(`/api/patient-history/${appointment?.historyId}`, {
+          await fetch(`/api/booking/${appointment?.bookingId}`, {
             method: "PATCH",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              status: "publish",
               acf: {
                 file: data.id,
               },
@@ -141,36 +139,6 @@ export default function AppointmentModal({
               {appointment.status}
             </span>
           </div>
-
-          {/* Google Meet Link for Online Appointments */}
-          {appointment.type === "Online" && (
-            <div className="mt-4">
-              <a
-                href={
-                  appointment.virtualMeetLink ||
-                  "https://meet.google.com/mcn-rfpo-uyd"
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#00897B] hover:bg-[#00796B] text-white text-sm font-medium rounded-lg px-4 py-2 transition cursor-pointer"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                Join Google Meet
-              </a>
-            </div>
-          )}
         </div>
 
         {/* Only show these rows if showFileActions is true */}
@@ -192,16 +160,48 @@ export default function AppointmentModal({
               </a>
             </div>
             {/* Upload File Row */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <span className="font-semibold text-sm sm:text-base">
-                Upload File :
-              </span>
-              <input
-                type="file"
-                onChange={handleFileUpload}
-                className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit cursor-pointer"
-              />
-            </div>
+            {
+              appointment.status === "Completed" && (
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                  <span className="font-semibold text-sm sm:text-base">
+                    Upload File :
+                  </span>
+                  <input
+                    type="file"
+                    onChange={handleFileUpload}
+                    className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit cursor-pointer"
+                  />
+                </div>
+              )
+            }
+            
+          </div>
+        )}
+
+        {/* Google Meet Link for Online Appointments */}
+        {appointment.type === "Online" && appointment.virtualMeetLink && (
+          <div className="mt-4">
+            <a
+              href={ appointment.virtualMeetLink }
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#00897B] hover:bg-[#00796B] text-white text-sm font-medium rounded-lg px-4 py-2 transition cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              Join Google Meet
+            </a>
           </div>
         )}
 
