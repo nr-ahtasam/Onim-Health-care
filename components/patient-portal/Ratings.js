@@ -7,16 +7,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { LOCATIONS } from "@/constants/locations";
-import { useFetchBookings } from "@/hooks/useFetchBookings";
+import { useFetchRatings } from "@/hooks/useFetchRatings";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
+import { fetchBookingById } from "@/lib/fetchers";
+import { formatBooking } from "@/lib/formatBooking";
 import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
 import RateDoctorModal from "./RateDoctorModal";
-import { useFetchRatings } from "@/hooks/useFetchRatings";
-import { fetchBookingById } from "@/lib/fetchers";
-import { formatBooking } from "@/lib/formatBooking";
 
 export default function Ratings() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -66,7 +64,6 @@ export default function Ratings() {
         // Filter out nulls (failed entries)
         setAppointments(results.filter(Boolean));
         console.log("Prepared appointments:", results);
-        
       } catch (err) {
         console.error("Failed to prepare appointments:", err);
       } finally {
@@ -143,14 +140,14 @@ export default function Ratings() {
               <div className="pt-2">
                 {a.status === "Completed" ? (
                   <button
-                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                     onClick={() => setSelectedAppointmentToRate(a)}
                   >
                     Rate Doctor
                   </button>
                 ) : a.status === "Pending" ? (
                   <button
-                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                     onClick={() => setSelectedAppointment(a)}
                   >
                     View
@@ -196,14 +193,14 @@ export default function Ratings() {
                     <td className="py-4 px-4">
                       {a.status === "Pending" ? (
                         <button
-                          className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition"
+                          className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer"
                           onClick={() => setSelectedAppointmentToRate(a)}
                         >
                           Rate Doctor
                         </button>
                       ) : a.status === "Pending" ? (
                         <button
-                          className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition"
+                          className="bg-blue-500 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer"
                           onClick={() => setSelectedAppointment(a)}
                         >
                           View

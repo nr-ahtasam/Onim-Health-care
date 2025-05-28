@@ -157,7 +157,7 @@ export default function AppointmentModal({
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#00897B] hover:bg-[#00796B] text-white text-sm font-medium rounded-lg px-4 py-2 transition"
+                className="inline-flex items-center gap-2 bg-[#00897B] hover:bg-[#00796B] text-white text-sm font-medium rounded-lg px-4 py-2 transition cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +191,7 @@ export default function AppointmentModal({
                 download
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit"
+                className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit cursor-pointer"
               >
                 Click Here
               </a>
@@ -204,14 +204,14 @@ export default function AppointmentModal({
               <input
                 type="file"
                 onChange={handleFileUpload}
-                className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit"
+                className="bg-[#5DC7FF] hover:bg-sky-500 text-white text-xs sm:text-sm font-medium rounded-full px-4 py-1.5 transition inline-block w-fit cursor-pointer"
               />
             </div>
           </div>
         )}
 
         <button
-          className="mt-6 bg-red-500 text-white px-4 sm:px-6 py-2 rounded-lg text-sm sm:text-base font-medium hover:bg-red-600 transition w-full sm:w-auto"
+          className="mt-6 bg-red-500 text-white px-4 sm:px-6 py-2 rounded-lg text-sm sm:text-base font-medium hover:bg-red-600 transition w-full sm:w-auto cursor-pointer"
           onClick={onClose}
         >
           Close

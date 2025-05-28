@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/pagination";
 import { useFetchHistory } from "@/hooks/useFetchHistory";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
+import { fetchBookingById } from "@/lib/fetchers";
+import { formatBooking } from "@/lib/formatBooking";
 import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
-import { fetchBookingById } from "@/lib/fetchers";
-import { formatBooking } from "@/lib/formatBooking";
 
 export default function PatientHistory() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -140,13 +140,13 @@ export default function PatientHistory() {
 
                   <div className="flex gap-2 pt-2">
                     <button
-                      className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                      className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                       onClick={() => setSelectedAppointment(appointment)}
                     >
                       Upload
                     </button>
                     <button
-                      className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                      className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                       onClick={() => setSelectedAppointment(appointment)}
                     >
                       View
@@ -215,7 +215,7 @@ export default function PatientHistory() {
                         <td className="px-4 py-3 whitespace-nowrap text-sm">
                           <div className="flex gap-2">
                             <button
-                              className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                              className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                               onClick={() =>
                                 setSelectedAppointment(appointment)
                               }
@@ -223,7 +223,7 @@ export default function PatientHistory() {
                               Upload
                             </button>
                             <button
-                              className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                              className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                               onClick={() =>
                                 setSelectedAppointment(appointment)
                               }

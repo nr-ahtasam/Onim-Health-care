@@ -9,10 +9,10 @@ import {
 } from "@/components/ui/pagination";
 import { useFetchBookings } from "@/hooks/useFetchBookings";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
+import { formatBooking } from "@/lib/formatBooking";
 import { useEffect, useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
-import { formatBooking } from "@/lib/formatBooking";
 
 export default function AppointmentsTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -107,7 +107,7 @@ export default function AppointmentsTable() {
 
                   <div className="pt-2">
                     <button
-                      className="w-full bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                      className="w-full bg-blue-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                       onClick={() => setSelectedAppointment(appointment)}
                     >
                       View Details
@@ -175,7 +175,7 @@ export default function AppointmentsTable() {
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm">
                           <button
-                            className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition"
+                            className="bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition cursor-pointer"
                             onClick={() => setSelectedAppointment(appointment)}
                           >
                             View
