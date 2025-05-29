@@ -20,7 +20,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Menu } from "lucide-react";
+import { ChevronDown, Menu, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -199,6 +199,13 @@ export default function Header() {
             </Link>
 
             <GoogleTranslateButton />
+
+            <Link href="tel:+880 1781445825">
+              <Button className="py-5 text-white bg-[#FF937B]  flex items-center gap-2 duration-300">
+                <Phone className="h-4 w-4" />
+                Call Us
+              </Button>
+            </Link>
           </div>
 
           <div className="md:hidden">
