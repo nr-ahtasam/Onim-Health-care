@@ -9,9 +9,10 @@ const GoogleAnalytics = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    const params = searchParams.toString();
     if (pathname && typeof window.gtag === "function") {
       window.gtag("config", process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, {
-        page_path: pathname + searchParams.toString(),
+        page_path: pathname + (params ? `?${params}` : ""),
       });
     }
   }, [pathname, searchParams]);
