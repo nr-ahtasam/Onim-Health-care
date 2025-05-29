@@ -1,14 +1,14 @@
 "use client";
-import { getStoredPatient } from "@/lib/storage";
 import Link from "next/link";
 import { FiCalendar, FiClock, FiGrid, FiMessageSquare } from "react-icons/fi";
-import { usePatientPanel } from "@/context/PatientPanelContext";
+import { usePatientPortal } from "@/context/PatientPortalContext";
 
 const UserInfo = () => {
-  const patient = getStoredPatient();
-  const { display_name, email, user_id, acf_fields } = patient || {};
+  const { patient } = usePatientPortal();
+  const { display_name, email, acf_fields } = patient || {};
   const { age, blood_group, height_m, weight_kg, profile_picture_url } =
     acf_fields || {};
+  
   return (
     <div>
       <div className="flex flex-col lg:flex-row w-[100%] gap-4 lg:gap-8">
@@ -62,9 +62,9 @@ const UserInfo = () => {
               <ActionCard
                 color="bg-[#4DC6F6]"
                 title="Appointments"
-                subtitle="Dr. Hans Down"
+                subtitle="Check Schedule"
                 time="10:00 - 11:00AM"
-                icon={<FiGrid />}
+                icon={<FiGrid color="#4DC6F6"/>}
                 menu="Schedule"
               />
             </Link>
@@ -72,9 +72,9 @@ const UserInfo = () => {
               <ActionCard
                 color="bg-[#5DD1C6]"
                 title="View History"
-                subtitle="Penny Tool"
+                subtitle="Upload Files"
                 time="Patient Files"
-                icon={<FiCalendar />}
+                icon={<FiCalendar color="#5DD1C6"/>}
                 menu="History"
               />
             </Link>
@@ -82,9 +82,9 @@ const UserInfo = () => {
               <ActionCard
                 color="bg-[#2B7BDB]"
                 title="Rate Doctors"
-                subtitle="Eric Widget"
+                subtitle="Ratings"
                 time="Completed Appointments"
-                icon={<FiClock />}
+                icon={<FiClock color="#2B7BDB"/>}
                 menu="Ratings"
               />
             </Link>
@@ -92,9 +92,9 @@ const UserInfo = () => {
               <ActionCard
                 color="bg-[#1CB5C9]"
                 title="Request Update"
-                subtitle="Justin Case"
+                subtitle={email}
                 time="Profile Update"
-                icon={<FiMessageSquare />}
+                icon={<FiMessageSquare color="#1CB5C9"/>}
                 menu="Profile"
               />
             </Link>
@@ -107,7 +107,7 @@ const UserInfo = () => {
 
 // ActionCard component
 function ActionCard({ color, title, subtitle, time, icon, menu }) {
-  const { setSelectedMenu } = usePatientPanel();
+  const { setSelectedMenu } = usePatientPortal();
   return (
     <div
       onClick={() => setSelectedMenu(menu)}

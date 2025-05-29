@@ -1,8 +1,10 @@
 "use client";
-import { setStoredPatient } from "@/lib/storage";
-import { toast } from 'sonner';
+
+import { usePatientPortal } from "@/context/PatientPortalContext";
+import { removeStoredPatient } from "@/lib/storage";
 
 export const useAuth = () => {
+  const { setPatient } = usePatientPortal();
   const login = async ({ identifier, password }) => {
     const res = await fetch("/api/login", {
       method: "POST",
@@ -11,7 +13,8 @@ export const useAuth = () => {
 
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Login failed");
-    setStoredPatient(data);
+
+    setPatient(data);
     return data;
   };
 
@@ -23,12 +26,13 @@ export const useAuth = () => {
 
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Registration failed");
-    toast.success('Registration Successful', {
-      className: 'bg-green-500 text-white border-none shadow-lg',
-      action: { label: 'X', onClick: () => toast.clear() },
-    });
+
     return data;
   };
 
-  return { login, register };
+  const logout = async () => {
+    removeStoredPatient();
+  }
+
+  return { login, register, logout };
 };

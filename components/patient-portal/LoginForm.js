@@ -11,7 +11,6 @@ export default function LoginForm({ switchToRegister }) {
     e.preventDefault();
     try {
       await login({ identifier, password });
-      window.location.reload();
     } catch (err) {
       alert(err.message);
     }

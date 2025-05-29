@@ -2,7 +2,7 @@ import { getStoredPatient } from "@/lib/storage";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export default function RateDoctorModal({ appointment, onClose, onSubmit }) {
+export default function RateDoctorModal({ appointment, onClose, refetchBookings }) {
   const patient = getStoredPatient();
 
   const [rating, setRating] = useState(0);
@@ -52,8 +52,8 @@ export default function RateDoctorModal({ appointment, onClose, onSubmit }) {
           action: { label: "X", onClick: () => toast.clear() },
         });
 
-        onSubmit?.(); // ✅ trigger refetch on parent
-        onClose?.(); // ✅ close the modal
+        refetchBookings?.();
+        onClose?.();
       } else {
         toast.error("Failed to submit rating", {
           description: data?.message || "Something went wrong.",
@@ -65,7 +65,7 @@ export default function RateDoctorModal({ appointment, onClose, onSubmit }) {
     } finally {
       setSubmitting(false);
     }
-  }, [appointment, patient, rating, description, onClose, onSubmit]);
+  }, [appointment, patient, rating, description, onClose, refetchBookings]);
 
   if (!appointment) return null;
 

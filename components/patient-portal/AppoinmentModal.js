@@ -4,12 +4,14 @@ export default function AppointmentModal({
   appointment,
   onClose,
   showFileActions = false,
-}) {
+  refetchBookings,
+}) {  
   const [downloadLink, setDownloadLink] = useState(null);
   const [fileId, setFileId] = useState(null);
 
   useEffect(() => {
     const fetchMedia = async () => {
+      setDownloadLink(null);
       if (!appointment?.fileId) return;
 
       try {
@@ -17,7 +19,7 @@ export default function AppointmentModal({
         const data = await res.json();
 
         if (res.ok && data?.guid?.rendered) {
-          setDownloadLink(data?.guid?.rendered); // Store the media ID for potential future use
+          setDownloadLink(data?.guid?.rendered);
         } else {
           console.warn("Could not fetch media link");
         }
@@ -51,7 +53,7 @@ export default function AppointmentModal({
           setDownloadLink(data.guid.rendered);
           setFileId(data.id);
 
-          await fetch(`/api/booking/${appointment?.bookingId}`, {
+          const resp = await fetch(`/api/booking/${appointment?.bookingId}`, {
             method: "PATCH",
             body: JSON.stringify({
               acf: {
@@ -59,6 +61,8 @@ export default function AppointmentModal({
               },
             }),
           });
+
+          if(resp.ok) refetchBookings();
         }
       } else {
         console.error("Upload error:", data);

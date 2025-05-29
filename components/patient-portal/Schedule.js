@@ -7,48 +7,31 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useFetchBookings } from "@/hooks/useFetchBookings";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
-import { formatBooking } from "@/lib/formatBooking";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
+import { useBookings } from "@/hooks/useBookings";
+import { useLookupMaps } from "@/hooks/useLookupMaps";
+import { formatBooking } from "@/lib/formatBooking";
 
 export default function AppointmentsTable() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
-  const [totalPages, setTotalPages] = useState(100);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [appointments, setAppointments] = useState([]);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const { bookings, loading, error } = useFetchBookings({
-    page: currentPage,
-    perPage: perPage,
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
+  const { doctorMap, locationMap, chamberMap } = useLookupMaps();
+  const { appointments, isLoading, error, refetch } = useBookings(currentPage, 10, {
+    doctorMap,
+    locationMap,
+    chamberMap,
   });
 
-  useEffect(() => {
-    if (!bookings || bookings.length === 0) return;
-
-    const prepareAppointments = async () => {
-      setIsProcessing(true);
-      try {
-        const results = await Promise.all(bookings.map(formatBooking));
-        setAppointments(results);
-      } finally {
-        setIsProcessing(false);
-      }
-    };
-
-    prepareAppointments();
-  }, [bookings]);
-
   const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-    }
+    const safePage = Math.max(1, Math.min(10, newPage));
+    setCurrentPage(safePage);
   };
 
-  if (loading || isProcessing) return <AppointmentsTableSkeleton />;
+  if (isLoading) return <AppointmentsTableSkeleton />;
   
   if (error)
     return (
@@ -141,7 +124,7 @@ export default function AppointmentsTable() {
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Appointment Type
+                        Type
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Date & Time

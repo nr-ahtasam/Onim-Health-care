@@ -7,50 +7,33 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useFetchBookings } from "@/hooks/useFetchBookings";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
-import { formatBooking } from "@/lib/formatBooking";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
 import RateDoctorModal from "./RateDoctorModal";
+import { useBookings } from "@/hooks/useBookings";
+import { useLookupMaps } from "@/hooks/useLookupMaps";
 
 export default function Ratings() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [selectedAppointmentToRate, setSelectedAppointmentToRate] =
-    useState(null);
+  const [selectedAppointmentToRate, setSelectedAppointmentToRate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
-  const [totalPages, setTotalPages] = useState(100);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
-  const [appointments, setAppointments] = useState([]);
-  const { bookings, loading, error } = useFetchBookings({
-    page: currentPage,
-    perPage: perPage,
+  const [totalPages, setTotalPages] = useState(10);
+
+  const { doctorMap, locationMap, chamberMap } = useLookupMaps();
+  const { appointments, isLoading, error, refetch } = useBookings(currentPage, 10, {
+    doctorMap,
+    locationMap,
+    chamberMap,
   });
 
-  useEffect(() => {
-    if (!bookings || bookings.length === 0) return;
-
-    const prepareAppointments = async () => {
-      setIsProcessing(true);
-      try {
-        const results = await Promise.all(bookings.map(formatBooking));
-        setAppointments(results);
-      } finally {
-        setIsProcessing(false);
-      }
-    };
-
-    prepareAppointments();
-  }, [bookings]);
-  const handleRatingSubmit = () => {
-    setSelectedAppointmentToRate(null);
-    setRefreshKey((prev) => prev + 1); // trigger re-fetch
+  const handlePageChange = (newPage) => {
+    const safePage = Math.max(1, Math.min(totalPages, newPage));
+    setCurrentPage(safePage);
   };
 
-  if (loading || isProcessing) return <AppointmentsTableSkeleton />;
+  if (isLoading) return <AppointmentsTableSkeleton />;
   if (error)
     return (
       <div className="p-4 text-red-600">
@@ -244,11 +227,12 @@ export default function Ratings() {
         <AppointmentModal
           appointment={selectedAppointment}
           onClose={() => setSelectedAppointment(null)}
+          refetchBookings={refetch}
         />
         <RateDoctorModal
           appointment={selectedAppointmentToRate}
           onClose={() => setSelectedAppointmentToRate(null)}
-          onSubmit={handleRatingSubmit}
+          refetchBookings={refetch}
         />
       </div>
 

@@ -8,48 +8,29 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import AppointmentsTableSkeleton from "@/lib/AppointmentsTableSkeleton";
-import { formatBooking } from "@/lib/formatBooking";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AppointmentModal from "./AppoinmentModal";
 import Header from "./Header";
-import { useFetchBookings } from "@/hooks/useFetchBookings";
+import { useBookings } from "@/hooks/useBookings";
+import { useLookupMaps } from "@/hooks/useLookupMaps";
 
 export default function PatientHistory() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
-  const [totalPages, setTotalPages] = useState(100);
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const [appointments, setAppointments] = useState([]);
-  const { bookings, loading, error } = useFetchBookings({
-    page: currentPage,
-    perPage: perPage,
+  const [totalPages, setTotalPages] = useState(10);
+  const { doctorMap, locationMap, chamberMap } = useLookupMaps();
+  const { appointments, isLoading, error, refetch } = useBookings(currentPage, 10, {
+    doctorMap,
+    locationMap,
+    chamberMap,
   });
 
-    useEffect(() => {
-    if (!bookings || bookings.length === 0) return;
-
-    const prepareAppointments = async () => {
-      setIsProcessing(true);
-      try {
-        const results = await Promise.all(bookings.map(formatBooking));
-        setAppointments(results);
-      } finally {
-        setIsProcessing(false);
-      }
-    };
-
-    prepareAppointments();
-  }, [bookings]);
-
   const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-    }
+    const safePage = Math.max(1, Math.min(totalPages, newPage));
+    setCurrentPage(safePage);
   };
 
-  if (loading || isProcessing) return <AppointmentsTableSkeleton />;
+  if (isLoading) return <AppointmentsTableSkeleton />;
   if (error)
     return (
       <div className="p-4 text-red-600">
@@ -275,6 +256,7 @@ export default function PatientHistory() {
           appointment={selectedAppointment}
           onClose={() => setSelectedAppointment(null)}
           showFileActions={true}
+          refetchBookings={refetch}
         />
 
         {/* Footer */}

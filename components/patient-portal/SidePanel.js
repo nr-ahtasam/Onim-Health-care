@@ -16,11 +16,13 @@ import PatientHistory from "./PatientHistory";
 import Profile from "./Profile/Profile";
 import Ratings from "./Ratings";
 import Schedule from "./Schedule";
-import { usePatientPanel } from "@/context/PatientPanelContext";
+import { usePatientPortal } from "@/context/PatientPortalContext";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SidePanel() {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedMenu, setSelectedMenu } = usePatientPanel();
+  const { selectedMenu, setSelectedMenu } = usePatientPortal();
+  const { logout } = useAuth();
 
   const mainMenu = [
     { name: "Overview", path: "/Overview", icon: <FiGrid /> },
@@ -113,7 +115,7 @@ export default function SidePanel() {
                 <li key={item.name}>
                   {item.action === "logout" ? (
                     <button
-                      onClick={() => removeStoredPatient()}
+                      onClick={() => logout()}
                       className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 w-full text-left cursor-pointer"
                     >
                       <span className="text-xl">{item.icon}</span>

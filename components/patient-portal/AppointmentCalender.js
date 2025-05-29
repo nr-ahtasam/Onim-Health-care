@@ -3,24 +3,32 @@ import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { getFutureAppointmentDates } from "@/lib/getFutureBooking";
-import { useFetchBookings } from "@/hooks/useFetchBookings";
 import { FiCalendar } from "react-icons/fi";
 import CalendarSkeleton from "@/lib/CalenderSkeleton";
+import { useLookupMaps } from "@/hooks/useLookupMaps";
+import { useBookings } from "@/hooks/useBookings";
 
 const AppointmentCalendar = () => {
-  const { bookings, loading, error } = useFetchBookings();
+  const { doctorMap, locationMap, chamberMap } = useLookupMaps();
+  const { appointments, isLoading, error } = useBookings(1, 10, {
+    doctorMap,
+    locationMap,
+    chamberMap,
+  });
+  
   const [futureDates, setFutureDates] = useState([]);
   const [earliestDate, setEarliestDate] = useState(null);
 
   useEffect(() => {
-    if (!loading && bookings?.length) {
-      const future = getFutureAppointmentDates(bookings);
+    if (!isLoading && appointments?.length) {
+      const future = getFutureAppointmentDates(appointments);
       setFutureDates(future);
       setEarliestDate(future[0] || null);
     }
-  }, [bookings, loading]);
+  }, [isLoading]);
 
-  if (loading) return <CalendarSkeleton />;
+
+  if (isLoading) return <CalendarSkeleton />;
   if (error) return <div className="p-6 text-red-600">Error: {error.message}</div>;
 
   return (
