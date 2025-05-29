@@ -126,6 +126,31 @@ export default function BookAppointment() {
     }
   };
 
+  const handlePayment = async (e) => {
+    const amount = selectedDoctor?.acf?.consultation_fees_discount || selectedDoctor?.acf?.consultation_fees;
+    const res = await fetch('/api/payment/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: parseFloat(amount),
+        customer: {
+          name: name,
+          email: email,
+          phone: phone,
+        }
+      }),
+    });
+    const result = await res.json();
+    console.log("Payment Result:", result);
+    
+    if (result?.GatewayPageURL) {
+      // handleConfirmBooking();
+      window.location.href = result?.GatewayPageURL;
+    } else {
+      alert('Failed to initiate payment');
+    }
+  };
+
   return (
     <div>
       <BreadCrumbs title="Book an Appointment" subtitle="In Omni Health Care" />
@@ -367,6 +392,7 @@ export default function BookAppointment() {
           show={showModal}
           onCancel={() => setShowModal(false)}
           onConfirm={handleConfirmBooking}
+          onPayment={handlePayment}
           services={services}
         />
       )}

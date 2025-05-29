@@ -5,7 +5,6 @@ import WhyChooseUsSection from "@/components/shared/WhyChooseUs";
 import ShowcaseSection from "@/components/showcase/ShowcaseSection";
 import { Phone } from "lucide-react";
 import Link from "next/link";
-
 export default async function Home() {
   return (
     <>

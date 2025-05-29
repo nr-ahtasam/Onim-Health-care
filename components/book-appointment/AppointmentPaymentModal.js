@@ -1,9 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { fetchDoctorById } from "@/lib/fetchers";
 import { formatDateTime } from "@/lib/formatDateTime";
-import { useEffect, useState } from "react";
 
 export default function AppointmentPaymentModal({
   name,
@@ -15,13 +13,9 @@ export default function AppointmentPaymentModal({
   show,
   onCancel,
   onConfirm,
+  onPayment,
   services,
 }) {
-  const [showUnavailableModal, setShowUnavailableModal] = useState(false);
-
-  const handlePayment = () => {
-    setShowUnavailableModal(true);
-  };
 
   const serviceTitle =
     services.find((s) => s.databaseId.toString() === service)?.title || "N/A";
@@ -107,36 +101,10 @@ export default function AppointmentPaymentModal({
                 {creating ? "Processing Booking..." : "Skip Payment"}
               </Button>
               <Button
-                onClick={handlePayment}
+                onClick={onPayment}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4"
               >
                 Pay Now
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Secondary Modal */}
-      {showUnavailableModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full shadow-lg">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">
-              Online Payment Unavailable
-            </h3>
-            <p className="text-gray-700 mb-6">
-              Online payment is not yet available. Please contact support for
-              further assistance. Your appointment will be booked without payment.
-            </p>
-            <div className="flex justify-end">
-              <Button
-                onClick={() => {
-                  setShowUnavailableModal(false);
-                  onConfirm();
-                }}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4"
-              >
-                Continue Booking
               </Button>
             </div>
           </div>
