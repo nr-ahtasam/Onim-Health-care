@@ -1,11 +1,16 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 const specialties = [
   "Proctology",
   "Laparoscopy",
@@ -16,10 +21,10 @@ const specialties = [
   "Orthopedics",
   "Opthalmology",
   "Weight Loss",
-]
+];
 
 export default function SpecialtyNav() {
-  const [activeDropdown, setActiveDropdown] = useState(null)
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   return (
     <nav className="bg-white border-b shadow-sm">
@@ -29,14 +34,18 @@ export default function SpecialtyNav() {
             <li key={specialty} className="whitespace-nowrap">
               <DropdownMenu
                 onOpenChange={(open) => {
-                  if (open) setActiveDropdown(specialty)
-                  else if (activeDropdown === specialty) setActiveDropdown(null)
+                  if (open) setActiveDropdown(specialty);
+                  else if (activeDropdown === specialty)
+                    setActiveDropdown(null);
                 }}
               >
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className={cn("text-gray-700 hover:text-blue-600 focus-visible:ring-0", activeDropdown === specialty && "text-blue-600")}
+                    className={cn(
+                      "text-gray-700 hover:text-blue-600 focus-visible:ring-0",
+                      activeDropdown === specialty && "text-blue-600"
+                    )}
                   >
                     {specialty} <ChevronDown className="ml-1 h-4 w-4" />
                   </Button>
@@ -53,6 +62,5 @@ export default function SpecialtyNav() {
         </ul>
       </div>
     </nav>
-  )
+  );
 }
-

@@ -346,7 +346,7 @@ export default function Header() {
                     <Button
                       variant="ghost"
                       className={cn(
-                        "text-gray-700 hover:text-blue-600",
+                        "text-gray-700 hover:text-blue-600 text-[15px]",
                         activeDropdown === specialty.name && "text-blue-600"
                       )}
                     >

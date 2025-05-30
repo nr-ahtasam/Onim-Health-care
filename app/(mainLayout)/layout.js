@@ -1,4 +1,5 @@
 import Footer from "@/app/(mainLayout)/footer";
+import "@/app/globals.css";
 import ApolloWrapper from "@/components/apollo/ApolloWrapper";
 import Header from "@/components/header/Header";
 import BlogCardPreview from "@/components/news-letter/BlogCardPreview";
@@ -8,7 +9,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import "@/app/globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
