@@ -205,12 +205,6 @@ export default function Footer() {
             ©2025 Omni Health Care. All Rights Reserved. Made By Rubytech
           </div>
           <div className="flex flex-wrap gap-6 text-sm">
-            <Link
-              href="/our-services"
-              className="text-gray-500 hover:text-gray-700"
-            >
-              Our Services
-            </Link>
             <Link href="/careers" className="text-gray-500 hover:text-gray-700">
               Careers
             </Link>
