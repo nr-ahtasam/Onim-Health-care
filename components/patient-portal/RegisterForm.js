@@ -2,17 +2,22 @@
 
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function RegisterForm({ switchToLogin }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [isLoading, setIsLoading] = useState("");
   const [password, setPassword] = useState("");
   const { register } = useAuth();
 
   const handleRegister = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     try {
       await register({ email, phone, password });
+      setIsLoading(false);
       window.location.reload();
     } catch (err) {
       alert(err.message);
@@ -63,18 +68,19 @@ export default function RegisterForm({ switchToLogin }) {
         />
       </div>
 
-      <button
-        type="submit"
-        className="w-full rounded-lg bg-green-500 py-2 text-white font-medium hover:bg-green-600"
-      >
-        Register
-      </button>
+      <Button className={cn(
+          "w-full rounded-lg py-2 text-white font-medium",
+          isLoading ? "bg-gray-500" : "bg-green-500 hover:bg-green-600"
+        )}
+        >
+        {isLoading ? "Processing Register..." : "Register"}
+      </Button>
 
       <p className="mt-4 text-center text-sm text-gray-600">
         Already have an account?{" "}
         <button
           onClick={switchToLogin}
-          className="text-blue-500 hover:underline"
+          className="text-blue-500 hover:underline cursor-pointer"
         >
           Login here
         </button>

@@ -7,9 +7,6 @@ import AppointmentCalendar from "./AppointmentCalender";
 export default function Overview() {
   return (
     <div className="lg:p-4 w-full   sm:p-6 bg-white min-h-screen  overflow-x-hidden">
-      {/* Top bar */}
-      <Header />
-
       {/* Main content */}
       <UserInfo />
       {/* Calendar and Appointments */}

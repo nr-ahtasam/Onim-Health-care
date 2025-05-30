@@ -1,16 +1,21 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 export default function LoginForm({ switchToRegister }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
 
   const handleLogin = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     try {
       await login({ identifier, password });
+      setIsLoading(false);
     } catch (err) {
       alert(err.message);
     }
@@ -44,17 +49,19 @@ export default function LoginForm({ switchToRegister }) {
           required
         />
       </div>
-      <button
-        type="submit"
-        className="w-full rounded-lg bg-blue-500 py-2 text-white font-medium hover:bg-blue-600"
-      >
-        Login
-      </button>
+
+      <Button className={cn(
+          "w-full rounded-lg py-2 text-white font-medium",
+          isLoading ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"
+        )}
+        >
+        {isLoading ? "Processing Login..." : "Login"}
+      </Button>
       <p className="mt-4 text-center text-sm text-gray-600">
         Don’t have an account?{" "}
         <button
           onClick={switchToRegister}
-          className="text-blue-500 hover:underline"
+          className="text-blue-500 hover:underline cursor-pointer"
         >
           Register here
         </button>

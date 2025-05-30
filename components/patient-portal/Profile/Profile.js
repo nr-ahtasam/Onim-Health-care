@@ -4,7 +4,6 @@ import UserInfo from "../Overview/UserInfo";
 const Profile = () => {
   return (
     <div>
-      <Header />
       <UserInfo />
     </div>
   );
