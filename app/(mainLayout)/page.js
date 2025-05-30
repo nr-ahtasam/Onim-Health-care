@@ -19,14 +19,14 @@ export default async function Home() {
         <div className="w-[100%] flex gap-4 p-2">
           <Link
             href="/contact-us"
-            className="w-[50%] inline-flex items-center justify-center  text-[20px] text-white bg-[#f6832a] rounded-lg hover:bg-blue-50 transition-colors duration-200 p-2"
+            className="w-[50%] inline-flex items-center justify-center text-[15px] text-white bg-[#f6832a] rounded-lg hover:bg-blue-50 transition-colors duration-200 p-2"
           >
             <Phone size={16} className="mr-1" />
             Call Us
           </Link>
           <Link
             href="/book-appointment"
-            className="w-[50%] inline-flex items-center justify-center  text-[20px] text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+            className="w-[50%] inline-flex items-center justify-center text-[15px] text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors duration-200"
           >
             Book Appointment
           </Link>
