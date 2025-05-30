@@ -21,6 +21,7 @@ import { getAllDoctors, getAllServices } from "@/lib/graphql";
 import { useQuery } from "@apollo/client";
 import AppointmentPaymentModal from "@/components/book-appointment/AppointmentPaymentModal";
 import { fetchDoctorById } from "@/lib/fetchers";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
 export default function BookAppointment() {
   // ── 1) All hooks at the top ────────────────────────────────────────────
@@ -56,15 +57,26 @@ export default function BookAppointment() {
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+  const paymentInfo = {
+    status: searchParams.get("status"),
+    amount: searchParams.get("amount"),
+    tran_id: searchParams.get("tran_id"),
+  };
   // ── 2) Prefill from URL once ────────────────────────────────────
+  useEffect(() => {
+    if (paymentInfo.status !== null) {
+      setShowSuccessModal(true);
+    }
+  }, [paymentInfo.status]);
+  
   useEffect(() => {
     setName(searchParams.get("name") || "");
     setEmail(searchParams.get("email") || "");
     setPhone(searchParams.get("phone") || "");
     setService(searchParams.get("service") || "");
     setDate(searchParams.get("date") || "");
-    router.replace("/book-appointment");
   }, []);
 
   useEffect(() => {
@@ -96,6 +108,11 @@ export default function BookAppointment() {
   }
 
   // ── 4) Submit handler ───────────────────────────────────────────────
+  const handlePaymentModal = async (e) => {
+    setShowSuccessModal(false);
+    router.replace(window.location.pathname);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowModal(true);
@@ -396,6 +413,31 @@ export default function BookAppointment() {
           services={services}
         />
       )}
+
+      {
+        showSuccessModal && (
+          <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className={`
+                  ${paymentInfo.status === "VALID" ? "text-green-700" : "text-red-700"}
+                `}>
+                  {paymentInfo.status === "VALID" && "Payment Successful"}
+                  {paymentInfo.status === "Cancelled" && "Payment Cancelled"}
+                  {paymentInfo.status === "Failed" && "Payment Failed"}
+                </DialogTitle>
+              </DialogHeader>
+              <div className="space-y-1 text-sm text-gray-700">
+                <p><strong>Transaction ID:</strong> {paymentInfo.tran_id}</p>
+                <p><strong>Amount:</strong> {paymentInfo.amount}</p>
+              </div>
+              <DialogFooter className="mt-4">
+                <Button onClick={() => handlePaymentModal()}>Close</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )
+      }
 
     </div>
   );
