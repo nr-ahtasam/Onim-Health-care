@@ -336,3 +336,40 @@ body > .skiptranslate {
   font-weight: 500;
   color: #1F2937;
 }
+
+.blog-content {
+  text-align: justify;
+}
+
+.blog-content a {
+  color: #1d4ed8; /* Custom color for links */
+  text-decoration: underline;
+}
+
+.blog-content a:hover {
+  color: #2563eb; /* Darker blue when hovering over links */
+  text-decoration: none; /* Removes underline on hover */
+}
+
+.blog-content h1, .blog-content h2, .blog-content h3 {
+  color: #111827; /* Dark gray for headings */
+}
+
+.blog-content img {
+  max-width: 100%; /* Ensure images are responsive */
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.blog-content p {
+  line-height: 1.75;
+  margin-bottom: 10px;
+}
+
+.blog-content blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 16px;
+  margin-left: 0;
+  font-style: italic;
+  color: #6b7280;
+}

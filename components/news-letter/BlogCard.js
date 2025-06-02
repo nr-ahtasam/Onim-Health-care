@@ -2,13 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { cleanExcerpt } from "@/lib/cleanExcerpt";
+import { formatDateTime } from "@/lib/formatDateTime";
 import { Calendar } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function BlogCard({ post }) {
   if (!post) return null;
-
+const {date, time} = formatDateTime(post?.date);
   return (
     <div className="flex flex-col md:flex-row bg-white overflow-hidden md:w-[calc(50%-0.5rem)] mb-15">
       <div className="w-full md:w-1/2 h-40 md:h-auto relative">
@@ -22,7 +23,7 @@ export default function BlogCard({ post }) {
       <div className="md:w-1/2 p-6">
         <div className="flex items-center gap-2 mb-2">
           <Calendar className="text-blue-500" size={16} />
-          <span className="text-gray-500 text-sm">{post.date}</span>
+          <span className="text-gray-500 text-sm">{date + ' ' + time}</span>
           <span className="text-blue-500 text-sm">
             {post.categories?.nodes?.[0]?.name || ""}
           </span>
