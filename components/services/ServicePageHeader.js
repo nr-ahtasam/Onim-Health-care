@@ -25,9 +25,11 @@ export default function ServicePageHeader({ singleService }) {
             </div>
           </CardHeader>
           <div className="flex max-w-md gap-8 mt-4">
+            <Link href="tel:+880 1711997402">
             <Button variant="outline" className="flex-1 border-blue-500 text-blue-500">
               Call Us
             </Button>
+            </Link>
             <Link href="/book-appointment">
               <Button className="flex-1 bg-blue-500">Book Appointment</Button>
             </Link>

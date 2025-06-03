@@ -120,11 +120,14 @@ export default function DoctorProfileCard({ singleService }) {
                 {doctors.length > 1 ? (
                   <Slider {...settings}>
                     {doctors?.map((doctor, index) => (
-                      <Link key={index} href={`/doctors-profile/${doctor.id}`}>
                         <Card
                           key={index}
                           className="overflow-hidden border border-blue-500"
                         >
+                          <Link
+                            href={`/doctors-profile/${doctor.id}`}
+                            className="absolute inset-0 z-10"
+                          />
                           <CardContent className="">
                             <div className="flex items-start gap-4">
                               <Image
@@ -180,12 +183,14 @@ export default function DoctorProfileCard({ singleService }) {
                                 </span>
                               </div>
                               <div className="flex justify-center gap-3">
+                                <Link href="tel:+880 1711997402">
                                 <Button
                                   variant="outline"
                                   className="flex-1 border-blue-500 text-blue-500"
                                 >
                                   Call Us
                                 </Button>
+                                </Link>
                                 <Link href={"/book-appointment"}>
                                   <Button className="flex-1 bg-blue-500">
                                     Book Appointment
@@ -195,7 +200,6 @@ export default function DoctorProfileCard({ singleService }) {
                             </div>
                           </CardContent>
                         </Card>
-                      </Link>
                     ))}
                   </Slider>
                 ) : (
@@ -260,12 +264,14 @@ export default function DoctorProfileCard({ singleService }) {
                               </span>
                             </div>
                             <div className="flex gap-3">
+                              <Link href="tel:+880 1711997402">
                               <Button
                                 variant="outline"
                                 className="flex-1 border-blue-500 text-blue-500"
                               >
                                 Call Us
                               </Button>
+                              </Link>
                               <Link href={"/book-appointment"}>
                                 <Button className="flex-1 bg-blue-500">
                                   Book Appointment

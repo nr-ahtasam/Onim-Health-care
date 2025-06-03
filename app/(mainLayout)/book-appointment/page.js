@@ -20,7 +20,7 @@ import Loader from "@/lib/Loader";
 import { getAllDoctors, getAllServices } from "@/lib/graphql";
 import { useQuery } from "@apollo/client";
 import AppointmentPaymentModal from "@/components/book-appointment/AppointmentPaymentModal";
-import { fetchDoctorById } from "@/lib/fetchers";
+import { fetchDoctorById, fetchLocations } from "@/lib/fetchers";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
 export default function BookAppointment() {
@@ -44,20 +44,35 @@ export default function BookAppointment() {
     loading: creating,
     error: createError,
   } = useCreateBooking();
+  
 
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [service, setService] = useState("");
+  const [location, setLocation] = useState("");
   const [doctor, setDoctor] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState({});
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState("");
+  // const [date, setDate] = useState("");
+  // const [description, setDescription] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [locations, setLocations] = useState([]);
+  const loadLocations = async () => {
+    try {
+      const locationsData = await fetchLocations();
+      setLocations(locationsData);
+    } catch (err) {
+      console.error("Failed to fetch locations", err);
+    }
+  }
+
+  useEffect(() => {
+    loadLocations();
+  }, []);
 
   const paymentInfo = {
     status: searchParams.get("status"),
@@ -73,11 +88,13 @@ export default function BookAppointment() {
   
   useEffect(() => {
     setName(searchParams.get("name") || "");
-    setEmail(searchParams.get("email") || "");
+    // setEmail(searchParams.get("email") || "");
     setPhone(searchParams.get("phone") || "");
     setService(searchParams.get("service") || "");
-    setDate(searchParams.get("date") || "");
-  }, []);
+    setLocation(searchParams.get("location") || "");
+    setDoctor(searchParams.get("doctor") || "");
+    // setDate(searchParams.get("date") || "");
+  }, [services, doctors, locations]);
 
   useEffect(() => {
     const getDoctor = async () => {
@@ -122,21 +139,17 @@ export default function BookAppointment() {
     try {
       await createBooking({
         name,
-        email,
         phone,
         service,
+        location,
         doctor,
-        description,
-        date,
       });
       // reset form
       setName("");
-      setEmail("");
       setPhone("");
       setService("");
+      setLocation("");
       setDoctor("");
-      setDate("");
-      setDescription("");
       setShowModal(false);
     } catch {
       // toast.error already called by hook
@@ -172,6 +185,127 @@ export default function BookAppointment() {
     <div>
       <BreadCrumbs title="Book an Appointment" subtitle="In Omni Health Care" />
 
+      {/* ── Book Appointment Form ──────────────────────────────────────── */}
+      <div className="w-full bg-[#CCCCCC7D] py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10">
+            Book Appointment Now!
+          </h2>
+
+          {createError && (
+            <div className="mb-4 text-red-600">{createError.message}</div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            {/* Row 1: Name, Email, Phone */}
+            <div className="grid md:grid-cols-3 gap-4 mb-4">
+              <Input
+                type="text"
+                placeholder="Your Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="bg-white"
+              />
+              {/* <Input
+                type="email"
+                placeholder="Your Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-white"
+              /> */}
+              <Input
+                type="tel"
+                placeholder="Your Phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+                className="bg-white"
+              />
+            </div>
+
+            {/* Row 2: Service, Doctor, Date */}
+            <div className="grid md:grid-cols-3 gap-4 mb-4">
+              <Select value={service} onValueChange={setService}>
+                <SelectTrigger className="bg-white w-full">
+                  <SelectValue placeholder="Choose Disease" />
+                </SelectTrigger>
+                <SelectContent>
+                  {services.map((svc) => (
+                    <SelectItem
+                      key={svc.databaseId}
+                      value={svc.databaseId.toString()}
+                    >
+                      {svc.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={location} onValueChange={setLocation}>
+                <SelectTrigger className="bg-white w-full">
+                  <SelectValue placeholder="Choose Location" />
+                </SelectTrigger>
+                <SelectContent>
+                  {locations.map((loc) => (
+                    <SelectItem
+                      key={loc.id}
+                      value={loc.id.toString()}
+                    >
+                      {loc.title.rendered}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={doctor} onValueChange={setDoctor}>
+                <SelectTrigger className="bg-white w-full">
+                  <SelectValue placeholder="Choose Doctor" />
+                </SelectTrigger>
+                <SelectContent>
+                  {doctors.map((doc) => (
+                    <SelectItem
+                      key={doc.databaseId}
+                      value={doc.databaseId.toString()}
+                    >
+                      {doc.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              {/* <Input
+                type="datetime-local"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+                className="bg-white w-full"
+              /> */}
+            </div>
+
+            {/* Row 3: Description */}
+            {/* <div className="mb-6">
+              <Textarea
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="min-h-[120px] bg-white"
+              />
+            </div> */}
+
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                disabled={creating}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-2"
+              >
+                {creating ? "Booking..." : "Book Appointment"}
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
       {/* ── Gradient & "How Omni Works?" ──────────────────────────────── */}
       <section className="relative overflow-hidden">
         {/* Gradient background */}
@@ -292,119 +426,15 @@ export default function BookAppointment() {
         </div>
       </section>
 
-      {/* ── Book Appointment Form ──────────────────────────────────────── */}
-      <div className="w-full bg-[#CCCCCC7D] py-16 px-4">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10">
-            Book Appointment Now!
-          </h2>
-
-          {createError && (
-            <div className="mb-4 text-red-600">{createError.message}</div>
-          )}
-
-          <form onSubmit={handleSubmit}>
-            {/* Row 1: Name, Email, Phone */}
-            <div className="grid md:grid-cols-3 gap-4 mb-4">
-              <Input
-                type="text"
-                placeholder="Your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="bg-white"
-              />
-              <Input
-                type="email"
-                placeholder="Your Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-white"
-              />
-              <Input
-                type="tel"
-                placeholder="Your Phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-                className="bg-white"
-              />
-            </div>
-
-            {/* Row 2: Service, Doctor, Date */}
-            <div className="grid md:grid-cols-3 gap-4 mb-4">
-              <Select value={service} onValueChange={setService}>
-                <SelectTrigger className="bg-white w-full">
-                  <SelectValue placeholder="Choose Service" />
-                </SelectTrigger>
-                <SelectContent>
-                  {services.map((svc) => (
-                    <SelectItem
-                      key={svc.databaseId}
-                      value={svc.databaseId.toString()}
-                    >
-                      {svc.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Select value={doctor} onValueChange={setDoctor}>
-                <SelectTrigger className="bg-white w-full">
-                  <SelectValue placeholder="Choose Doctor" />
-                </SelectTrigger>
-                <SelectContent>
-                  {doctors.map((doc) => (
-                    <SelectItem
-                      key={doc.databaseId}
-                      value={doc.databaseId.toString()}
-                    >
-                      {doc.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Input
-                type="datetime-local"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                required
-                className="bg-white w-full"
-              />
-            </div>
-
-            {/* Row 3: Description */}
-            <div className="mb-6">
-              <Textarea
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="min-h-[120px] bg-white"
-              />
-            </div>
-
-            <div className="flex justify-center">
-              <Button
-                type="submit"
-                disabled={creating}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-2"
-              >
-                {creating ? "Booking..." : "Book Appointment"}
-              </Button>
-            </div>
-          </form>
-        </div>
-      </div>
-
       {/* Confirmation Modal */}
       {showModal && (
         <AppointmentPaymentModal
           name={name}
           phone={phone}
           service={service}
+          location={location}
+          locations={locations}
           doctor={selectedDoctor}
-          date={date}
           creating={creating}
           show={showModal}
           onCancel={() => setShowModal(false)}

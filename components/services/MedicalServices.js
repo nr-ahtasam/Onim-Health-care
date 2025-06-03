@@ -177,7 +177,7 @@ export default function MedicalServices({ singleService }) {
               <p className="mb-3 text-gray-600">
                For urgent medical emergencies, please call at this number
               </p>
-              <p className="text-xl font-bold">01711-997401</p>
+              <p className="text-xl font-bold">01711-997401, 01711-997402</p>
             </div>
 
             {/* Doctors Timetable */}

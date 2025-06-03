@@ -8,7 +8,8 @@ export default function AppointmentPaymentModal({
   phone,
   service,
   doctor,
-  date,
+  location,
+  locations,
   creating,
   show,
   onCancel,
@@ -19,8 +20,8 @@ export default function AppointmentPaymentModal({
 
   const serviceTitle =
     services.find((s) => s.databaseId.toString() === service)?.title || "N/A";
-
-  const { date: formattedDate, time: formattedTime } = formatDateTime(date);
+  const locationTitle =
+    locations.find((s) => s.id.toString() === location)?.title?.rendered || "N/A";
 
   const actualFee = parseFloat(doctor?.acf?.consultation_fees || 0);
   const discountedFee = parseFloat(doctor?.acf?.consultation_fees_discount || 0);
@@ -49,22 +50,16 @@ export default function AppointmentPaymentModal({
                   <span className="font-bold">Service:</span> {serviceTitle}
                 </p>
                 <p>
+                  <span className="font-bold">Location:</span> {locationTitle}
+                </p>
+                <p>
                   <span className="font-bold">Doctor:</span>{" "}
                   {doctor?.title?.rendered || "N/A"}
                 </p>
-                <p>
-                  <span className="font-bold">Scheduled Date:</span>{" "}
-                  {formattedDate}
-                </p>
-                <p>
-                  <span className="font-bold">Scheduled Time:</span>{" "}
-                  {formattedTime}
-                </p>
               </div>
 
-              <div className="bg-blue-50 p-4 rounded-lg space-y-2 border border-blue-100">
+              {/* <div className="bg-blue-50 p-4 rounded-lg space-y-2 border border-blue-100">
                 <p className="font-semibold text-blue-700">Payment Summary</p>
-                {/* Consultation Fee */}
                 {isDiscountAvailable ? (
                   <>
                     <p>
@@ -86,7 +81,7 @@ export default function AppointmentPaymentModal({
                   <span className="font-bold">Total:</span>{" "}
                   <span className="text-green-600 font-bold">৳{total}</span>
                 </p>
-              </div>
+              </div> */}
             </div>
 
             <div className="mt-6 flex justify-end gap-3">
@@ -96,16 +91,16 @@ export default function AppointmentPaymentModal({
               <Button
                 onClick={onConfirm}
                 disabled={creating}
-                className="bg-gray-500 hover:bg-gray-600 text-white px-4"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4"
               >
-                {creating ? "Processing Booking..." : "Skip Payment"}
+                {creating ? "Booking Appointment..." : "Book Appointment"}
               </Button>
-              <Button
+              {/* <Button
                 onClick={onPayment}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4"
               >
                 Pay Now
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

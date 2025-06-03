@@ -2,7 +2,7 @@
 
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,18 +14,39 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { getAllServices } from "@/lib/graphql";
+import { getAllDoctors, getAllServices } from "@/lib/graphql";
 import LoadingSkeletonForm from "@/lib/LoadingSkeletonForm";
+import { fetchLocations } from "@/lib/fetchers";
 
 export default function AppointmentForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phone: "",
     service: "",
-    date: "",
+    location: "",
+    doctor: "",
   });
+
+  const {
+    data: doctorsData,
+    loading: doctorsLoading,
+    error: doctorsError,
+  } = useQuery(getAllDoctors);
+  const doctors = doctorsData?.doctors?.nodes || [];
+
+  const [locations, setLocations] = useState([]);
+  useEffect(() => {
+    const loadLocations = async () => {
+      try {
+        const locationsData = await fetchLocations();
+        setLocations(locationsData);
+      } catch (err) {
+        console.error("Failed to fetch locations", err);
+      }
+    }
+    loadLocations();
+  }, []);
 
   const { data, loading, error } = useQuery(getAllServices);
   const serviceOptions = data?.services?.nodes.map((d) => ({
@@ -43,10 +64,10 @@ export default function AppointmentForm() {
     e.preventDefault();
     const params = new URLSearchParams({
       name: formData.name,
-      email: formData.email,
       phone: formData.phone,
       service: formData.service,
-      date: formData.date,
+      location: formData.location,
+      doctor: formData.doctor,
     }).toString();
     router.push(`/book-appointment?${params}`);
   };
@@ -77,15 +98,6 @@ export default function AppointmentForm() {
         />
 
         <Input
-          name="email"
-          type="email"
-          placeholder="Enter your email"
-          className="rounded-none bg-transparent border-gray-700 text-white placeholder:text-white"
-          value={formData.email}
-          onChange={(e) => handleChange("email", e.target.value)}
-        />
-
-        <Input
           name="phone"
           type="tel"
           placeholder="Enter your phone number"
@@ -110,7 +122,7 @@ export default function AppointmentForm() {
               [&>svg]:fill-current  /* make the SVG’s fill use currentColor */
             `}
           >
-            <SelectValue placeholder="Select service" />
+            <SelectValue placeholder="Select disease" />
           </SelectTrigger>
           <SelectContent>
             {serviceOptions.map((opt) => (
@@ -121,24 +133,56 @@ export default function AppointmentForm() {
           </SelectContent>
         </Select>
 
-        <Input
-          name="date"
-          type="datetime-local"
-          className={`
-            block w-full 
-            rounded-none 
-            border border-gray-700 
-            bg-transparent 
-            text-white 
-            p-2 
-            appearance-auto
-            [&::-webkit-calendar-picker-indicator]:invert
-            [&::-moz-calendar-picker-indicator]:invert
-          `}
-          value={formData.date}
-          onChange={(e) => handleChange("date", e.target.value)}
-          required
-        />
+        <Select
+          value={formData.location}
+          onValueChange={(v) => handleChange("location", v)}
+        >
+          <SelectTrigger
+            className={`
+              rounded-none 
+              w-full 
+              bg-transparent 
+              border border-gray-700 
+              text-white         /* sets currentColor to white */
+              [&>svg]:fill-current  /* make the SVG’s fill use currentColor */
+            `}
+          >
+            <SelectValue placeholder="Select location" />
+          </SelectTrigger>
+          <SelectContent>
+            {locations.map((loc) => (
+              <SelectItem key={loc.id.toString()} value={loc.id.toString()}>
+                {loc.title?.rendered}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+
+        <Select
+          value={formData.doctor}
+          onValueChange={(v) => handleChange("doctor", v)}
+        >
+          <SelectTrigger
+            className={`
+              rounded-none 
+              w-full 
+              bg-transparent 
+              border border-gray-700 
+              text-white         /* sets currentColor to white */
+              [&>svg]:fill-current  /* make the SVG’s fill use currentColor */
+            `}
+          >
+            <SelectValue placeholder="Select doctor" />
+          </SelectTrigger>
+          <SelectContent>
+            {doctors.map((doc) => (
+              <SelectItem key={doc.databaseId.toString()} value={doc.databaseId.toString()}>
+                {doc.title}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
         <Button
           type="submit"

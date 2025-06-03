@@ -99,9 +99,9 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   /* Success toast colors */
-  --toast-success-bg: hsl(142, 75%, 46%);
+  --toast-success-bg: hsl(160, 100%, 34%);
   --toast-success-text: hsl(0, 0%, 100%);
-  --toast-success-border: hsl(142, 75%, 46%);
+  --toast-success-border: hsl(142, 100%, 21%);
 
   /* Error toast colors */
   --toast-error-bg: hsl(0, 84.2%, 60.2%);

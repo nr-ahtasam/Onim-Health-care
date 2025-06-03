@@ -6,7 +6,7 @@ export function useCreateBooking() {
   const [error, setError] = useState(null);
 
   const createBooking = useCallback(
-    async ({ name, email, phone, service, doctor, description, date }) => {
+    async ({ name, phone, service, location, doctor }) => {
       setLoading(true);
       setError(null);
 
@@ -18,20 +18,22 @@ export function useCreateBooking() {
             status: 'pending',
             appointment_type: 'online: Online',
             name: name,
-            email: email,
             phone: phone,
             service: service
               ? Array.isArray(service)
                 ? service.map((v) => Number(v))
                 : [Number(service)]
               : [],
+            location: location
+              ? Array.isArray(location)
+                ? location.map((v) => Number(v))
+                : [Number(location)]
+              : [],
             doctor: doctor
               ? Array.isArray(doctor)
                 ? doctor.map((v) => Number(v))
                 : [Number(doctor)]
               : [],
-            description: description || '',
-            "date_&_time": date || '',
           },
         };
 
@@ -49,8 +51,7 @@ export function useCreateBooking() {
         const data = await res.json();
         toast.success('Appointment booked', {
           description: 'Someone from Omni Health will contact you',
-          className: 'bg-green-500 text-white border-none shadow-lg',
-          action: { label: 'X', onClick: () => toast.clear() },
+          action: { label: 'X', onClick: () => toast.dismiss() },
         });
 
         return data;

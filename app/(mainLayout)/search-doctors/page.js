@@ -291,8 +291,8 @@ export default function SearchDoctorPage() {
 function DoctorCard({ doctor }) {
   return (
     <>
-      <Link href={`/doctors-profile/${doctor.id}`}>
         <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white mb-10">
+          <Link href={`/doctors-profile/${doctor.id}`} className="absolute inset-0 z-10"/>
           <div className="w-100 md:w-48 h-48 relative  overflow-hidden">
             <Image
               src={doctor.image}
@@ -344,12 +344,14 @@ function DoctorCard({ doctor }) {
           </div>
 
           <div className="flex flex-col gap-4 min-w-[200px]">
+            <Link href="tel:+880 1711997402">
             <Button
               variant="outline"
               className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
             >
               Call Us
             </Button>
+            </Link>
             <Link href={"/book-appointment"}>
               <Button className="w-full bg-blue-600 hover:bg-blue-700">
                 Book Appointment
@@ -357,7 +359,6 @@ function DoctorCard({ doctor }) {
             </Link>
           </div>
         </Card>
-      </Link>
     </>
   );
 }

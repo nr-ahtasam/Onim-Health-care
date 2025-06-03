@@ -105,7 +105,7 @@ export default function ShowcaseSection() {
                       </p>
                       <p className="text-sm text-gray-700">call us on</p>
                       <p className="text-xl font-bold text-[#FF937B]">
-                        01711-997401
+                        01711-997401, 01711-997402
                       </p>
                     </div>
                   </div>

@@ -200,7 +200,7 @@ export default function Header() {
 
             <GoogleTranslateButton />
 
-            <Link href="tel:+880 1781445825">
+            <Link href="tel:+880 1711997402">
               <Button className="py-5 text-white bg-[#FF937B]  flex items-center gap-2 duration-300">
                 <Phone className="h-4 w-4" />
                 Call Us
@@ -308,7 +308,7 @@ export default function Header() {
 
                   <div className="p-4 border-t mt-auto">
                     <div className="grid gap-2">
-                      <Link href="tel:+880 1781445825">
+                      <Link href="tel:+880 1711997402">
                         <Button className="w-full bg-blue-500 hover:bg-blue-600">
                           Call Us
                         </Button>

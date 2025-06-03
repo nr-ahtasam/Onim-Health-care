@@ -112,7 +112,7 @@ export default function Footer() {
                   <div className="border-b border-gray-200 pb-2 mb-4">
                     <h4 className="font-bold">Give us a call</h4>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">01711-997401</p>
+                  <p className="text-sm text-gray-600 mb-4">01711-997401, 01711-997402</p>
                 </div>
 
                 <div>
