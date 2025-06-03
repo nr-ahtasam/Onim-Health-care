@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 
 import { useCreateBooking } from "@/hooks/useCreateBooking";
 import Loader from "@/lib/Loader";
-import { getAllDoctors, getAllServices } from "@/lib/graphql";
+import { FEATURED_SERVICES_QUERY, getAllDoctors, getAllServices } from "@/lib/graphql";
 import { useQuery } from "@apollo/client";
 import AppointmentPaymentModal from "@/components/book-appointment/AppointmentPaymentModal";
 import { fetchDoctorById, fetchLocations } from "@/lib/fetchers";
@@ -25,12 +25,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 
 export default function BookAppointment() {
   // ── 1) All hooks at the top ────────────────────────────────────────────
-  const {
-    data: servicesData,
-    loading: servicesLoading,
-    error: servicesError,
-  } = useQuery(getAllServices);
-  const services = servicesData?.services?.nodes || [];
+  const { data: servicesData, loading: servicesLoading, error: servicesError } = useQuery(FEATURED_SERVICES_QUERY);
+  const services = servicesData?.page?.homeSections?.featuredServices?.nodes || [];
 
   const {
     data: doctorsData,
@@ -233,10 +229,10 @@ export default function BookAppointment() {
                 <SelectContent>
                   {services.map((svc) => (
                     <SelectItem
-                      key={svc.databaseId}
-                      value={svc.databaseId.toString()}
+                      key={svc.serviceId}
+                      value={svc.serviceId.toString()}
                     >
-                      {svc.title}
+                      {svc.serviceFields?.catName}
                     </SelectItem>
                   ))}
                 </SelectContent>

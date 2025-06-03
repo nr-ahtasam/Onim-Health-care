@@ -127,28 +127,28 @@ const specialties = [
       { label: "Spine Surgery", href: "/service/382" },
     ],
   },
-  {
-    name: "Ophthalmology",
+  // {
+  //   name: "Ophthalmology",
 
-    submenu: [
-      { label: "Lasik Eye Surgery", href: "/service/224" },
-      { label: "Cataract Surgery", href: "/service/221" },
-      {
-        label: "Glaucoma Treatment",
-        href: "/proctology/347",
-      },
-      { label: "Squint Surgery", href: "/service/349" },
-      { label: "ICL surgery", href: "/service/350" },
-      { label: "Contoura Vision", href: "/service/351" },
-      { label: "Phaco Surgery", href: "/service/352" },
-    ],
-  },
+  //   submenu: [
+  //     { label: "Lasik Eye Surgery", href: "/service/224" },
+  //     { label: "Cataract Surgery", href: "/service/221" },
+  //     {
+  //       label: "Glaucoma Treatment",
+  //       href: "/proctology/347",
+  //     },
+  //     { label: "Squint Surgery", href: "/service/349" },
+  //     { label: "ICL surgery", href: "/service/350" },
+  //     { label: "Contoura Vision", href: "/service/351" },
+  //     { label: "Phaco Surgery", href: "/service/352" },
+  //   ],
+  // },
 
-  {
-    name: "Weight Loss",
+  // {
+  //   name: "Weight Loss",
 
-    submenu: [{ label: "Gastric Balloon", href: "/service/353" }],
-  },
+  //   submenu: [{ label: "Gastric Balloon", href: "/service/353" }],
+  // },
 ];
 const patientMenuItems = [
   { label: "Search Doctors", href: "/search-doctors" },

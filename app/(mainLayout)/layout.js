@@ -13,7 +13,7 @@ import { Suspense } from "react";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 
-const poppins = Poppins({
+const poppins = Poppins({   
   variable: "--font-poppins",
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],

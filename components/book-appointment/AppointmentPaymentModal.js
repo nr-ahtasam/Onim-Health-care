@@ -19,7 +19,7 @@ export default function AppointmentPaymentModal({
 }) {
 
   const serviceTitle =
-    services.find((s) => s.databaseId.toString() === service)?.title || "N/A";
+    services.find((s) => s.serviceId.toString() === service)?.serviceFields?.catName || "N/A";
   const locationTitle =
     locations.find((s) => s.id.toString() === location)?.title?.rendered || "N/A";
 

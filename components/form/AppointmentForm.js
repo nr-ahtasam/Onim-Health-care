@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { getAllDoctors, getAllServices } from "@/lib/graphql";
+import { FEATURED_SERVICES_QUERY, getAllDoctors, getAllServices } from "@/lib/graphql";
 import LoadingSkeletonForm from "@/lib/LoadingSkeletonForm";
 import { fetchLocations } from "@/lib/fetchers";
 
@@ -48,10 +48,10 @@ export default function AppointmentForm() {
     loadLocations();
   }, []);
 
-  const { data, loading, error } = useQuery(getAllServices);
-  const serviceOptions = data?.services?.nodes.map((d) => ({
-    value: d.databaseId.toString(),
-    label: d.title,
+  const { data, loading, error } = useQuery(FEATURED_SERVICES_QUERY);
+  const serviceOptions = data?.page?.homeSections?.featuredServices?.nodes.map((d) => ({
+    value: d.serviceId.toString(),
+    label: d.serviceFields?.catName,
   }));
 
   // 3) change handler
