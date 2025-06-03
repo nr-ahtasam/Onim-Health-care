@@ -9,6 +9,7 @@ import GoogleTranslateWidget from "@/components/shared/GoogleTranslateWidget";
 import Testimonials from "@/components/shared/Testimonials";
 import { Toaster } from "@/components/ui/sonner";
 import { Poppins } from "next/font/google";
+import { Suspense } from "react";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 
@@ -31,7 +32,9 @@ export default function RootLayout({ children }) {
           src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           async
         ></script>
-        <GoogleAnalytics />
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
       </head>
       <body className={`${poppins.variable} bg-[#F0F0F0]`}>
         <ApolloWrapper>
