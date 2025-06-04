@@ -42,7 +42,7 @@ export default function Blogs() {
     : [];
   const filteredPosts = selectedCategory
     ? blogs.filter((post) =>
-        post.categories.nodes.some((cat) => cat.name === selectedCategory)
+        post.categories?.nodes.some((cat) => cat.name === selectedCategory)
       )
     : blogs;
 
