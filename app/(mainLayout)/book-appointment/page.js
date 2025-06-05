@@ -22,7 +22,6 @@ import { useQuery } from "@apollo/client";
 import AppointmentPaymentModal from "@/components/book-appointment/AppointmentPaymentModal";
 import { fetchDoctorById, fetchLocations } from "@/lib/fetchers";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import LoadingSkeletonForm from "@/lib/LoadingSkeletonForm";
 
 export default function BookAppointment() {
   // ── 1) All hooks at the top ────────────────────────────────────────────
@@ -111,7 +110,7 @@ export default function BookAppointment() {
 
   // ── 3) Early returns after hooks ────────────────────────────────────
   if (servicesLoading || doctorsLoading) {
-    return <LoadingSkeletonForm />;
+    return <Loader />;
   }
   if (servicesError || doctorsError) {
     return (
