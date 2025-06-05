@@ -82,7 +82,7 @@ export default function PopUpModal({ autoOpen = true }) {
             <div id="modal-title" className="sr-only">
               Appointment Form Modal
             </div>
-            <AppointmentForm />
+            <AppointmentForm setIsModalOpen={setIsModalOpen}/>
           </div>
         </div>
       )}

@@ -18,7 +18,7 @@ import { FEATURED_SERVICES_QUERY, getAllDoctors, getAllServices } from "@/lib/gr
 import LoadingSkeletonForm from "@/lib/LoadingSkeletonForm";
 import { fetchLocations } from "@/lib/fetchers";
 
-export default function AppointmentForm() {
+export default function AppointmentForm({setIsModalOpen}) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
@@ -69,11 +69,12 @@ export default function AppointmentForm() {
       location: formData.location,
       doctor: formData.doctor,
     }).toString();
+    if(setIsModalOpen) setIsModalOpen(false);
     router.push(`/book-appointment?${params}`);
   };
 
   // 5) loading / error UI
-  if (loading) return <LoadingSkeletonForm />;
+  if (loading || doctorsLoading ) return <LoadingSkeletonForm />;
   if (error)
     return (
       <div className="p-4 text-red-600">
