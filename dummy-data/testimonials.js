@@ -39,6 +39,46 @@ const dummyTestimonials = [
         title: "Wellness Coach",
         avatar: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
+    {
+        id: 6,
+        quote:
+            "Aliquam erat volutpat. Amet in nunc aenean. Gravida cursus tincidunt arcu sapien. Neque accumsan non id ornare aenean amet urna sit.",
+        name: "Liam Chen",
+        title: "Care Team Manager",
+        avatar: "https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+        id: 7,
+        quote:
+            "Risus in accumsan in curabitur. Pretium suspendisse pharetra augue convallis at massa. Arcu et aenean integer id tortor in id vitae commodo.",
+        name: "Nora Anders",
+        title: "Medical Support Lead",
+        avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+        id: 8,
+        quote:
+            "Feugiat sed eget non gravida. Velit id cras convallis sit id elit scelerisque eget. Est dignissim a blandit sed nullam iaculis purus id.",
+        name: "Omar Rahman",
+        title: "Mental Health Specialist",
+        avatar: "https://images.pexels.com/photos/415826/pexels-photo-415826.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+        id: 9,
+        quote:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum justo sed magna hendrerit, nec dapibus lacus convallis.",
+        name: "Grace Liu",
+        title: "Senior Nurse Coordinator",
+        avatar: "https://images.pexels.com/photos/774908/pexels-photo-774908.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+        id: 10,
+        quote:
+            "Tempus sit ut purus massa diam. At turpis sem et nunc magna in sed. Semper vitae aliquet magna aliquam orci varius est.",
+        name: "Carlos Mendoza",
+        title: "Community Health Advisor",
+        avatar: "https://images.pexels.com/photos/415828/pexels-photo-415828.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    }
 ];
 
 export default dummyTestimonials;
