@@ -25,131 +25,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import GoogleTranslateButton from "../shared/GoogleTranslateButton";
+import { getNavMenu } from "@/lib/graphql";
+import { useQuery } from "@apollo/client";
 
-const specialties = [
-  {
-    name: "Proctology",
-
-    submenu: [
-      { label: "Piles Treatment", href: "/service/212" },
-      { label: "Fistula Treatment", href: "/service/213" },
-      { label: "Fissure Treatment", href: "/service/215" },
-      {
-        label: "Pilonidal Sinus Treatment",
-        href: "/service/264",
-      },
-      { label: "Rectal Prolapse", href: "/service/342" },
-    ],
-  },
-  {
-    name: "Laparoscopy",
-
-    submenu: [
-      { label: "Hernia Surgery", href: "/service/74" },
-      { label: "Gallstones Treatment", href: "/service/114" },
-      {
-        label: "Inguinal Hernia Treatment",
-        href: "/service/297",
-      },
-      {
-        label: "Umbilical Hernia Treatment",
-        href: "/service/299",
-      },
-    ],
-  },
-  {
-    name: "Gynaecology",
-
-    submenu: [
-      {
-        label: "Uterus Removal",
-        href: "/service/277",
-      },
-
-      ,
-      { label: " Ovarian Cyst", href: "/service/340" },
-    ],
-  },
-
-  {
-    name: "Urology",
-
-    submenu: [
-      { label: "Circumcision", href: "/service/226" },
-      {
-        label: "Kidney Stones Treatment",
-        href: "/service/219",
-      },
-      {
-        label: "Hydrocele",
-        href: "/service/317",
-      },
-      { label: "Balanitis", href: "/service/343" },
-      { label: "Paraphimosis", href: "/service/226" },
-    ],
-  },
-  {
-    name: "Vascular",
-
-    submenu: [
-      {
-        label: "Varicose Veins Treatment",
-        href: "/service/254",
-      },
-      { label: "Varicocele Treatment", href: "/service/260" },
-    ],
-  },
-  {
-    name: "Aesthetics",
-
-    submenu: [
-      {
-        label: "Gynecomastia",
-        href: "/service/243",
-      },
-      { label: "Liposuction", href: "/service/245" },
-      {
-        label: "Breast Augmentation Surgery",
-        href: "/service/281",
-      },
-    ],
-  },
-  {
-    name: "Orthopedics",
-
-    submenu: [
-      { label: "Knee Replacement", href: "/service/266" },
-      { label: "ACL Tear Treatment", href: "/service/249" },
-      {
-        label: "Hip Replacement Surgery",
-        href: "/service/273",
-      },
-      { label: "Spine Surgery", href: "/service/382" },
-    ],
-  },
-  // {
-  //   name: "Ophthalmology",
-
-  //   submenu: [
-  //     { label: "Lasik Eye Surgery", href: "/service/224" },
-  //     { label: "Cataract Surgery", href: "/service/221" },
-  //     {
-  //       label: "Glaucoma Treatment",
-  //       href: "/proctology/347",
-  //     },
-  //     { label: "Squint Surgery", href: "/service/349" },
-  //     { label: "ICL surgery", href: "/service/350" },
-  //     { label: "Contoura Vision", href: "/service/351" },
-  //     { label: "Phaco Surgery", href: "/service/352" },
-  //   ],
-  // },
-
-  // {
-  //   name: "Weight Loss",
-
-  //   submenu: [{ label: "Gastric Balloon", href: "/service/353" }],
-  // },
-];
 const patientMenuItems = [
   { label: "Search Doctors", href: "/search-doctors" },
   { label: "Booking Policy", href: "/book-appointment" },
@@ -158,6 +36,19 @@ const patientMenuItems = [
 ];
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const {data,loading,error} = useQuery(getNavMenu);
+  const navItems = data?.serviceCategories?.nodes.map((category) => {
+    if(!category.description)  return;
+
+    return {
+      name: category.name,
+      submenu: category.services.nodes.map((service) => ({
+        label: service.title,
+        href: `/service/${service.slug}`,
+      })),
+    }
+  }).filter(item => item !== undefined);
 
   return (
     <header className="w-full sticky top-0 z-50 bg-white ">
@@ -276,7 +167,7 @@ export default function Header() {
                         Specialties
                       </h3>
                       <Accordion type="single" collapsible className="w-full">
-                        {specialties.map((specialty, index) => (
+                        {navItems?.map((specialty, index) => (
                           <AccordionItem
                             key={specialty.name}
                             value={`specialty-${index}`}
@@ -333,7 +224,7 @@ export default function Header() {
       <nav className="sticky top-[65px] z-40 bg-white border-b shadow-sm hidden md:block">
         <div className="container mx-auto px-4 overflow-x-auto">
           <ul className="flex space-x-2 py-2">
-            {specialties.map((specialty) => (
+            {navItems?.map((specialty) => (
               <li key={specialty.name} className="whitespace-nowrap">
                 <DropdownMenu
                   onOpenChange={(open) => {
