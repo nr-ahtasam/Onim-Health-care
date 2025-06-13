@@ -120,10 +120,10 @@ export default function MedicalServices({ singleService }) {
 
                           <div className="pr-2 text-[#656E77] max-h-[300px] overflow-y-auto">
                             <ul className="list-disc pl-5 text-sm sm:text-base leading-relaxed text-gray-700 mb-4">
-                              {overview.description
-                                .split(/\r?\n/) // Handles both \r\n and \n
-                                .filter(line => line.trim() !== '') // Skip empty lines
-                                .map((line, index) => (
+                              {overview?.description
+                                ?.split(/\r?\n/) // Handles both \r\n and \n
+                                ?.filter(line => line.trim() !== '') // Skip empty lines
+                                ?.map((line, index) => (
                                   <li key={index}>{line}</li>
                                 ))}
                             </ul>

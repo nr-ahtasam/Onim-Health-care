@@ -44,7 +44,7 @@ export function useSearchDoctors({
           const data = await response.json();
           const formattedDoctors = (data?.data || []).map((doctor) => ({
             id: doctor.id,
-            slug: doctor.link.split("/").slice(-2, -1)[0],
+            slug: doctor.link?.split("/").slice(-2, -1)[0],
             name: doctor.title,
             specialty: "",
             rating: `${doctor.acf.rating}/5.00`,
