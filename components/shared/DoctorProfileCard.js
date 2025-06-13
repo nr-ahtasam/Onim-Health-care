@@ -14,12 +14,12 @@ export default function DoctorProfileCard({ singleService }) {
   // Fetch dynamic data and map it to the static structure
   const dynamicDoctors =
     singleService?.service?.serviceFields?.longDescriptionCopy?.nodes || [];
-  console.log("Dynamic Doctors:", dynamicDoctors);
 
   const doctors =
     dynamicDoctors.length > 0
       ? dynamicDoctors.map((doctor) => ({
           id: doctor.doctorId,
+          slug: doctor.slug,
           name: doctor.title || "Unknown Doctor",
           credentials:
             doctor.specialities?.nodes?.map((spec) => spec.name).join(", ") ||
@@ -125,7 +125,7 @@ export default function DoctorProfileCard({ singleService }) {
                           className="overflow-hidden border border-blue-500"
                         >
                           <Link
-                            href={`/doctors-profile/${doctor.id}`}
+                            href={`/doctors-profile/${doctor.slug}`}
                             className="absolute inset-0 z-10"
                           />
                           <CardContent className="">

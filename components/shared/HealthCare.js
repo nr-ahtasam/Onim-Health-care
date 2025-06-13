@@ -22,6 +22,7 @@ export default function HealthCare() {
   const doctors = data?.page?.homeSections?.featuredDoctors?.nodes?.map(
     (doctor) => ({
       id: doctor.doctorId,
+      slug: doctor.slug,
       name: doctor.title,
       // Modify or extend credentials if available from your data.
       credentials: doctor.specialities.nodes
@@ -79,7 +80,7 @@ export default function HealthCare() {
           <div className="mb-8 max-w-3xl">
             <Slider {...settings}>
               {doctors?.map((doctor, index) => (
-                <Link key={index} href={"/doctors-profile/" + doctor.id}>
+                <Link key={index} href={"/doctors-profile/" + doctor.slug}>
                   <Card className="overflow-hidden border border-blue-500">
                     <CardContent className="">
                       <div className="flex items-start gap-4">

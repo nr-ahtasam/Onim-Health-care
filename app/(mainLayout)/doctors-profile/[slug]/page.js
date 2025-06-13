@@ -13,9 +13,9 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 
 export default function Page() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const { data, loading, error } = useQuery(singleDoctorQuery, {
-    variables: { id },
+    variables: { slug },
   });
 
   if (loading) return <Loader />;

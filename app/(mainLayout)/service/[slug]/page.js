@@ -11,9 +11,9 @@ import { useQuery } from "@apollo/client";
 import { useParams } from "next/navigation";
 
 export default function Service() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const { data, loading, error } = useQuery(singleServiceQuery, {
-    variables: { id },
+    variables: { slug },
   });
   if (loading) return <LoadingSkeleton />;
 

@@ -33,7 +33,7 @@ export default function MedicalConditionGrid() {
             className="flex flex-col justify-center items-center"
             key={condition.id}
           >
-            <Link href={`/service/${condition.serviceId}`}>
+            <Link href={`/service/${condition.slug}`}>
               <div className="bg-white h-[100px] w-[100px] border border-blue-500 rounded-[20px] flex  items-center">
                 <Image
                   src={condition.serviceFields.serviceIconn?.node.mediaItemUrl || "/images/xray.png"}
