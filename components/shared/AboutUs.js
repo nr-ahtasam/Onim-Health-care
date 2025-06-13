@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Hospital } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AboutUsSection() {
   return (
@@ -50,7 +51,7 @@ export default function AboutUsSection() {
               <br />
               Medical Services
             </h2>
-            <p className="mb-8 text-gray-600 max-w-[400px]">
+            <p className="mb-8 text-gray-600 max-w-[400px] text-justify">
               At Omni Health Care, we are committed to delivering safe,
               efficient, and patient-centered medical services. We bring
               together experienced surgeons, advanced treatment facilities, and
@@ -67,7 +68,7 @@ export default function AboutUsSection() {
                 </div>
                 <div>
                   <h3 className="mb-1 font-semibold">Medical assessment</h3>
-                  <p className="text-sm text-gray-600 max-w-[400px]">
+                  <p className="text-sm text-gray-600 max-w-[400px] text-justify">
                     We support patients from consultation to full recovery,
                     ensuring a stress-free healthcare journey.
                   </p>
@@ -75,12 +76,11 @@ export default function AboutUsSection() {
               </div>
             </div>
 
-            <Button
-              variant="outline"
-              className="w-fit rounded-full bg-[#051320] text-white font-bold border-gray-300 px-6 py-2 text-sm"
-            >
-              Read more...
-            </Button>
+            <Link href={"/book-appointment"}>
+              <Button className="w-1/2 bg-blue-600 hover:bg-blue-700">
+                Book Appointment
+              </Button>
+            </Link>
           </div>
 
           {/* Right side - Image with stats */}
