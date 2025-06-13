@@ -70,7 +70,7 @@ export default function HealthCare() {
               Redefining Modern Healthcare in Bangladesh
             </h2>
 
-            <p className="text-gray-700 text-xl py-4 text-justify">
+            <p className="text-gray-700 text-xl py-4 text-justify max-w-[450px]">
               Omni Health Care brings together experienced surgeons,
               state-of-the-art hospitals, and a compassionate care team to
               deliver top-notch treatments.

@@ -193,7 +193,7 @@ export default function BookAppointment() {
 
           <form onSubmit={handleSubmit}>
             {/* Row 1: Name, Email, Phone */}
-            <div className="grid md:grid-cols-3 gap-4 mb-4">
+            <div className="grid md:grid-cols-2 gap-6 mb-4">
               <Input
                 type="text"
                 placeholder="Your Name"
