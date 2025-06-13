@@ -162,7 +162,7 @@ export default function DoctorProfile({ singleDoctor }) {
                 {/* Doctor's Long Description */}
                 <div className="w-[350px] ">
                   <div
-                    className="mb-8 w-[80%]"
+                    className="mb-8 w-[80%] text-justify diagnosis-treatment"
                     dangerouslySetInnerHTML={{
                       __html: doctor.content,
                     }}

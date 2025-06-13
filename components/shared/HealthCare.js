@@ -70,7 +70,7 @@ export default function HealthCare() {
               Redefining Modern Healthcare in Bangladesh
             </h2>
 
-            <p className="text-gray-700 text-xl py-4">
+            <p className="text-gray-700 text-xl py-4 text-justify">
               Omni Health Care brings together experienced surgeons,
               state-of-the-art hospitals, and a compassionate care team to
               deliver top-notch treatments.
@@ -110,7 +110,7 @@ export default function HealthCare() {
                             <div className="flex items-center">
                               <ShoppingBag className="h-4 w-4 " />
                               <span className="ml-1 text-sm">
-                                {doctor.experience}
+                                {doctor.experience} Years Experience
                               </span>
                             </div>
                           </div>

@@ -20,8 +20,7 @@ export default function DoctorProfileCard({ singleService }) {
     slug: doctor.slug,
     name: doctor.title || "Unknown Doctor",
     credentials:
-      doctor.specialities?.nodes?.map((spec) => spec.name).join(", ") ||
-      "N/A",
+      doctor.specialities?.nodes?.map((spec) => spec.name).join(", "),
     rating: doctor.doctorField.rating
       ? doctor.doctorField.rating.toFixed(1)
       : "N/A",

@@ -40,7 +40,7 @@ export default function MedicalConditionGrid({ singleDoctor }) {
               <div className="bg-white h-[100px] w-[100px] border border-blue-500 rounded-[20px] flex  items-center">
                 <Image
                   src={condition.serviceFields.serviceIconn?.node.mediaItemUrl || "/images/xray.png"}
-                  alt={condition.serviceFields.catName}
+                  alt={condition.serviceFields.catName || condition.slug}
                   width={200}
                   height={200}
                   className=" object-cover w-full h-full rounded-[20px]"

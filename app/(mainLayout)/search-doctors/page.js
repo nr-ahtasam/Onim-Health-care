@@ -328,7 +328,7 @@ function DoctorCard({ doctor }) {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex flex-row sm:items-center gap-4">
               <div className="flex items-center gap-1">
                 <Star className="fill-yellow-400 text-yellow-400" size={20} />
                 <span className="font-poppins font-semibold text-[18px]">

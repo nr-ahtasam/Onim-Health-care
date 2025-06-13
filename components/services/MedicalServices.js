@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function MedicalServices({ singleService }) {
@@ -118,16 +119,21 @@ export default function MedicalServices({ singleService }) {
                           <h2 className="mb-4 text-3xl font-bold text-black">Overview</h2>
 
                           <div className="pr-2 text-[#656E77] max-h-[300px] overflow-y-auto">
-                            <p className="text-sm sm:text-base leading-relaxed text-gray-700 whitespace-pre-line mb-4">
-                              {overview.description}
-                            </p>
+                            <ul className="list-disc pl-5 text-sm sm:text-base leading-relaxed text-gray-700 mb-4">
+                              {overview.description
+                                .split(/\r?\n/) // Handles both \r\n and \n
+                                .filter(line => line.trim() !== '') // Skip empty lines
+                                .map((line, index) => (
+                                  <li key={index}>{line}</li>
+                                ))}
+                            </ul>
 
                             {/* Divider */}
                             <div className="my-4 border-t border-gray-400" />
 
                             {/* Diagnosis & Treatment section (render raw HTML) */}
                             <div
-                              className="diagnosis-treatment text-sm sm:text-base leading-relaxed "
+                              className="diagnosis-treatment text-sm sm:text-base leading-relaxed text-justify"
                               dangerouslySetInnerHTML={{ __html: diagnosisTreatment }}
                             />
                           </div>
@@ -167,9 +173,11 @@ export default function MedicalServices({ singleService }) {
               <h3 className="mb-2 text-2xl font-bold">
                 We are available 24/7 round the clock
               </h3>
-              <Button className="mt-4 w-full rounded-md bg-gray-900 py-6 text-white hover:bg-black">
-                Book an appointment
-              </Button>
+              <Link href="/book-appointment">
+                <Button className="mt-4 w-full rounded-md bg-gray-900 py-6 text-white hover:bg-black">
+                  Book appointment
+                </Button>
+              </Link>
             </div>
             {/* Emergency Cases */}
             <div className={"md:p-6"}>

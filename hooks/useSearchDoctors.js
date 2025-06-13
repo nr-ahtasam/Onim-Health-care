@@ -1,5 +1,7 @@
 "use client";
 
+import { featureDoctorsQuery } from "@/lib/graphql";
+import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 
 export function useSearchDoctors({
@@ -42,8 +44,9 @@ export function useSearchDoctors({
           const data = await response.json();
           const formattedDoctors = (data?.data || []).map((doctor) => ({
             id: doctor.id,
+            slug: doctor.link.split("/").slice(-2, -1)[0],
             name: doctor.title,
-            specialty: "Arthroscopy & Arthroplasty Surgeon",
+            specialty: "",
             rating: `${doctor.acf.rating}/5.00`,
             experience: `${doctor.acf.experience}+ Years Experience`,
             consultationFees: [

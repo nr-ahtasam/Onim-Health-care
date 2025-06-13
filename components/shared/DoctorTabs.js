@@ -112,7 +112,7 @@ export default function DoctorTabs({ singleDoctor }) {
           {activeTab === "description" && (
             <div className="space-y-6">
               <div
-                className="mb-8"
+                className="mb-8 text-justify diagnosis-treatment"
                 dangerouslySetInnerHTML={{
                   __html: doctor.doctorField.longDescription,
                 }}

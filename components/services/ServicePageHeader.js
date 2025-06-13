@@ -13,7 +13,7 @@ export default function ServicePageHeader({ singleService }) {
         <Card className="max-w-7xl mx-auto w-full bg-transparent border-none shadow-none relative flex flex-col justify-center">
           <CardHeader className="text-white m-0 p-0">
             <CardTitle className="text-3xl md:text-4xl font-bold max-w-lg">
-              Your {serviceTitle} Treatment in Omni <span className="text-[#FF8300]">Health</span> Care
+              Your {serviceTitle} in Omni <span className="text-[#FF8300]">Health</span> Care
             </CardTitle>
             <div className="relative group">
               <CardDescription className="text-md md:text-lg mt-2 text-white max-w-2xl line-clamp-2">
