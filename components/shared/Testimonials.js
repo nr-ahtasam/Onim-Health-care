@@ -85,7 +85,7 @@ export default function Testimonials() {
                       <div className="absolute top-10 -left-3 text-5xl rounded-tr-[15px] bg-[#8EEAD2] flex items-center justify-center text-white h-15 w-15 mb-4">
                         <Quote className={"transform rotate-180"} size={25} />
                       </div>
-                      <ScrollArea className="text-gray-600 h-[200px]">
+                      <ScrollArea className="text-gray-600 h-[200px] text-justify">
                         {testimonial.quote}
                       </ScrollArea>
                     </div>
