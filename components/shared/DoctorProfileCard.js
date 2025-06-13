@@ -11,8 +11,6 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 
 export default function DoctorProfileCard({ singleService }) {
-  console.log("Single Service Data:", singleService);
-  
   // Fetch dynamic data and map it to the static structure
   const dynamicDoctors =
     singleService?.service?.serviceFields?.longDescriptionCopy?.nodes || [];
@@ -66,8 +64,6 @@ export default function DoctorProfileCard({ singleService }) {
       },
     ],
   };
-
-  console.log("Doctors Data:", doctors);
   
   return (
     <>

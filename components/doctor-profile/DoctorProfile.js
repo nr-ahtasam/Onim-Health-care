@@ -119,13 +119,14 @@ export default function DoctorProfile({ singleDoctor }) {
 
                 {/* Rating and Experience */}
                 <div className="mb-6 flex flex-wrap items-center gap-4 w-[30%]">
-                  <div className="flex items-center gap-2">
-                    <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    <span className="font-medium">
-                      {doctor.doctorField.rating.toFixed(1)}/5
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                      <span className="font-medium">
+                        {doctor.doctorField.rating.toFixed(1)}/5
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
                     <svg
                       width="20"
                       height="20"
@@ -154,6 +155,7 @@ export default function DoctorProfile({ singleDoctor }) {
                       {doctor.doctorField.experience === 1 ? "Year" : "Years"}{" "}
                       Experience
                     </span>
+                    </div>
                   </div>
                 </div>
 

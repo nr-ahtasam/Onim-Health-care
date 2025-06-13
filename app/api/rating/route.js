@@ -27,7 +27,7 @@ export async function GET(req) {
     if (!res.ok) {
       return NextResponse.json({ message: data.message || "Failed to fetch ratings" }, { status: res.status });
     }
-
+    
     return NextResponse.json(data);
   } catch (err) {
     console.error("GET /rating error:", err);

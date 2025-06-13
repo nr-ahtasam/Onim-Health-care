@@ -1,11 +1,27 @@
 "use client";
 
+import { fetchLocations, fetchRatings } from "@/lib/fetchers";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function DoctorTabs({ singleDoctor }) {
   const doctor = singleDoctor?.doctor;
+  const [ratings, setRatings] = useState([]);
+
+  const loadRatings = async () => {
+    try {
+      const ratingsData = await fetchRatings(doctor.doctorId);
+      setRatings(ratingsData);
+    } catch (err) {
+      console.error("Failed to fetch ratings", err);
+    }
+  }
+
+  useEffect(() => {
+    loadRatings();
+  }, []);
+
   const [activeTab, setActiveTab] = useState("description");
 
   const tabs = [
@@ -79,7 +95,7 @@ export default function DoctorTabs({ singleDoctor }) {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "px-2 py-1 md:px-8 md:py-3 text-center font-medium transition-colors",
+                "px-2 py-1 md:px-8 md:py-3 text-center font-medium transition-colors cursor-pointer",
                 index === 0 && "rounded-tl-[30px]",
                 activeTab === tab.id
                   ? "bg-[#FF937B] text-white"
@@ -138,16 +154,19 @@ export default function DoctorTabs({ singleDoctor }) {
 
           {activeTab === "reviews" && (
             <div className="space-y-6">
-              {reviewsContent.map((review) => (
+              {ratings.length === 0 && (
+                <p className="text-gray-500">No reviews found.</p>
+              )}
+              {ratings.map((review) => (
                 <div key={review.id} className="rounded-lg bg-gray-50 p-4">
                   <div className="mb-2 flex items-center justify-between">
-                    <h3 className="font-medium">{review.author}</h3>
+                    <h3 className="font-medium">{review.acf?.patient}</h3>
                     <div className="flex">
                       {[...Array(5)].map((_, i) => (
                         <svg
                           key={i}
                           className={`h-4 w-4 ${
-                            i < review.rating
+                            i < review.acf?.rating
                               ? "text-yellow-400"
                               : "text-gray-300"
                           }`}
@@ -159,7 +178,7 @@ export default function DoctorTabs({ singleDoctor }) {
                       ))}
                     </div>
                   </div>
-                  <p className="text-gray-600">{review.text}</p>
+                  <p className="text-gray-600">{review.acf?.description}</p>
                 </div>
               ))}
             </div>
