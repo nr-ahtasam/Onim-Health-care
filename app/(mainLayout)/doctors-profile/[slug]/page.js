@@ -47,6 +47,9 @@ export default function Page() {
             className="absolute top-50 right-0 w-auto h-full"
           />
         </div>
+        <div className="container mx-auto relative flex items-center justify-center">
+          <h2 className="text-3xl font-bold mb-6">Services Offered by {data.doctor.title}</h2>
+        </div>
         <MedicalConditionGrid singleDoctor={data} />
         <DoctorTabs singleDoctor={data} />
       </div>

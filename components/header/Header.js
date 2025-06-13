@@ -38,17 +38,21 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const {data,loading,error} = useQuery(getNavMenu);
+  console.log("Nav Menu Data:", data);
+  
   const navItems = data?.serviceCategories?.nodes.map((category) => {
     if(!category.description)  return;
 
     return {
       name: category.name,
+      description: category.description,
       submenu: category.services.nodes.map((service) => ({
         label: service.title,
         href: `/service/${service.slug}`,
       })),
     }
-  }).filter(item => item !== undefined);
+  }).filter(item => item !== undefined)
+  .sort((a, b) => Number(a.description) - Number(b.description));
 
   return (
     <header className="w-full sticky top-0 z-50 bg-white ">
