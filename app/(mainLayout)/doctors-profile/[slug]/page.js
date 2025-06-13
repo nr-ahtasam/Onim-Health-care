@@ -23,8 +23,6 @@ export default function Page() {
     return <p className="text-center py-10">Doctor profile not found.</p>;
   }
 
-  const doctor = data.doctor; // Define doctor here explicitly
-
   return (
     <>
       <DoctorProfile singleDoctor={data} />
@@ -49,11 +47,10 @@ export default function Page() {
             className="absolute top-50 right-0 w-auto h-full"
           />
         </div>
-        <MedicalConditionGrid />
+        <MedicalConditionGrid singleDoctor={data} />
         <DoctorTabs singleDoctor={data} />
       </div>
       <DoctorChambers singleDoctor={data} />
-      {/* <ServicesGrid singleDoctor={data} /> */}
       <HealthCare />
       <div className="py-16 relative overflow-hidden">
         <div>

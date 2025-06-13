@@ -24,7 +24,6 @@ export default function DoctorChambers({ singleDoctor }) {
         <div className="flex flex-col md:flex-row flex-wrap justify-center gap-8">
           {chambers.map((chamber) => {
             const chamberImage = chamber?.featuredImage?.node?.mediaItemUrl;
-            console.log("featuredImage URL:", chamberImage);
             return (
               <div
                 key={chamber.id}

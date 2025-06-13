@@ -7,18 +7,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function MedicalConditionGrid() {
+export default function MedicalConditionGrid({ singleDoctor }) {
   const [showAll, setShowAll] = useState(false);
 
-  const { data, loading, error } = useQuery(FEATURED_SERVICES_QUERY);
+  const { data, loading, error } = useQuery(FEATURED_SERVICES_QUERY, {
+    skip: !!singleDoctor,
+  });
 
   // if (loading) return <Loader />;
-  if (loading) return <ConditionGridSkeleton />;
-  if (error) return <div>Error loading featured services: {error.message}</div>;
+  if (!singleDoctor && loading) return <ConditionGridSkeleton />;
+  if (!singleDoctor && error) return <div>Error loading featured services: {error.message}</div>;
 
   // Use API data if available, otherwise fallback to empty array
-  const medicalConditions =
-    data?.page?.homeSections?.featuredServices?.nodes || [];
+  const medicalConditions = singleDoctor
+    ? singleDoctor?.doctor?.doctorField?.service?.nodes || []
+    : data?.page?.homeSections?.featuredServices?.nodes || [];
 
   // Decide which items to show: either the first 6 or all of them
   const displayedConditions = showAll
