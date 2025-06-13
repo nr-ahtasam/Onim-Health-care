@@ -11,9 +11,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { LOCATIONS } from "@/constants/locations";
 import { useSearchDoctors } from "@/hooks/useSearchDoctors";
-import { getAllServices } from "@/lib/graphql";
+import { fetchLocations } from "@/lib/fetchers";
+import { FEATURED_SERVICES_QUERY} from "@/lib/graphql";
 import SearchDoctorCardSkeleton from "@/lib/SearchDoctorCardSkeleton";
 import { useQuery } from "@apollo/client";
 import {
@@ -43,17 +43,33 @@ export default function SearchDoctorPage() {
   const [showDoctorSearchDropdown, setShowDoctorSearchDropdown] =
     useState(false);
 
-  const { data, loading: servicesLoading, error } = useQuery(getAllServices);
-  const diseases = data?.services?.nodes.map((d) => ({
-    id: d.databaseId,
-    name: d.title,
+  const { data, loading: servicesLoading, error } = useQuery(FEATURED_SERVICES_QUERY);
+  
+  const diseases = data?.page?.homeSections?.featuredServices?.nodes.map((d) => ({
+    id: d.serviceId,
+    name: d.serviceFields?.catName,
     type: d.__typename,
   }));
+
+  const [locations, setLocations] = useState([]);
+  const loadLocations = async () => {
+    try {
+      const locationsData = await fetchLocations();
+      setLocations(locationsData);
+    } catch (err) {
+      console.error("Failed to fetch locations", err);
+    }
+  }
+
+  useEffect(() => {
+    loadLocations();
+  }, []);
 
   const { doctors, totalPages, loading } = useSearchDoctors({
     locationSearch,
     doctorSearch,
     diseases,
+    locations,
     diseaseSearch,
     currentPage,
     perPage,
@@ -135,16 +151,16 @@ export default function SearchDoctorPage() {
                 </div>
 
                 <div>
-                  {LOCATIONS.map((location, index) => (
+                  {locations.map((loc, index) => (
                     <div
                       key={index}
                       className="flex justify-between items-center p-4 hover:bg-gray-200 cursor-pointer border-b border-gray-200"
                       onClick={() => {
-                        setLocationSearch(location.name);
+                        setLocationSearch(loc.title.rendered);
                         setShowLocationDropdown(false);
                       }}
                     >
-                      <span className="text-gray-500">{location.name}</span>
+                      <span className="text-gray-500">{loc.title.rendered}</span>
                     </div>
                   ))}
                 </div>

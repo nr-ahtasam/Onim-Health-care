@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { FEATURED_SERVICES_QUERY, getAllDoctors, getAllServices } from "@/lib/graphql";
+import { FEATURED_SERVICES_QUERY, getAllDoctors } from "@/lib/graphql";
 import LoadingSkeletonForm from "@/lib/LoadingSkeletonForm";
 import { fetchLocations } from "@/lib/fetchers";
 

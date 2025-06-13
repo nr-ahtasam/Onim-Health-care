@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 
 import { useCreateBooking } from "@/hooks/useCreateBooking";
 import Loader from "@/lib/Loader";
-import { FEATURED_SERVICES_QUERY, getAllDoctors, getAllServices } from "@/lib/graphql";
+import { FEATURED_SERVICES_QUERY, getAllDoctors } from "@/lib/graphql";
 import { useQuery } from "@apollo/client";
 import AppointmentPaymentModal from "@/components/book-appointment/AppointmentPaymentModal";
 import { fetchDoctorById, fetchLocations } from "@/lib/fetchers";
@@ -167,7 +167,6 @@ export default function BookAppointment() {
       }),
     });
     const result = await res.json();
-    console.log("Payment Result:", result);
     
     if (result?.GatewayPageURL) {
       // handleConfirmBooking();

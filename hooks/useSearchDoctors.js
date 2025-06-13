@@ -1,12 +1,12 @@
 "use client";
 
-import { LOCATIONS } from "@/constants/locations";
 import { useEffect, useState } from "react";
 
 export function useSearchDoctors({
   locationSearch,
   doctorSearch,
   diseases,
+  locations,
   diseaseSearch,
   currentPage,
   perPage,
@@ -16,7 +16,7 @@ export function useSearchDoctors({
   const [loading, setLoading] = useState(true);
 
   const getLocationIdByName = (name) =>
-    LOCATIONS.find((loc) => loc.name === name)?.id;
+    locations.find((loc) => loc?.title?.rendered === name)?.id;
 
   const getDiseaseIdByName = (name) =>
     diseases?.find((diseas) => diseas.name === name)?.id;

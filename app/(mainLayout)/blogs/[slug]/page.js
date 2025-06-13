@@ -9,7 +9,6 @@ import { cleanExcerpt } from "@/lib/cleanExcerpt";
 import { formatDateTime } from "@/lib/formatDateTime";
 export default function ArticlePage() {
   const slug = useParams()?.slug;
-  console.log(slug);
   const { data, loading, error } = useQuery(getSingleBlogBySlugQuery, {
     variables: { slug },
   });
