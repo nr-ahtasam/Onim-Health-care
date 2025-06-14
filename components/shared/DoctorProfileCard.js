@@ -160,7 +160,10 @@ export default function DoctorProfileCard({ singleService }) {
               </div>
             </div>
             <div className="flex justify-center">
-              <Button className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80">
+              <Button
+                onClick={() => (window.location.href = "/search-doctors")}
+                className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80"
+              >
                 View All
               </Button>
             </div>
