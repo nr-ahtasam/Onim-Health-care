@@ -10,7 +10,7 @@ export default function DividerLine() {
         <div className="flex-grow border-t border-gray-300"></div>
 
         {/* Button in the center */}
-        <Link href={"/book-appointment"}><button className="rounded-full font-bold bg-blue-500 px-6 py-2 md:py-4 text-white hover:bg-blue-600 transition">
+        <Link href={"/book-appointment"}><button className="cursor-pointer rounded-full font-bold bg-blue-500 px-6 py-2 md:py-4 text-white hover:bg-blue-600 transition">
           Book an appointment
         </button></Link>
 

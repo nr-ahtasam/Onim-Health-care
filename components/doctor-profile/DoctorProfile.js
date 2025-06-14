@@ -9,6 +9,8 @@ import AppointmentForm from "../form/AppointmentForm";
 
 export default function DoctorProfile({ singleDoctor }) {
   const doctor = singleDoctor?.doctor;
+  console.log("Doctor Profile Data:", doctor);
+  
 
   const defaultImage =
     doctor.featuredImage?.node?.mediaItemUrl || "/images/doctor.jpeg";

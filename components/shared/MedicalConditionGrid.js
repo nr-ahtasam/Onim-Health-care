@@ -48,7 +48,7 @@ export default function MedicalConditionGrid({ singleDoctor }) {
                 />
               </div>
             </Link>
-            <p className="text-center text-[16px] mt-2">
+            <p className="h-12 w-[160px] text-center text-[16px] mt-2">
               {condition.serviceFields.catName}
             </p>
           </div>
@@ -56,7 +56,7 @@ export default function MedicalConditionGrid({ singleDoctor }) {
       </div>
 
       {/* The “View All” button */}
-      <div className="text-center mt-16">
+      <div className="text-center mt-8">
         {!showAll && medicalConditions.length > 8 && (
           <Button
             className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80"

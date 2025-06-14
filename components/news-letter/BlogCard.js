@@ -22,11 +22,13 @@ const {date, time} = formatDateTime(post?.date);
       </div>
       <div className="md:w-1/2 p-6">
         <div className="flex items-center gap-2 mb-2">
-          <Calendar className="text-blue-500" size={16} />
-          <span className="text-gray-500 text-sm">{date + ' ' + time}</span>
-          <span className="text-blue-500 text-sm">
-            {post.categories?.nodes?.[0]?.name || ""}
-          </span>
+          <Calendar className="text-[#705CE1]" size={16} />
+          <div className="flex justify-between w-full">
+            <span className="text-[#705CE1] text-xs">{date + ' ' + time}</span>
+            <span className="text-[#705CE1] text-xs">
+              {post.categories?.nodes?.[0]?.name || ""}
+            </span>
+          </div>
         </div>
         <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
         <div className="border-t border-gray-200 my-3" />
@@ -38,7 +40,7 @@ const {date, time} = formatDateTime(post?.date);
         </p>
         <div className="flex justify-end">
           <Link href={`/blogs/${post.slug}`}>
-            <Button variant="outline" size="sm" className="text-sm">
+            <Button variant="outline" size="sm" className="text-sm rounded-none">
               Learn More
             </Button>
           </Link>

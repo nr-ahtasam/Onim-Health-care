@@ -44,22 +44,22 @@ export function useSearchDoctors({
           const data = await response.json();
           const formattedDoctors = (data?.data || []).map((doctor) => ({
             id: doctor.id,
-            slug: doctor.link?.split("/").slice(-2, -1)[0],
+            slug: doctor.link?.split("/")?.slice(-2, -1)[0],
             name: doctor.title,
-            specialty: "",
+            specialty: doctor.acf?.specialities?.map((s) => s.name).join(", ") || '',
             rating: `${doctor.acf.rating}/5.00`,
             experience: `${doctor.acf.experience}+ Years Experience`,
             consultationFees: [
               {
                 method: "Cash",
-                amount: `${doctor.acf.consultation_fees} Taka`,
+                amount: `${doctor.acf.consultation_fees || 1000}`,
               },
               {
                 method: "Bkash",
-                amount: `${doctor.acf.consultation_fees_online} Taka`,
+                amount: `${doctor.acf.consultation_fees_online || 800}`,
               },
             ],
-            hospital: doctor.acf.chamber?.[0]?.post_title || "Unknown Hospital",
+            hospital: doctor.acf.chamber?.[0]?.post_title || "N/A",
             image: doctor.image || "/images/doctor_placeholder.jpg",
           }));
 

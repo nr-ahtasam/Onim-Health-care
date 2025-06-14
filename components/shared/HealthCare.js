@@ -164,7 +164,10 @@ export default function HealthCare() {
           </div>
         </div>
         <div className="flex justify-center">
-          <Button className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80">
+          <Button 
+            className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80"
+            onClick={() => (window.location.href = "/search-doctors")}
+          >
             View All
           </Button>
         </div>

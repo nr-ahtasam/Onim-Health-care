@@ -38,7 +38,6 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const {data,loading,error} = useQuery(getNavMenu);
-  console.log("Nav Menu Data:", data);
   
   const navItems = data?.serviceCategories?.nodes.map((category) => {
     if(!category.description)  return;

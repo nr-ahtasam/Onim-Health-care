@@ -306,76 +306,82 @@ export default function SearchDoctorPage() {
 
 function DoctorCard({ doctor }) {
   return (
-    <>
-        <Card className="p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white mb-10">
-          <Link href={`/doctors-profile/${doctor.slug}`} className="absolute inset-0 z-10"/>
-          <div className="w-100 md:w-48 h-48 relative  overflow-hidden">
-            <Image
-              src={doctor.image}
-              alt={doctor.name}
-              className="object-cover h-[250px] w-[300px] rounded-[30px]"
-              width={200}
-              height={200}
-            />
-          </div>
-          <div className="flex-1 space-y-4">
-            <div>
-              <p className="font-poppins font-semibold text-[35px]">
-                {doctor.name}
-              </p>
-              <p className="font-poppins font-[400] text-[22px] text-[#0068F9]">
-                {doctor.specialty}
-              </p>
-            </div>
+    <Card 
+      onClick={() => {window.location.href = `/doctors-profile/${doctor.slug}`}}
+      className="cursor-pointer p-6 rounded-xl shadow-sm flex flex-col md:flex-row gap-6 bg-white mb-10">
+      <div className="w-100 md:w-48 h-48 relative  overflow-hidden">
+        <Image
+          src={doctor.image}
+          alt={doctor.name}
+          className="object-cover h-[250px] w-[300px] rounded-[30px]"
+          width={200}
+          height={200}
+        />
+      </div>
+      <div className="flex-1 space-y-4">
+        <div>
+          <p className="font-poppins font-semibold text-[35px]">
+            {doctor.name}
+          </p>
+          <p className="font-poppins font-[400] text-[22px] text-[#0068F9]">
+            {doctor.specialty}
+          </p>
+        </div>
 
-            <div className="flex flex-row sm:items-center gap-4">
-              <div className="flex items-center gap-1">
-                <Star className="fill-yellow-400 text-yellow-400" size={20} />
-                <span className="font-poppins font-semibold text-[18px]">
-                  {doctor.rating}
+        <div className="flex flex-row sm:items-center gap-10">
+          <div className="flex items-center gap-1">
+            <Star className=" text-yellow-400" size={20} />
+            <span className="font-poppins font-semibold text-[18px]">
+              {doctor.rating}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <ShoppingBag size={20} />
+            <span className="font-poppins font-semibold text-[18px]">
+              {doctor.experience}
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <p className="font-bold">Consultation Fees:</p>
+          <div className="flex items-center gap-6 flex-wrap">
+            {doctor.consultationFees.map((fee, idx) => (
+              <span key={idx} className="flex items-center gap-1">
+                <span className="text-[#20C5AF] font-medium">
+                  {fee.amount}
                 </span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <ShoppingBag size={20} />
-                <span className="font-poppins font-semibold text-[18px]">
-                  {doctor.experience}
-                </span>
-              </div>
-            </div>
-
-            <div>
-              <p className="font-medium">Consultation Fees:</p>
-              <div className="flex items-center gap-2 flex-wrap">
-                {doctor.consultationFees.map((fee, idx) => (
-                  <span key={idx} className="flex items-center gap-1">
-                    <span className="text-[#20C5AF] font-medium">
-                      {fee.amount}
-                    </span>
-                    <span className="text-black">({fee.method})</span>
-                  </span>
-                ))}
-              </div>
-            </div>
+                <span className="text-black">{`Taka (${fee.method})`}</span>
+                {idx < doctor.consultationFees.length - 1 && (
+                  <span className="text-black ml-6">&</span>
+                )}
+              </span>
+            ))}
           </div>
+        </div>
+      </div>
 
-          <div className="flex flex-col gap-4 min-w-[200px]">
-            <Link href="tel:+880 1711997402">
-            <Button
-              variant="outline"
-              className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
-            >
-              Call Us
-            </Button>
-            </Link>
-            <Link href={"/book-appointment"}>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                Book Appointment
-              </Button>
-            </Link>
-          </div>
-        </Card>
-    </>
+      <div className="flex flex-col gap-4 w-[220px]">
+        <Link href="tel:+880 1711997402">
+          <Button
+            variant="outline"
+            className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
+          >
+            Call Us
+          </Button>
+        </Link>
+        <Link href={"/book-appointment"}>
+          <Button className="w-full bg-blue-600 hover:bg-blue-700">
+            Book Appointment
+          </Button>
+        </Link>
+        <div className="flex gap-2">
+          <MapPin size={20} className="text-blue-500"/>
+          <span className="text-black text-sm">{doctor.hospital}</span>
+        </div>
+      </div>
+    </Card>
   );
 }
 

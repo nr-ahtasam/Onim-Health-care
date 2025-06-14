@@ -68,7 +68,7 @@ export default function AboutUsSection() {
                 </div>
                 <div>
                   <h3 className="mb-1 font-semibold">Medical assessment</h3>
-                  <p className="text-sm text-gray-600 max-w-[400px] text-justify">
+                  <p className="text-sm text-gray-600 max-w-[300px] text-justify">
                     We support patients from consultation to full recovery,
                     ensuring a stress-free healthcare journey.
                   </p>

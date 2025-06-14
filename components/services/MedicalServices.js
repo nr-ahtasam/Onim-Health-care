@@ -194,7 +194,10 @@ export default function MedicalServices({ singleService }) {
               <p className="mb-3 text-gray-600">
                 For consultation timetable, check respective doctor's page
               </p>
-              <Button className="rounded-full bg-blue-600 px-6 hover:bg-blue-700">
+              <Button
+                onClick={() => (window.location.href = "/search-doctors")}
+                className="rounded-full bg-blue-600 px-6 hover:bg-blue-700"
+                >
                 View Doctors
               </Button>
             </div>
