@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 
 export default function DoctorTabs({ singleDoctor }) {
   const doctor = singleDoctor?.doctor;
-  console.log("DoctorTabs component doctor:", doctor.doctorField);
   
   const [ratings, setRatings] = useState([]);
 

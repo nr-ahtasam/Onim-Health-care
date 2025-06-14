@@ -21,7 +21,6 @@ const CVForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission here
-    console.log(formData);
     alert("CV submitted successfully!");
 
     // Reset form data after submission

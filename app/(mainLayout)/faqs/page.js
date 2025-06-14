@@ -12,7 +12,6 @@ const page = () => {
     variables: { id },
   });
   if (loading) return <Loader />;
-  console.log(data);
 
   return (
     <div>
