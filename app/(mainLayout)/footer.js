@@ -1,10 +1,17 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FEATURED_SERVICES_QUERY } from "@/lib/graphql";
+import { useQuery } from "@apollo/client";
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
+  const { data } = useQuery(FEATURED_SERVICES_QUERY);
+
+  const services = data?.page?.homeSections?.featuredServices?.nodes || []
+  
   const newsLinks = [
     { label: "Hotel Omni Residency", href: "/news" },
     { label: "Omni Lights", href: "/events" },
@@ -146,36 +153,16 @@ export default function Footer() {
                     <h4 className="font-bold">Specialities</h4>
                   </div>
                   <ul className="text-sm text-gray-600 space-y-2">
-                    <li>
-                      <Link href="#" className="hover:text-blue-500">
-                        Hernia
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-blue-500">
-                        Piles
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-blue-500">
-                        Pilonidal
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-blue-500">
-                        Sinus
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-blue-500">
-                        Lipoma
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-blue-500">
-                        Fissure Treatment
-                      </Link>
-                    </li>
+                    {services?.map((service) => {
+                        return (
+                          <li key={service.slug}>
+                            <Link href={`/service/${service.slug}`} className="hover:text-blue-500">
+                              {service?.serviceFields?.catName}
+                            </Link>
+                          </li>
+                        )
+                      })
+                    }
                   </ul>
                 </div>
                 <div>

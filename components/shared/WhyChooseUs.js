@@ -27,7 +27,7 @@ export default function WhyChooseUsSection() {
         />
       </div>
       <section className="mx-auto container overflow-hidden px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-[45%_60%] md:h-[830px] ">
+        <div className="grid grid-cols-1 md:grid-cols-[45%_60%] md:h-[900px] ">
           {/* Left side - Blue background with content */}
           <div className="flex flex-col justify-center rounded-tl-[100px] bg-blue-600 p-8 text-white md:p-12">
             <div className="mb-6">
@@ -50,17 +50,25 @@ export default function WhyChooseUsSection() {
                   </li>
                   <li>
                     <br />
-                    2. <b>Advanced Procedures:</b> Latest technology and
+                    2. <b>Laser Surgery:</b> Advanced Laser Surgical procedure.
+                  </li>
+                  <li>
+                    <br />
+                    3. <b>Laparoscopy:</b> Advance Laparoscopic Surgical Procedures.
+                  </li>
+                  <li>
+                    <br />
+                    4. <b>Advanced Procedures:</b> Latest technology and
                     minimally invasive techniques.
                   </li>
                   <li>
                     <br />
-                    3. <b>Personalized Care:</b> Dedicated medical coordinators
+                    5. <b>Personalized Care:</b> Dedicated medical coordinators
                     at every step.
                   </li>
                   <li>
                     <br />
-                    4. <b>Seamless Process:</b> Consultation, surgery, insurance
+                    6. <b>Seamless Process:</b> Consultation, surgery, insurance
                     — all handled for you.
                   </li>
                 </ul>
