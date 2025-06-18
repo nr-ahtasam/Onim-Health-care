@@ -34,7 +34,7 @@ export default function HealthCare() {
         cash: doctor.doctorField.consultationFees || 300,
         bkash: doctor.doctorField.consultationFees || 300,
       },
-      location: doctor.doctorField.chamber.nodes[0].title,
+      location: doctor.doctorField?.location?.nodes[0].title,
       image: doctor.featuredImage?.node?.mediaItemUrl || "/images/doctor.jpeg",
     })
   );
@@ -161,15 +161,15 @@ export default function HealthCare() {
                 </Link>
               ))}
             </Slider>
+            <div className="flex justify-center mt-10">
+              <Button 
+                className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80"
+                onClick={() => (window.location.href = "/search-doctors")}
+              >
+                View All
+              </Button>
+            </div>
           </div>
-        </div>
-        <div className="flex justify-center">
-          <Button 
-            className="bg-[#FF937B] text-white hover:bg-[#FF937B]/80"
-            onClick={() => (window.location.href = "/search-doctors")}
-          >
-            View All
-          </Button>
         </div>
       </section>
     </div>

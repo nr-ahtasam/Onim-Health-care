@@ -36,7 +36,7 @@ export default function DoctorProfileCard({ singleService }) {
         doctor.doctorField.consultationFees?.toString() ||
         "N/A",
     },
-    location: doctor.doctorField.chamber?.nodes?.[0]?.title || "N/A",
+    location: doctor.doctorField.location?.nodes?.[0]?.title || "N/A",
     image:
       doctor.featuredImage?.node?.mediaItemUrl || "/images/doctor.jpeg",
   }));
