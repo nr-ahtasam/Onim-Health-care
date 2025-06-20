@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "omni.fmmethod.online",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "hub.omnihealthcare.com.bd",
+        pathname: "**",
+      },
     ],
     domains: ["secure.gravatar.com", "i.pravatar.cc"],
   },

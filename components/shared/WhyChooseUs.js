@@ -50,7 +50,7 @@ export default function WhyChooseUsSection() {
                   </li>
                   <li>
                     <br />
-                    2. <b>Laser Surgery:</b> Advanced Laser Surgical procedure.
+                    2. <b>Laser Surgery:</b> Advanced Laser Surgical procedures.
                   </li>
                   <li>
                     <br />

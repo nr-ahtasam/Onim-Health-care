@@ -9,6 +9,7 @@ import Slider from "react-slick";
 // Add these imports for react-slick CSS
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import { CallUs } from "./CallUs";
 
 export default function DoctorProfileCard({ singleService }) {
   // Fetch dynamic data and map it to the static structure
@@ -118,17 +119,7 @@ export default function DoctorProfileCard({ singleService }) {
                           <div className="mt-4 space-y-3">
                             <div>
                               <p className="text-sm font-medium">
-                                Consultation Fees:
-                              </p>
-                              <p className="text-sm ">
-                                <span className={"text-[#20C5AF]"}>
-                                  {doctor.fees.cash}
-                                </span>{" "}
-                                Taka (Cash) &{" "}
-                                <span className={"text-[#20C5AF]"}>
-                                  {doctor.fees.bkash}
-                                </span>{" "}
-                                Taka (bKash)
+                                Consultation Fees: ৳ <span className="text-[#20C5AF]"> {doctor.fees.cash} </span>
                               </p>
                             </div>
                             <div className="flex items-center gap-2">
@@ -138,14 +129,7 @@ export default function DoctorProfileCard({ singleService }) {
                               </span>
                             </div>
                             <div className="flex justify-center gap-3">
-                              <Link href="tel:+880 1711997402">
-                              <Button
-                                variant="outline"
-                                className="flex-1 border-blue-500 text-blue-500"
-                              >
-                                Call Us
-                              </Button>
-                              </Link>
+                              <CallUs />
                               <Link href={"/book-appointment"}>
                                 <Button className="flex-1 bg-blue-500">
                                   Book Appointment

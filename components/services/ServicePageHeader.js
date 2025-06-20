@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import AppointmentForm from "@/components/form/AppointmentForm";
 import Link from "next/link";
 import parse from "html-react-parser";
+import { CallUs } from "../shared/CallUs";
 
 export default function ServicePageHeader({ singleService }) {
   const serviceTitle = singleService?.service?.title || "Service";
@@ -25,13 +26,9 @@ export default function ServicePageHeader({ singleService }) {
             </div>
           </CardHeader>
           <div className="flex max-w-md gap-8 mt-4">
-            <Link href="tel:+880 1711997402">
-            <Button variant="outline" className="flex-1 border-blue-500 text-blue-500">
-              Call Us
-            </Button>
-            </Link>
+            <CallUs />
             <Link href="/book-appointment">
-              <Button className="flex-1 bg-blue-500">Book Appointment</Button>
+              <Button className="flex-1 bg-blue-500 h-10">Book Appointment</Button>
             </Link>
           </div>
           <div className="hidden md:block md:absolute md:top-[80px] md:right-0">

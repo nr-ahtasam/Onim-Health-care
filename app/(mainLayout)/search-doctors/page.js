@@ -1,5 +1,6 @@
 "use client";
 
+import { CallUs } from "@/components/shared/CallUs";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -345,32 +346,14 @@ function DoctorCard({ doctor }) {
         </div>
 
         <div>
-          <p className="font-bold">Consultation Fees:</p>
-          <div className="flex items-center gap-6 flex-wrap">
-            {doctor.consultationFees.map((fee, idx) => (
-              <span key={idx} className="flex items-center gap-1">
-                <span className="text-[#20C5AF] font-medium">
-                  {fee.amount}
-                </span>
-                <span className="text-black">{`Taka (${fee.method})`}</span>
-                {idx < doctor.consultationFees.length - 1 && (
-                  <span className="text-black ml-6">&</span>
-                )}
-              </span>
-            ))}
-          </div>
+          <p className="font-bold">
+            Consultation Fees: ৳ <span className="text-[#20C5AF]"> {doctor.consultationFees} </span>
+          </p>
         </div>
       </div>
 
       <div className="flex flex-col gap-4 w-[220px]">
-        <Link href="tel:+880 1711997402">
-          <Button
-            variant="outline"
-            className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
-          >
-            Call Us
-          </Button>
-        </Link>
+        <CallUs />
         <Link href={"/book-appointment"}>
           <Button className="w-full bg-blue-600 hover:bg-blue-700">
             Book Appointment

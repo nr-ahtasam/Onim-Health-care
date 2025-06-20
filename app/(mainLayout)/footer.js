@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FEATURED_SERVICES_QUERY } from "@/lib/graphql";
+import { FEATURED_SERVICES_QUERY, baseSetup } from "@/lib/graphql";
 import { useQuery } from "@apollo/client";
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import Image from "next/image";
@@ -9,15 +9,16 @@ import Link from "next/link";
 
 export default function Footer() {
   const { data } = useQuery(FEATURED_SERVICES_QUERY);
+  const {data: setup} = useQuery(baseSetup);
 
   const services = data?.page?.homeSections?.featuredServices?.nodes || []
   
   const newsLinks = [
-    { label: "Hotel Omni Residency", href: "/news" },
-    { label: "Omni Lights", href: "/events" },
-    { label: "Ray International", href: "/gallery" },
-    { label: "GMT Trading", href: "testimonials" },
-    { label: "Insurance Partners", href: "insurance-partners" },
+    { label: "Hotel Omni Residency", href: "https://hotelomniresidency.com/" },
+    { label: "Omni Lights", href: "https://www.omnilights.com.bd/" },
+    { label: "Ray International", href: "https://rayinternational.com.bd/" },
+    { label: "GMT Trading", href: "https://gmttradingllc.com/" },
+    { label: "Hotel Omni Iconic", href: "https://hotelomniresidency.com/" },
   ];
   return (
     <footer className=" text-gray-800">
@@ -119,7 +120,7 @@ export default function Footer() {
                   <div className="border-b border-gray-200 pb-2 mb-4">
                     <h4 className="font-bold">Give us a call</h4>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">01711-997401, 01711-997402</p>
+                  <p className="text-sm text-gray-600 mb-4">0{setup?.siteSetup?.siteSetupFields?.phoneNumber}, 01711997402</p>
                 </div>
 
                 <div>

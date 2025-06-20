@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import AppointmentForm from "../form/AppointmentForm";
+import { CallUs } from "../shared/CallUs";
 
 export default function DoctorProfile({ singleDoctor }) {
   const doctor = singleDoctor?.doctor;
@@ -208,14 +209,7 @@ export default function DoctorProfile({ singleDoctor }) {
 
                 {/* Action Buttons */}
                 <div className="flex gap-4 max-w-md">
-                  <Link href="tel:+880 1711997402">
-                  <Button
-                    variant="outline"
-                    className="h-12 w-30 md:w-50 rounded-md text-center text-blue-500 border border-blue-500"
-                  >
-                    Call Us
-                  </Button>
-                  </Link>
+                  <CallUs />
                   <Link href={"/book-appointment"}>
                     <Button className="h-12 rounded-md bg-[#0068F9] text-base hover:bg-blue-700">
                       Book Appointment

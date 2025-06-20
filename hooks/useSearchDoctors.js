@@ -51,16 +51,7 @@ export function useSearchDoctors({
             specialty: doctor.acf?.specialities?.map((s) => s.name).join(", ") || '',
             rating: `${doctor.acf.rating}/5.00`,
             experience: `${doctor.acf.experience}+ Years Experience`,
-            consultationFees: [
-              {
-                method: "Cash",
-                amount: `${doctor.acf.consultation_fees || 1000}`,
-              },
-              {
-                method: "Bkash",
-                amount: `${doctor.acf.consultation_fees_online || 800}`,
-              },
-            ],
+            consultationFees: doctor.acf.consultation_fees || 1000,
             hospital: doctor.acf.location?.[0]?.post_title || "N/A",
             image: doctor.image || "/images/doctor_placeholder.jpg",
           }));

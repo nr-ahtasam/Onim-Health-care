@@ -25,8 +25,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import GoogleTranslateButton from "../shared/GoogleTranslateButton";
-import { getNavMenu } from "@/lib/graphql";
+import { baseSetup, getNavMenu } from "@/lib/graphql";
 import { useQuery } from "@apollo/client";
+import { CallUs } from "../shared/CallUs";
 
 const patientMenuItems = [
   { label: "Search Doctors", href: "/search-doctors" },
@@ -38,6 +39,8 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const {data,loading,error} = useQuery(getNavMenu);
+  const {data: setup} = useQuery(baseSetup);
+  
   
   const navItems = data?.serviceCategories?.nodes.map((category) => {
     if(!category.description)  return;
@@ -66,7 +69,7 @@ export default function Header() {
               priority
             />
             <h1 className="ml-2 text-xl md:text-2xl font-semibold">
-              Omni HealthCare
+              {setup?.siteSetup?.siteSetupFields?.siteName || "Omni Health Care"}
             </h1>
           </Link>
 
@@ -94,12 +97,7 @@ export default function Header() {
 
             <GoogleTranslateButton />
 
-            <Link href="tel:+880 1711997402">
-              <Button className="py-5 text-white bg-[#FF937B]  flex items-center gap-2 duration-300">
-                <Phone className="h-4 w-4" />
-                Call Us
-              </Button>
-            </Link>
+            <div><CallUs /></div>
           </div>
 
           <div className="md:hidden">
@@ -202,11 +200,7 @@ export default function Header() {
 
                   <div className="p-4 border-t mt-auto">
                     <div className="grid gap-2">
-                      <Link href="tel:+880 1711997402">
-                        <Button className="w-full bg-blue-500 hover:bg-blue-600">
-                          Call Us
-                        </Button>
-                      </Link>
+                      <CallUs />
                       <Link href="/book-appointment">
                         <Button className="w-full bg-blue-500 hover:bg-blue-600">
                           Make Appointment

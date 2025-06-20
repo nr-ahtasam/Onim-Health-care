@@ -1,10 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { baseSetup } from "@/lib/graphql";
+import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function MedicalServices({ singleService }) {
+  const {data: setup} = useQuery(baseSetup);
+  
   // Use API data for overviewsData, default to empty array if no data
   const overviews = singleService?.service?.serviceOverviews?.nodes || [];
   const overviewsData = overviews.map((node, index) => ({
@@ -185,7 +189,7 @@ export default function MedicalServices({ singleService }) {
               <p className="mb-3 text-gray-600">
                For urgent medical emergencies, please call at this number
               </p>
-              <p className="text-xl font-bold">01711-997401, 01711-997402</p>
+              <p className="text-xl font-bold">0{setup?.siteSetup?.siteSetupFields?.phoneNumber}, 01711997402</p>
             </div>
 
             {/* Doctors Timetable */}
