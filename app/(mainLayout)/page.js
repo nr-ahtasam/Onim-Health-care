@@ -5,6 +5,12 @@ import MedicalCondition from "@/components/shared/MedicalCondition";
 import WhyChooseUsSection from "@/components/shared/WhyChooseUs";
 import ShowcaseSection from "@/components/showcase/ShowcaseSection";
 import Link from "next/link";
+
+export const metadata = {
+  title: "Home | Empowering Surgical Services in Bangladesh",
+  description: "Empowering Surgical Services in Bangladesh",
+};
+
 export default async function Home() {
   return (
     <>
