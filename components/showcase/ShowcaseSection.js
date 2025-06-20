@@ -2,6 +2,7 @@
 
 import AppointmentForm from "@/components/form/AppointmentForm";
 import { baseSetup } from "@/lib/graphql";
+import HeroImageSkeleton from "@/lib/HeroImageSkeleton";
 import { useQuery } from "@apollo/client";
 import { Phone } from "lucide-react";
 import Image from "next/image";
@@ -52,8 +53,11 @@ export default function ShowcaseSection() {
       </div>
       <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
         <div className="relative">
+
           {/* Left side - Image and content */}
           <div className="relative md:flex justify-center">
+
+            {loading && <HeroImageSkeleton />}
             <div className="relative md:w-1/2 flex justify-end">
               {siteSetup?.siteSetupFields?.heroImage?.node?.mediaItemUrl &&
                 <Image
