@@ -34,20 +34,14 @@ export default function Footer() {
               Follow us on our network
             </h3>
             <div className="flex gap-6">
-              <Link href="#" className="text-blue-600 hover:text-blue-700">
+              <Link href="https://www.facebook.com/omnihealthcarebangladesh" target="_blank" className="text-blue-600 hover:text-blue-700">
                 <Facebook size={24} />
               </Link>
-              <Link href="#" className="text-blue-400 hover:text-blue-500">
-                <Twitter size={24} />
-              </Link>
-              <Link href="#" className="text-red-600 hover:text-red-700">
+              <Link href="http://youtube.com/@omnihealthcarebangladesh" target="_blank" className="text-red-600 hover:text-red-700">
                 <Youtube size={24} />
               </Link>
-              <Link href="#" className="text-pink-600 hover:text-pink-700">
+              <Link href="http://instagram.com/omnihealthcarebangladesh" target="_blank" className="text-pink-600 hover:text-pink-700">
                 <Instagram size={24} />
-              </Link>
-              <Link href="#" className="text-blue-600 hover:text-blue-700">
-                <Linkedin size={24} />
               </Link>
             </div>
           </div>
@@ -93,7 +87,7 @@ export default function Footer() {
                     className={"w-[65px] h-[65px]"}
                   />
                   <h1 className="ml-2 text-lg font-semibold">
-                    Omni HealthCare
+                    {setup?.siteSetup?.siteSetupFields?.siteName}
                   </h1>
                 </Link>
 
@@ -112,7 +106,7 @@ export default function Footer() {
                     <h4 className="font-bold">Visit our Head Quarters</h4>
                   </div>
                   <p className="text-sm text-gray-600 mb-4">
-                    Block#D, House#42, Rd No-15, Dhaka 1213
+                    Plot No-15, Floor No - 03, Gulshan North Circle, Gulshan-2, Dhaka-1212, Bangladesh
                   </p>
                 </div>
 
@@ -128,7 +122,7 @@ export default function Footer() {
                     <h4 className="font-bold">Email us on</h4>
                   </div>
                   <p className="text-sm text-gray-600">
-                    enquiry@omnihealthcare.com.bd
+                    info@omnihealthcare.com.bd
                   </p>
                 </div>
               </div>
