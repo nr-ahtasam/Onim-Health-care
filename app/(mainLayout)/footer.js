@@ -173,7 +173,7 @@ export default function Footer() {
                   <ul className="text-sm text-gray-600 space-y-2">
                     {newsLinks.map((item, index) => (
                       <li key={index}>
-                        <Link href={item.href} className="hover:text-blue-500">
+                        <Link href={item.href} target="_blank" className="hover:text-blue-500">
                           {item.label}
                         </Link>
                       </li>
