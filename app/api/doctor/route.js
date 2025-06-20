@@ -18,7 +18,7 @@ export async function GET(req) {
     if (page) params.append("page", page);
     if (perPage) params.append("per_page", perPage);
 
-    const url = `https://omni.fmmethod.online/wp-json/doctor-finder/v1/doctors?${params.toString()}`;
+    const url = `https://hub.omnihealthcare.com.bd/wp-json/doctor-finder/v1/doctors?${params.toString()}`;
 
     const wpResponse = await fetch(url, {
       method: "GET",

@@ -13,7 +13,7 @@ export async function POST(req) {
     const PASS = process.env.WP_API_PASS;
     const AUTH = Buffer.from(`${USER}:${PASS}`).toString("base64");
 
-    const res = await fetch("https://omni.fmmethod.online/wp-json/wp/v2/media", {
+    const res = await fetch("https://hub.omnihealthcare.com.bd/wp-json/wp/v2/media", {
       method: "POST",
       headers: {
         Authorization: `Basic ${AUTH}`,
